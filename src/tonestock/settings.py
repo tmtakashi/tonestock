@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'main',
     'users',
+    'instruments',
+    'amps',
+    'pedals',
 ]
 
 MIDDLEWARE = [
