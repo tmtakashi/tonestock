@@ -25,6 +25,7 @@ class Pedal(models.Model):
         max_length=128, choices=PEDAL_TYPES, verbose_name='エフェクターの種類')
     effect = models.CharField(
         max_length=128, choices=EFFECT_TYPES, verbose_name='エフェクト名')
+    brand = models.CharField(max_len=128, verbose_name='ブランド名')
 
     def __str__(self):
         return self.name
