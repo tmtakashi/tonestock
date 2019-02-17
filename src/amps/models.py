@@ -16,6 +16,16 @@ class Amp(models.Model):
     type = models.CharField(
         max_length=128, choices=AMP_TYPES, verbose_name='アンプの種類')
 
+    gain = bass = models.FloatField(verbose_name='Gain/Drive',
+                                    validators=[MinValueValidator(
+                                        0), MaxValueValidator(10)]
+                                    )
+
+    volume = models.FloatField(verbose_name='Volume/Master',
+                               validators=[MinValueValidator(
+                                   0), MaxValueValidator(10)]
+                               )
+
     bass = models.FloatField(verbose_name='Bass',
                              validators=[MinValueValidator(
                                  0), MaxValueValidator(10)]
