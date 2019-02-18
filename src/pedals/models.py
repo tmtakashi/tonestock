@@ -28,5 +28,73 @@ class Pedal(models.Model):
         max_length=128, choices=EFFECT_TYPES, verbose_name='エフェクト名')
     brand = models.CharField(max_length=128, verbose_name='ブランド名')
 
+    '''
+    歪み系
+    '''
+
+    gain = bass = models.FloatField(verbose_name='Gain/Drive',
+                                    validators=[MinValueValidator(
+                                        0), MaxValueValidator(10)]
+                                    )
+
+    volume = models.FloatField(verbose_name='Volume/Master',
+                               validators=[MinValueValidator(
+                                   0), MaxValueValidator(10)]
+                               )
+
+    tone = models.FloatField(verbose_name='Tone',
+                             validators=[MinValueValidator(
+                                 0), MaxValueValidator(10)]
+                             )
+
+    bass = models.FloatField(verbose_name='Bass',
+                             validators=[MinValueValidator(
+                                 0), MaxValueValidator(10)]
+                             )
+    middle = models.FloatField(verbose_name='Middle',
+                               validators=[MinValueValidator(
+                                   0), MaxValueValidator(10)]
+                               )
+    treble = models.IntegerField(verbose_name='Treble',
+                                 validators=[MinValueValidator(
+                                     0), MaxValueValidator(10)]
+                                 )
+
+    '''
+    空間系
+    '''
+    mix = models.FloatField(verbose_name='Mix',
+                            validators=[MinValueValidator(
+                                0), MaxValueValidator(10)]
+                            )
+    feedback = models.FloatField(verbose_name='Feedback',
+                                 validators=[MinValueValidator(
+                                     0), MaxValueValidator(10)]
+                                 )
+    rate = models.FloatField(verbose_name='Rate',
+                             validators=[MinValueValidator(
+                                 0), MaxValueValidator(10)]
+                             )
+    depth = models.FloatField(verbose_name='Depth',
+                              validators=[MinValueValidator(
+                                  0), MaxValueValidator(10)]
+                              )
+    # リバーブ
+    decay = models.FloatField(verbose_name='Decay',
+                              validators=[MinValueValidator(
+                                  0), MaxValueValidator(10)]
+                              )
+
+    # ディレイ
+    delay_time = models.FloatField(verbose_name='Delay Time',
+                                   validators=[MinValueValidator(
+                                       0), MaxValueValidator(10)]
+                                   )
+    # ワウ
+    pitch = models.FloatField(verbose_name='Pitch',
+                              validators=[MinValueValidator(
+                                  0), MaxValueValidator(10)]
+                              )
+
     def __str__(self):
         return self.name
