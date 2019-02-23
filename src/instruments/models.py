@@ -1,5 +1,5 @@
-from django.db import models
 from django.contrib.auth import get_user_model
+from django.db import models
 
 
 class Instrument(models.Model):
@@ -8,7 +8,8 @@ class Instrument(models.Model):
         ('bass', 'ベース'),
     ]
     name = models.CharField(max_length=128, verbose_name='楽器の名前')
-    owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    owner = models.ForeignKey(
+        get_user_model(), on_delete=models.CASCADE, null=True)
     type = models.CharField(
         max_length=10, choices=INSTRUMENT_TYPES, verbose_name='楽器の種類')
     brand = models.CharField(max_length=128, verbose_name='ブランド名')

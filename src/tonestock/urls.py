@@ -24,6 +24,7 @@ urlpatterns = [
     path('', HomePageView.as_view(), name='home'),
     path('add_gears/', add_gear_view, name='add_gears'),
     path('users/', include('users.urls'), name='users'),
+    path('tones/', include('tones.urls'), name='tones'),
 ]
 
 if settings.DEBUG:

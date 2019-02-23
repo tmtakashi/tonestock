@@ -22,10 +22,10 @@
         </li>
         {% endif %}
         <li class="nav-item">
-            <a class="nav-link" href="#">マイページ</a>
+            <a class="nav-link" href="{% url 'home' %}">マイページ</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">音作りを追加</a>
+            <a class="nav-link" href="{% url 'tones:add_tone' %}">音作りを追加</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{% url 'add_gears' %}">機材を追加</a>
