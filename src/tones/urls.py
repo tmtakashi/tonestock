@@ -1,8 +1,8 @@
 from django.urls import path
 
-from .views import ToneCreateView
+from .views import tone_create_view
 app_name = 'tones'
 
 urlpatterns = [
-    path('add_tone/', ToneCreateView.as_view(), name='add_tone'),
+    path('add_tone/', tone_create_view, name='add_tone'),
 ]

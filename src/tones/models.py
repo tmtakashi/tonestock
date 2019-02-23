@@ -12,3 +12,6 @@ class Tone(models.Model):
     pedal = models.ManyToManyField(
         Pedal, blank=True)
     amp = models.ManyToManyField(Amp, blank=True)
+
+    def __str__(self):
+        return self.name
