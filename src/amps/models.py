@@ -15,7 +15,7 @@ class Amp(models.Model):
         get_user_model(), on_delete=models.CASCADE, null=True)
     brand = models.CharField(max_length=128, verbose_name='ブランド名')
     type = models.CharField(
-        max_length=128, choices=AMP_TYPES, verbose_name='アンプの種類')
+        max_length=128, choices=AMP_TYPES, verbose_name='アンプの種類', default='tube_amp')
 
     gain = bass = models.FloatField(verbose_name='Gain/Drive',
                                     validators=[MinValueValidator(

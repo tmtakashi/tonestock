@@ -8,10 +8,12 @@ class PedalForm(forms.ModelForm):
     class Meta:
         model = Pedal
         fields = ('name', 'type', 'brand')
+        widgets = {
+            'type': forms.RadioSelect()
+        }
 
-
-PedalFormset = modelformset_factory(
-    Pedal,
-    fields=('name', 'type', 'brand'),
-    extra=1,
-)
+# PedalFormset = modelformset_factory(
+#     Pedal,
+#     fields=('name', 'type', 'brand'),
+#     extra=0,
+# )
