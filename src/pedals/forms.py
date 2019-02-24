@@ -12,8 +12,12 @@ class PedalForm(forms.ModelForm):
             'type': forms.RadioSelect()
         }
 
-# PedalFormset = modelformset_factory(
-#     Pedal,
-#     fields=('name', 'type', 'brand'),
-#     extra=0,
-# )
+
+PedalFormset = modelformset_factory(
+    Pedal,
+    fields=('name', 'type', 'brand'),
+    widgets={
+        'type': forms.RadioSelect()
+    },
+    extra=2,
+)

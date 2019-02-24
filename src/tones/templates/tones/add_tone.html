@@ -14,7 +14,7 @@
         <div class="px-auto">
             <div class="row justify-content-center">
                 <!-- Instruments -->
-                <div class="card mx-5" style="height: 20rem;">
+                <div class="card mx-4" style="height: 20rem;">
                     <div class="col-sm card-body">
                         <div class="form-group">
                             {{ formset.instrument.name.label }}
@@ -31,22 +31,25 @@
                     </div>
                 </div>
                 <!-- Pedals -->
-                <div class="card mx-5" style="height: 20rem;">
+                {{ formset.management_form }}
+                {% for form in formset.pedal %}
+                <div class="card mx-1" style="height: 20rem;">
                     <div class="col-sm card-body">
                         <div class="form-group">
-                                {{ formset.pedal.name.label }} 
-                                {{ formset.pedal.name|add_class:"form-control" }}
+                                {{ form.name.label }} 
+                                {{ form.name|add_class:"form-control" }}
                             </div>
                             <div class="form-group">
-                                {{ formset.pedal.brand.label }} 
-                                {{ formset.pedal.brand|add_class:"form-control" }}
+                                {{ form.brand.label }} 
+                                {{ form.brand|add_class:"form-control" }}
                             </div>
                             <div class="form-group">
-                                {{ formset.pedal.type.label }} 
-                                {{ formset.pedal.type|add_class:"form-check-input" }}
+                                {{ form.type.label }} 
+                                {{ form.type|add_class:"form-check-input" }}
                             </div>
                     </div>
                 </div>
+                {% endfor %}
                 <!-- Amp -->
                 <div class="card mx-5" style="height: 20rem;">
                     <div class="col-sm card-body">

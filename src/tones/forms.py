@@ -4,7 +4,7 @@ from .models import Tone
 
 from amps.forms import AmpForm
 from instruments.forms import InstrumentForm
-from pedals.forms import PedalForm
+from pedals.forms import PedalFormset
 
 from betterforms.multiform import MultiModelForm
 
@@ -19,6 +19,6 @@ class ToneCreationMultiForm(MultiModelForm):
     form_classes = {
         'tone': ToneForm,
         'instrument': InstrumentForm,
-        'pedal': PedalForm,
+        'pedal': PedalFormset,
         'amp': AmpForm,
     }
