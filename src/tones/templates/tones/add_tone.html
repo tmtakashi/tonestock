@@ -7,55 +7,61 @@
     <h2>プリセット作成</h1>
     <form method="POST">
         {% csrf_token %}
-        <div class="form-group">
+        <div class="form-group" style="width: 15rem;">
             {{ formset.tone.name.label }}
             {{ formset.tone.name|add_class:"form-control" }}
         </div>
-        <div class="card" style="height: 20rem;">
-            <div class="row card-body">
+        <div class="px-auto">
+            <div class="row justify-content-center">
                 <!-- Instruments -->
-                <div class="col-sm">
-                    <div class="form-group">
-                        {{ formset.instrument.name.label }}
-                        {{ formset.instrument.name|add_class:"form-control" }}
-                    </div>
-                    <div class="form-group">
-                        {{ formset.instrument.brand.label }}
-                        {{ formset.instrument.brand|add_class:"form-control" }}
-                    </div>
-                    <div class="form-check">
-                        {{ formset.instrument.type.label}} 
-                        {{ formset.instrument.type|add_class:"form-check-input" }}
+                <div class="card mx-5" style="height: 20rem;">
+                    <div class="col-sm card-body">
+                        <div class="form-group">
+                            {{ formset.instrument.name.label }}
+                            {{ formset.instrument.name|add_class:"form-control" }}
+                        </div>
+                        <div class="form-group">
+                            {{ formset.instrument.brand.label }}
+                            {{ formset.instrument.brand|add_class:"form-control" }}
+                        </div>
+                        <div class="form-check">
+                            {{ formset.instrument.type.label}} 
+                            {{ formset.instrument.type|add_class:"form-check-input" }}
+                        </div>
                     </div>
                 </div>
                 <!-- Pedals -->
-                <div class="col-sm">
-                    <div class="form-group">
-                            {{ formset.pedal.name.label }} 
-                            {{ formset.pedal.name|add_class:"form-control" }}
-                        </div>
+                <div class="card mx-5" style="height: 20rem;">
+                    <div class="col-sm card-body">
                         <div class="form-group">
-                            {{ formset.pedal.brand.label }} 
-                            {{ formset.pedal.brand|add_class:"form-control" }}
-                        </div>
-                        <div class="form-group">
-                            {{ formset.pedal.type.label }} 
-                            {{ formset.pedal.type|add_class:"form-check-input" }}
-                        </div>
+                                {{ formset.pedal.name.label }} 
+                                {{ formset.pedal.name|add_class:"form-control" }}
+                            </div>
+                            <div class="form-group">
+                                {{ formset.pedal.brand.label }} 
+                                {{ formset.pedal.brand|add_class:"form-control" }}
+                            </div>
+                            <div class="form-group">
+                                {{ formset.pedal.type.label }} 
+                                {{ formset.pedal.type|add_class:"form-check-input" }}
+                            </div>
+                    </div>
                 </div>
                 <!-- Amp -->
-                <div class="col-sm">
-                    <div class="form-group">
-                        {{ formset.amp.name.label }} 
-                        {{ formset.amp.name|add_class:"form-control" }}
-                    </div>
-                    <div class="form-group">
-                        {{ formset.amp.brand.label }} 
-                        {{ formset.amp.brand|add_class:"form-control" }}
-                    </div>
-                    <div class="form-group">
-                        {{ formset.amp.type.label }}
-                        {{ formset.amp.type|add_class:"form-check-input" }}
+                <div class="card mx-5" style="height: 20rem;">
+                    <div class="col-sm card-body">
+                        <div class="form-group">
+                            {{ formset.amp.name.label }} 
+                            {{ formset.amp.name|add_class:"form-control" }}
+                        </div>
+                        <div class="form-group">
+                            {{ formset.amp.brand.label }} 
+                            {{ formset.amp.brand|add_class:"form-control" }}
+                        </div>
+                        <div class="form-group">
+                            {{ formset.amp.type.label }}
+                            {{ formset.amp.type|add_class:"form-check-input" }}
+                        </div>
                     </div>
                 </div>
             </div>
