@@ -6,4 +6,5 @@
 ```
 cd tonestock
 pipenv install
+pipenv shell
 ```
