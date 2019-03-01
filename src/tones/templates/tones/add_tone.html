@@ -32,7 +32,7 @@
                 </div>
                 <!-- Pedals -->
                 <div id="pedal-area">
-                    {{ formset.management_form }}
+                    {{ formset.pedal.management_form }}
                     {% for form in formset.pedal %}
                     <div class="card mx-1 pedal-card" style="height: 20rem;">
                         <div class="col-sm card-body">
@@ -100,15 +100,15 @@
 </script>
 <script>
     $(function () {
-        $('.add-pedal').click(function (e) {
-            e.preventDefault();
-            var count = parseInt($('.pedal-card:last input:first').attr('id'), 10);
-            var tmplMarkup = $('#pedal-template').html();
-            var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count)
-            console.log(compiledTmpl);
-            $('#pedal-area').append(compiledTmpl);
+            $('.add-pedal').click(function (e) {
+                e.preventDefault();
+                var count = parseInt($('#id_pedal-TOTAL_FORMS').attr('value'), 10);
+                var tmplMarkup = $('#pedal-template').html();
+                var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count)
+                console.log(compiledTmpl);
+                $('#pedal-area').append(compiledTmpl);
+                $('#id_pedal-TOTAL_FORMS').attr('value', count + 1);
+            });
         });
-        $
-    });
 </script>
 {% endblock %}
