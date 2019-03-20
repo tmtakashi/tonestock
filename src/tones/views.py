@@ -1,8 +1,9 @@
 from django.shortcuts import render
-from django.views.generic import CreateView
+from django.views.generic import ListView
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
 
+from .models import Tone
 from .forms import ToneCreationMultiForm
 
 
@@ -26,3 +27,7 @@ def tone_create_view(request):
         return redirect('home')
 
     return render(request, 'tones/add_tone.html', {'formset': formset})
+
+
+class ToneListView(ListView):
+    model = Tone
