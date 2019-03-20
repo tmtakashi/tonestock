@@ -32,27 +32,24 @@
                 </div>
                 <!-- Pedals -->
                 <div id="pedal-area">
-                    {{ formset.pedal.management_form }}
-                    {% for form in formset.pedal %}
                     <div class="card mx-1 pedal-card" style="height: 20rem;">
                         <div class="col-sm card-body">
                             <div class="form-group">
-                                    {{ form.name.label }} 
-                                    {{ form.name|add_class:"form-control" }}
+                                    {{ formset.pedal.name.label }}
+                                    {{ formset.pedal.name|add_class:"form-control" }}
                                 </div>
                                 <div class="form-group">
-                                    {{ form.brand.label }} 
-                                    {{ form.brand|add_class:"form-control" }}
+                                    {{ formset.pedal.brand.label }}
+                                    {{ formset.pedal.brand|add_class:"form-control" }}
                                 </div>
                                 <div class="form-group">
-                                    {{ form.type.label }} 
-                                    {{ form.type|add_class:"form-check-input" }}
+                                    {{ formset.pedal.type.label}} 
+                                    {{ formset.pedal.type|add_class:"form-check-input" }}
                                 </div>
                         </div>
                     </div>
-                    {% endfor %}
                 </div>
-                <button type="button" class="btn btn-success add-pedal align-self-center" >+</button>
+                <!-- <button type="button" class="btn btn-success add-pedal align-self-center" >+</button> -->
                 <!-- Amp -->
                 <div class="card mx-5" style="height: 20rem;">
                     <div class="col-sm card-body">
@@ -78,7 +75,7 @@
 
 {% endblock %}
 
-{% block extrajs %}
+<!-- {% block extrajs %}
 <script type="text/html" id="pedal-template">
     <div class="card mx-1" style="height: 20rem;">
         <div class="col-sm card-body" id="pedal-__prefix__">
@@ -111,4 +108,4 @@
             });
         });
 </script>
-{% endblock %}
+{% endblock %} -->

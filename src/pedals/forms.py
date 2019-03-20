@@ -19,5 +19,5 @@ PedalFormset = modelformset_factory(
     widgets={
         'type': forms.RadioSelect()
     },
-    extra=1,
+    extra=0,
 )
