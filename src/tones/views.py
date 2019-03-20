@@ -12,6 +12,7 @@ def tone_create_view(request):
         formset = ToneCreationMultiForm(request.GET or None)
     elif request.method == 'POST':
         formset = ToneCreationMultiForm(request.POST)
+        print(formset['tone'].save())
         if formset.is_valid():
             tone = formset['tone'].save()
 
@@ -20,7 +21,7 @@ def tone_create_view(request):
             amp = formset['amp'].save()
 
             tone.instrument.add(instrument)
-            tone.pedal.set(pedal)
+            tone.pedal.add(pedal)
             tone.amp.add(amp)
 
             tone.save()
