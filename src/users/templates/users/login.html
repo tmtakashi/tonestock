@@ -1,11 +1,32 @@
 {% extends 'base.html' %}
+{% load widget_tweaks %}
 
 {% block content %}
-    <form action="" method="POST">
-        {% csrf_token %}
-        {{ form.username }}<br>
-        {{ form.password }}
-        <hr>
-        <input type="submit" value="ログイン">
-    </form>
+<div class="row">
+    <!-- ログインエリア（左） -->
+    <div class="card col-md-6">
+        <div class="card-body">
+            <form action="" method="POST">
+                {{ form.non_field_errors }}
+                {% for field in form %}
+                    {% render_field field class="form-control" placeholder=field.label %}
+                    {{ field.errors }}
+                    <hr>
+                {% endfor %}
+                <button type="submit" class="btn btn-success btn-lg btn-block" >ログイン</button>
+                <input type="hidden" name="next" value="{{ next }}" />
+                {% csrf_token %}
+            </form>
+        </div>
+    </div>
+    <!-- ログインエリア（左）終わり -->
+
+    <!-- アカウント作成エリア（右） -->
+    <div class="card col-md-6">
+        <div class="card-body">
+            <a href="{% url 'users:signup' %}" class="btn btn-success btn-lg btn-block" >アカウント作成</a>
+        </div>
+    </div>
+    <!-- アカウント作成エリア（右）終わり -->
+</div>
 {% endblock %}

@@ -157,3 +157,5 @@ if DEBUG:
     DEBUG_TOOLBAR_CONFIG = {
         'INTERCEPT_REDIRECTS': False,
     }
+
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

@@ -1,23 +1,17 @@
 {% extends 'base.html' %}
+{% load widget_tweaks %}
 
 {% block content %}
-<h1>アカウント作成</h1>
-<form method="POST">
-    {% csrf_token %}
-
-    <label>ユーザー名: </label>{{ form.username }} <br>
-    <label>メールアドレス:</label>{{ form.email }} <br>
-    <label>パスワード: </label>{{ form.password1 }} <br>
-    <label>パスワードの確認: </label>{{ form.password2 }}
-    <hr>
-    <input type="submit" value="アカウント作成">
-
-    {% if form.errors %}
+<form action="" method="POST">
+    {{ form.non_field_errors }}
     {% for field in form %}
-        {% for error in field.errors %}
-            <p>{{ error }}</p>
-        {% endfor %}
-     {% endfor %}
-    {% endif %} 
+    <div class="form-group">
+        <label for="{{ field.id_for_label }}">{{ field.label_tag }}</label>
+        {{ field|add_class:"form-control" }}
+        {{ field.errors }}
+    </div>
+    {% endfor %}
+    {% csrf_token %}
+    <button type="submit" class="btn btn-primary btn-lg">仮登録</button>
 </form>
 {% endblock %}

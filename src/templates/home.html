@@ -4,4 +4,8 @@
 
 <h1>Welcome to tonestock!</h1>
 
+{% if user.is_authenticated %}
+<p>ようこそ{{ user.email }}さん！</p>
+{% endif %}
+
 {% endblock %}
