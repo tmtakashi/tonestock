@@ -1,10 +1,17 @@
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import (
+    AuthenticationForm, UserCreationForm
+)
 from django import forms
-# ユーザ作成フォームを継承
+
+User = get_user_model()
 
 
 class SignUpForm(UserCreationForm):
-    username = forms.CharField()
-    email = forms.EmailField()
-    password1 = forms.CharField(widget=forms.PasswordInput)
-    password2 = forms.CharField(widget=forms.PasswordInput)
+
+    class Meta:
+        model = User
+        if User.USERNAME_FIELD == 'email':
+            fields = ('email',)
+        else:
+            fields = ('username', 'email')
