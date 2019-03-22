@@ -1,3 +1,5 @@
+from django.contrib.auth import get_user_model
+from django.http import Http404
 from django.shortcuts import render
 from django.views.generic import ListView
 from django.urls import reverse_lazy
@@ -8,13 +10,15 @@ from .forms import ToneCreationMultiForm
 
 
 def tone_create_view(request):
+    user = request.user
     if request.method == 'GET':
         formset = ToneCreationMultiForm(request.GET or None)
     elif request.method == 'POST':
         formset = ToneCreationMultiForm(request.POST)
-        print(formset['tone'].save())
         if formset.is_valid():
-            tone = formset['tone'].save()
+            tone = formset['tone'].save(commit=False)
+            tone.author = user
+            tone.save()
 
             instrument = formset['instrument'].save()
             pedal = formset['pedal'].save()
@@ -30,5 +34,9 @@ def tone_create_view(request):
     return render(request, 'tones/add_tone.html', {'formset': formset})
 
 
-class ToneListView(ListView):
-    model = Tone
+def user_tones(request):
+    user = request.user
+    template = 'tones/user_tone_list.html'
+    user_tones = Tone.objects.filter(
+        author=request.user)
+    return render(request, template, {'user_tones': user_tones, 'user': user})
