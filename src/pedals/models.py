@@ -6,8 +6,8 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 class Pedal(models.Model):
     PEDAL_TYPES = [
-        ('stomp_box', "コンパクトエフェクター"),
-        ('multi_effects', "マルチエフェクター"),
+        ("コンパクトエフェクター", "コンパクトエフェクター"),
+        ("マルチエフェクター", "マルチエフェクター"),
     ]
     EFFECT_TYPES = [
         ('overdrive', "オーバードライブ"),
@@ -26,7 +26,7 @@ class Pedal(models.Model):
     owner = models.ForeignKey(
         get_user_model(), on_delete=models.CASCADE, null=True)
     type = models.CharField(
-        max_length=128, choices=PEDAL_TYPES, verbose_name='エフェクターの種類', default='stomp_box')
+        max_length=128, choices=PEDAL_TYPES, verbose_name='エフェクターの種類', default="コンパクトエフェクター")
     effect = models.CharField(
         max_length=128, choices=EFFECT_TYPES, verbose_name='エフェクト名')
     brand = models.CharField(max_length=128, verbose_name='ブランド名')

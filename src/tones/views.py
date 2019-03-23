@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.http import Http404
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
 
@@ -45,3 +45,15 @@ def user_tones(request):
 class ToneListView(ListView):
     model = Tone
     template_name = 'tones/tone_list.html'
+
+
+class ToneDetailView(DetailView):
+    model = Tone
+    template_name = 'tones/tone_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['instruments'] = self.object.instrument.all()
+        context['pedals'] = self.object.pedal.all()
+        context['amps'] = self.object.amp.all()
+        return context
