@@ -1,5 +1,5 @@
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DetailView
 
 from .models import Amp
 from .forms import AmpForm
@@ -15,3 +15,8 @@ class CreateAmpView(CreateView):
         self.object = form.save()
         self.object.owner = self.request.user
         return super().form_valid(form)
+
+
+class AmpDetailView(DetailView):
+    model = Amp
+    context_object_name = "gear"
