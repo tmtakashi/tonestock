@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<h2 class='title'>Tone Feed</h2>
 {% for tone in tone_list %}
     <div>
         <a href="{% url 'tones:detail' tone.pk %}">{{ tone.name }}</a> {{ tone.author.profile.username }}
