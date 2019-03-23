@@ -4,6 +4,7 @@
 
 ## 環境構築
 ```
+git clone https://github.com/tmtakashi/tonestock.git
 cd tonestock
 pipenv install
 pipenv shell
