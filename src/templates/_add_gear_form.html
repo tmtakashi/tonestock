@@ -1,5 +1,29 @@
+{% load widget_tweaks %}
+
 <form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">追加</button>
+    <div class="card mt-3">
+        <div class="card-body">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+        
+            <div class="form-group">
+                <label for="">{{ form.name.label }}</label>
+                {% render_field form.name class="form-control" %}
+            </div>
+            
+            <div class="form-group">
+                <label for="">{{ form.brand.label }}</label>
+                {% render_field form.brand class="form-control" %}
+            </div>
+        
+            <div class="from-group form-check">
+                <label class="form-check-label">{{ form.type.label }}</label><br>
+                {% for button in form.type %}
+                    {% render_field button %} <br>
+                {% endfor %}
+            </div>
+        
+            <button class="btn btn-primary" type="submit">追加</button>
+        </div>
+    </div>
 </form>

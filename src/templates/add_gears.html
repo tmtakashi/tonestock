@@ -4,7 +4,29 @@
 <h1>機材追加</h1>
 
 <h3>追加したい機材の種類を選択</h3>
-<a href="{% url 'instruments:add_instrument' %}">ギター・ベース</a><br>
-<a href="{% url 'pedals:add_pedal' %}">エフェクター</a><br>
-<a href="{% url 'amps:add_amp' %}">アンプ</a>
+<div class="row mt-5">
+    <div class="col-sm-4">
+        <a class="card" href="{% url 'instruments:add_instrument' %}">
+            <div class="card-body text-center">
+                ギター・ベース
+            </div>
+        </a>
+    </div>
+
+    <div class="col-sm-4">
+        <a class="card" href="{% url 'pedals:add_pedal' %}">
+            <div class="card-body text-center">
+                エフェクター
+            </div>
+        </a>
+    </div>
+    
+    <div class="col-sm-4">
+        <a class="card" href="{% url 'amps:add_amp' %}">
+            <div class="card-body text-center">
+                アンプ
+            </div>
+        </a>
+    </div>
+</div>
 {% endblock %}
