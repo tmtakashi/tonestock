@@ -2,10 +2,9 @@
 
 {% block content %}
 <h1>機材追加</h1>
-<h2>楽器</h2>
-{{ instrument_form.as_p }}
-<h2>アンプ</h2>
-{{ amp_form.as_p }}
-<h2>エフェクター</h2>
-{{ pedal_form.as_p }}
+
+<h3>追加したい機材の種類を選択</h3>
+<a href="{% url 'instruments:add_instrument' %}">ギター・ベース</a><br>
+<a href="{% url 'pedals:add_pedal' %}">エフェクター</a><br>
+<a href="{% url 'amps:add_amp' %}">アンプ</a>
 {% endblock %}

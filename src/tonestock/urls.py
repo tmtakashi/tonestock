@@ -17,14 +17,17 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
 
-from main.views import HomePageView, add_gear_view
+from main.views import HomePageView, AddGearView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', HomePageView.as_view(), name='home'),
-    path('add_gears/', add_gear_view, name='add_gears'),
+    path('add_gears/', AddGearView.as_view(), name='add_gears'),
     path('users/', include('users.urls'), name='users'),
     path('tones/', include('tones.urls'), name='tones'),
+    path('instruments/', include('instruments.urls'), name='instruments'),
+    path('pedals/', include('pedals.urls'), name='pedals'),
+    path('amps/', include('amps.urls'), name='amps'),
 ]
 
 if settings.DEBUG:
