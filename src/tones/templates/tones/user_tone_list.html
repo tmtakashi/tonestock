@@ -6,7 +6,7 @@
 <h2>音作り一覧</h2>
 {% for tone in user_tones %}
     <div>
-        <a href="{% url 'tones:detail' tone.pk %}">{{ tone.name }}</a> {{ tone.author.profile.username }}
+        <a href="{% url 'tones:detail' tone.pk %}">{{ tone.name }}</a>
     </div>
 {% endfor %}
 {% endblock %}
