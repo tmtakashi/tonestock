@@ -24,7 +24,7 @@ def signup_view(request):
 
         profile = profile_form.save(commit=False)
         profile.user = user
-        prifile.save()
+        profile.save()
 
         # アクティベーションURLの送付
         current_site = get_current_site(request)

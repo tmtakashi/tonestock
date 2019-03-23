@@ -3,8 +3,16 @@
 
 {% block content %}
 <form action="" method="POST">
-    {{ form.non_field_errors }}
-    {% for field in form %}
+    {{ user_form.non_field_errors }}
+    {{ profile_form.non_field_errors }}
+    {% for field in profile_form %}
+    <div class="form-group">
+        <label for="{{ field.id_for_label }}">{{ field.label_tag }}</label>
+        {{ field|add_class:"form-control" }}
+        {{ field.errors }}
+    </div>
+    {% endfor %}
+    {% for field in user_form %}
     <div class="form-group">
         <label for="{{ field.id_for_label }}">{{ field.label_tag }}</label>
         {{ field|add_class:"form-control" }}
