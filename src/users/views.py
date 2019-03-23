@@ -3,32 +3,34 @@ from django.contrib.auth import get_user_model, login
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.signing import BadSignature, SignatureExpired, loads, dumps
 from django.http import Http404, HttpResponseBadRequest
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.template.loader import get_template
 from django.views import generic
 
-from .forms import SignUpForm
+from .forms import UserForm, ProfileForm
 
 User = get_user_model()
 
 
-class SignUpView(generic.CreateView):
-    template_name = 'users/signup.html'
-    form_class = SignUpForm
+def signup_view(request):
+    user_form = UserForm(request.POST or None)
+    profile_form = ProfileForm(request.POST or None)
 
-    def form_valid(self, form):
-        '''
-        仮登録、本登録用メールの発行
-        '''
-        user = form.save(commit=False)
-        user.is_active = False  # 仮登録
+    if request.method == "POST" and user_form.is_valid() and profile_form.is_valid():
+
+        user = user_form.save(commit=False)
+        user.is_active = False
         user.save()
 
+        profile = profile_form.save(commit=False)
+        profile.user = user
+        profile.save()
+
         # アクティベーションURLの送付
-        current_site = get_current_site(self.request)
+        current_site = get_current_site(request)
         domain = current_site.domain
         context = {
-            'protocol': self.request.scheme,
+            'protocol': request.scheme,
             'domain': domain,
             'token': dumps(user.pk),
             'user': user,
@@ -45,6 +47,47 @@ class SignUpView(generic.CreateView):
         user.email_user(subject, message)
 
         return redirect('users:signup_done')
+
+    context = {
+        "user_form": user_form,
+        "profile_form": profile_form,
+    }
+    return render(request, 'users/signup.html', context)
+
+
+# class SignUpView(generic.CreateView):
+#     template_name = 'users/signup.html'
+#     form_class = SignUpForm
+
+#     def form_valid(self, form):
+#         '''
+#         仮登録、本登録用メールの発行
+#         '''
+#         user = form.save(commit=False)
+#         user.is_active = False  # 仮登録
+#         user.save()
+
+#         # アクティベーションURLの送付
+#         current_site = get_current_site(self.request)
+#         domain = current_site.domain
+#         context = {
+#             'protocol': self.request.scheme,
+#             'domain': domain,
+#             'token': dumps(user.pk),
+#             'user': user,
+#         }
+
+#         subject_template = get_template(
+#             'users/mail_template/signup/subject.txt')
+#         subject = subject_template.render(context)
+
+#         message_template = get_template(
+#             'users/mail_template/signup/message.txt')
+#         message = message_template.render(context)
+
+#         user.email_user(subject, message)
+
+#         return redirect('users:signup_done')
 
 
 class SignUpDoneView(generic.TemplateView):

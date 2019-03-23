@@ -4,10 +4,12 @@ from django.contrib.auth.forms import (
 )
 from django import forms
 
+from .models import Profile
+
 User = get_user_model()
 
 
-class SignUpForm(UserCreationForm):
+class UserForm(UserCreationForm):
 
     class Meta:
         model = User
@@ -15,3 +17,13 @@ class SignUpForm(UserCreationForm):
             fields = ('email',)
         else:
             fields = ('username', 'email')
+        labels = {
+            "username": "メールアドレス"
+        }
+
+
+class ProfileForm(forms.ModelForm):
+
+    class Meta:
+        model = Profile
+        fields = ('username',)
