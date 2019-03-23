@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.utils.translation import ugettext_lazy as _
-from .models import User
+from .models import User, Profile
 
 
 class MyUserChangeForm(UserChangeForm):
@@ -15,6 +15,12 @@ class MyUserCreationForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('email',)
+
+
+class ProfileInline(admin.StackedInline):
+    model = Profile
+    max_num = 1
+    can_delete = False
 
 
 class MyUserAdmin(UserAdmin):
@@ -37,6 +43,8 @@ class MyUserAdmin(UserAdmin):
     list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
     search_fields = ('email', 'first_name', 'last_name')
     ordering = ('email',)
+
+    inlines = [ProfileInline]
 
 
 admin.site.register(User, MyUserAdmin)
