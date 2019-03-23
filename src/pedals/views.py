@@ -10,3 +10,8 @@ class CreatePedalView(CreateView):
     form_class = PedalForm
     template_name = 'pedals/add_pedal.html'
     success_url = reverse_lazy('home')
+
+    def form_valid(self, form):
+        self.object = form.save()
+        self.object.owner = self.request.user
+        return super().form_valid(form)

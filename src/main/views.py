@@ -16,3 +16,17 @@ class HomePageView(TemplateView):
 
 class AddGearView(TemplateView):
     template_name = 'add_gears.html'
+
+
+class UserGearListView(TemplateView):
+    template_name = 'user_gear_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['instruments'] = Instrument.objects.filter(
+            owner=self.request.user)
+        context['pedals'] = Pedal.objects.filter(
+            owner=self.request.user)
+        context['amps'] = Amp.objects.filter(owner=self.request.user)
+
+        return context

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>My Gears</h2>
+<h3>楽器</h3>
+{% for instrument in instruments %}
+    <p>{{ instrument.name }}</p>
+{% endfor %}
+
+<h3>エフェクター</h3>
+{% for pedal in pedals %}
+    <p>{{ pedal.name }}</p>
+{% endfor %}
+
+<h3>アンプ</h3>
+{% for amp in amps %}
+    <p>{{ amp.name }}</p>
+{% endfor %}
+
+{% endblock %}
