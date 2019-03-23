@@ -9,7 +9,7 @@ from .models import Profile
 User = get_user_model()
 
 
-class SignUpForm(UserCreationForm):
+class UserForm(UserCreationForm):
 
     class Meta:
         model = User
@@ -17,7 +17,7 @@ class SignUpForm(UserCreationForm):
             fields = ('email',)
         else:
             fields = ('username', 'email')
-        labels{
+        labels = {
             "username": "メールアドレス"
         }
 
