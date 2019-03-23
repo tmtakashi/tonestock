@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.core.mail import send_mail
 from django.contrib.auth.models import PermissionsMixin
@@ -97,3 +98,11 @@ class User(AbstractBaseUser, PermissionsMixin):
         メールアドレスを返す
         """
         return self.email
+
+
+class Profile(models.Model):
+    username = models.CharField("ユーザー名", max_length=255)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, models.CASCADE)
+
+    def __str__(self):
+        return self.username
