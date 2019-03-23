@@ -40,3 +40,8 @@ def user_tones(request):
     user_tones = Tone.objects.filter(
         author=request.user)
     return render(request, template, {'user_tones': user_tones, 'user': user})
+
+
+class ToneListView(ListView):
+    model = Tone
+    template_name = 'tones/tone_list.html'
