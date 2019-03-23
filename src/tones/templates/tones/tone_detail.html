@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>{{ tone.name }}</h2>
+
+<div class="my-3">
+    <h3>楽器</h3>
+    {% for instrument in instruments %}
+        {{ instrument.name }} {{ instrument.brand }} {{ instrument.type }} 
+    {% endfor %}
+</div>
+
+<div class="my-3">
+    <h3>エフェクター</h3>
+    {% for pedal in pedals %}
+        {{ pedal.name }} {{ pedal.brand }} {{ pedal.type }} 
+    {% endfor %}
+</div>
+
+<div class="my-3">
+    <h3>アンプ</h3>
+    {% for amp in amps %}
+        {{ amp.name }} {{ amp.brand }} {{ amp.type }} 
+    {% endfor %}
+</div>
+{% endblock %}

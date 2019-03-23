@@ -2,6 +2,8 @@
 
 {% block content %}
 {% for tone in tone_list %}
-    <div>{{ tone.name }} {{ tone.author }}</div>
+    <div>
+        <a href="{% url 'tones:detail' tone.pk %}">{{ tone.name }}</a> {{ tone.author.profile.username }}
+    </div>
 {% endfor %}
 {% endblock %}

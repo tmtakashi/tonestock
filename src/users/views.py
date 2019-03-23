@@ -55,41 +55,6 @@ def signup_view(request):
     return render(request, 'users/signup.html', context)
 
 
-# class SignUpView(generic.CreateView):
-#     template_name = 'users/signup.html'
-#     form_class = SignUpForm
-
-#     def form_valid(self, form):
-#         '''
-#         仮登録、本登録用メールの発行
-#         '''
-#         user = form.save(commit=False)
-#         user.is_active = False  # 仮登録
-#         user.save()
-
-#         # アクティベーションURLの送付
-#         current_site = get_current_site(self.request)
-#         domain = current_site.domain
-#         context = {
-#             'protocol': self.request.scheme,
-#             'domain': domain,
-#             'token': dumps(user.pk),
-#             'user': user,
-#         }
-
-#         subject_template = get_template(
-#             'users/mail_template/signup/subject.txt')
-#         subject = subject_template.render(context)
-
-#         message_template = get_template(
-#             'users/mail_template/signup/message.txt')
-#         message = message_template.render(context)
-
-#         user.email_user(subject, message)
-
-#         return redirect('users:signup_done')
-
-
 class SignUpDoneView(generic.TemplateView):
     '''
     仮登録完了ページ
