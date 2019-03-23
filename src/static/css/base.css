@@ -1,0 +1,38 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  html, body, header {
+    font-family: Helvetica, Arial, "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "Meiryo UI", メイリオ, Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+    height: 100%;
+  }
+
+  header {
+    display: block;
+    background-color: #70C1B3;
+  }
+
+  /* copy */
+.copy {
+    padding-top: 80px;
+    font-weight: bold;
+    text-align: center;
+    color: #1069a0;
+  }
+  
+  .en_copy {
+    letter-spacing: 5px;
+    font-size: 80px;
+    margin-bottom: 30px;
+  }
+  
+  .en_copy img {
+    margin-left: 60px;
+  }
+  
+  .ja_copy {
+    margin-top: 50px;
+    font-size: 20px;
+    letter-spacing: 0.1em;
+    color: white;
+  }
