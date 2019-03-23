@@ -7,4 +7,6 @@
 cd tonestock
 pipenv install
 pipenv shell
+cd src 
+python3 manage.py migrate
 ```
