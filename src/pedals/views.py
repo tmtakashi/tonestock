@@ -1,5 +1,5 @@
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DetailView, UpdateView
+from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 
 from .models import Pedal
 from .forms import PedalForm
@@ -24,6 +24,11 @@ class UpdatePedalView(UpdateView):
 
     def get_success_url(self, **kwargs):
         return reverse_lazy("pedals:detail", args=(self.object.pk,))
+
+
+class DeletePedalView(DeleteView):
+    model = Pedal
+    success_url = reverse_lazy('user_gear_list')
 
 
 class PedalDetailView(DetailView):

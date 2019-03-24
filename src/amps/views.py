@@ -1,5 +1,5 @@
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DetailView, UpdateView
+from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 
 from .models import Amp
 from .forms import AmpForm
@@ -24,6 +24,11 @@ class UpdateAmpView(UpdateView):
 
     def get_success_url(self, **kwargs):
         return reverse_lazy("amps:detail", args=(self.object.pk,))
+
+
+class DeleteAmpView(DeleteView):
+    model = Amp
+    success_url = reverse_lazy('user_gear_list')
 
 
 class AmpDetailView(DetailView):

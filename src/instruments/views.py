@@ -1,5 +1,5 @@
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DetailView, UpdateView
+from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 
 from .models import Instrument
 from .forms import InstrumentForm
@@ -20,6 +20,11 @@ class CreateInstrumentView(CreateView):
 class InstrumentDetailView(DetailView):
     model = Instrument
     context_object_name = "gear"
+
+
+class DeleteInstrumentView(DeleteView):
+    model = Instrument
+    success_url = reverse_lazy('user_gear_list')
 
 
 class UpdateInstrumentView(UpdateView):
