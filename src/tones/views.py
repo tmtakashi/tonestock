@@ -3,7 +3,7 @@ from django.http import Http404
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 from django.urls import reverse_lazy
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 
 from .models import Tone
 from .forms import ToneCreationMultiForm
@@ -29,9 +29,46 @@ def tone_create_view(request):
             tone.amp.add(amp)
 
             tone.save()
-        return redirect('home')
+            return redirect('tones:user_tone_list')
 
     return render(request, 'tones/add_tone.html', {'formset': formset})
+
+
+def tone_edit_view(request, pk):
+    tone = get_object_or_404(Tone, pk=pk)
+    instance = {
+        'tone': tone,
+        'instrument': tone.instrument.all().first(),
+        # Needs to be changed when adding multiple pedals
+        'pedal': tone.pedal.all().first(),
+        'amp': tone.amp.all().first()
+    }
+    if request.method == 'GET':
+        formset = ToneCreationMultiForm(instance=instance)
+    if request.method == "POST":
+        formset = ToneCreationMultiForm(request.POST)
+        if formset.is_valid():
+
+            tone.name = formset['tone'].cleaned_data['name']
+
+            instrument = formset['instrument'].save()
+            pedal = formset['pedal'].save()
+            amp = formset['amp'].save()
+
+            tone.instrument.all().delete()
+            tone.instrument.add(instrument)
+
+            tone.pedal.all().delete()
+            tone.pedal.add(pedal)
+
+            tone.amp.all().delete()
+            tone.amp.add(amp)
+
+            tone.save()
+
+        return redirect('tones:detail', pk=tone.pk)
+
+    return render(request, 'tones/edit_tone.html', {'formset': formset})
 
 
 def user_tones(request):

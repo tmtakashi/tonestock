@@ -6,7 +6,7 @@
 <h2 class="title">My Tones</h2>
 {% for tone in user_tones %}
     <div>
-        <a href="{% url 'tones:detail' tone.pk %}">{{ tone.name }}</a>
+        <a href="{% url 'tones:detail' tone.pk %}">{{ tone.name }}</a> <a class="fas fa-edit" href="{% url 'tones:edit_tone'  tone.pk %}"></a>
     </div>
 {% endfor %}
 {% endblock %}
