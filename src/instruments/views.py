@@ -1,5 +1,5 @@
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DetailView
+from django.views.generic import CreateView, DetailView, UpdateView
 
 from .models import Instrument
 from .forms import InstrumentForm
@@ -20,3 +20,12 @@ class CreateInstrumentView(CreateView):
 class InstrumentDetailView(DetailView):
     model = Instrument
     context_object_name = "gear"
+
+
+class UpdateInstrumentView(UpdateView):
+    model = Instrument
+    form_class = InstrumentForm
+    template_name = 'instruments/edit_instrument.html'
+
+    def get_success_url(self, **kwargs):
+        return reverse_lazy("instruments:detail", args=(self.object.pk,))

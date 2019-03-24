@@ -11,21 +11,24 @@
 {% if instruments|length > 0 %}
     <h3>楽器</h3>
     {% for instrument in instruments %}
-    <a href="{% url 'instruments:detail' instrument.pk %}">{{ instrument.name }}</a><br>
+    <a href="{% url 'instruments:detail' instrument.pk %}">{{ instrument.name }}</a>
+    <a class="fas fa-edit" href="{% url 'instruments:edit_instrument' instrument.pk %}"></a><br>
     {% endfor %}
 {% endif %}
 
 {% if pedals|length > 0 %}
     <h3>エフェクター</h3>
     {% for pedal in pedals %}
-        <a href="{% url 'pedals:detail' pedal.pk %}">{{ pedal.name }}</a><br>
+        <a href="{% url 'pedals:detail' pedal.pk %}">{{ pedal.name }}</a>
+        <a class="fas fa-edit" href="{% url 'pedals:edit_pedal' pedal.pk %}"></a><br>
     {% endfor %}
 {% endif %}
 
 {% if amps|length > 0 %}
     <h3>アンプ</h3>
     {% for amp in amps %}
-        <a href="{% url 'amps:detail' amp.pk %}">{{ amp.name }}</a><br>
+        <a href="{% url 'amps:detail' amp.pk %}">{{ amp.name }}</a>
+        <a class="fas fa-edit" href="{% url 'amps:edit_amp' amp.pk %}"></a><br>
     {% endfor %}
 {% endif %}
 {% endblock %}
