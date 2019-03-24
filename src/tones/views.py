@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.http import Http404
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, DeleteView
 from django.urls import reverse_lazy
 from django.shortcuts import redirect, get_object_or_404
 
@@ -94,3 +94,8 @@ class ToneDetailView(DetailView):
         context['pedals'] = self.object.pedal.all()
         context['amps'] = self.object.amp.all()
         return context
+
+
+class ToneDeleteView(DeleteView):
+    model = Tone
+    success_url = reverse_lazy('tones:user_tone_list')
