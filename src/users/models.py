@@ -103,6 +103,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 class Profile(models.Model):
     username = models.CharField("ユーザー名", max_length=255)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, models.CASCADE)
+    image = models.ImageField(
+        "プロフィール画像", upload_to="images/%Y/%m/%d/", blank=True, null=True)
 
     def __str__(self):
         return self.username

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% load widget_tweaks %}
+
+{% block content %}
+<form action="" enctype="multipart/form-data" method="POST">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <div class="form-group">
+        <label for="{{ field.id_for_label }}">{{ form.name.label }}</label>
+        {% render_field form.username class="form-control" %}
+        {{ form.name.errors }}
+    </div>
+    <div class="custom-file">
+        {% render_field form.image class="custom-file-input" id="profile-image"%}
+        <label class="custom-file-label" for="profile-image">Choose file</label>
+    </div>
+    <div class="text-center">
+        {% if user.profile.image %}
+            <img src="{{ user.profile.image.url }}" id="preview" style="width:200px;height:200px;"><br>
+        {% endif %}
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg">OK</button>
+</form>
+{% endblock %}
+
+{% block extrajs %}
+<script src="{% static 'js/image_preview.js' %}"></script>
+{% endblock %}
