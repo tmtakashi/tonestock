@@ -7,21 +7,27 @@
 <form action="" enctype="multipart/form-data" method="POST">
     {% csrf_token %}
     {{ form.non_field_errors }}
-    <div class="form-group">
-        <label for="{{ field.id_for_label }}">{{ form.name.label }}</label>
-        {% render_field form.username class="form-control" %}
-        {{ form.name.errors }}
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="text-center">
+                {% if user.profile.image %}
+                    <img src="{{ user.profile.image.url }}" id="preview" style="width:200px;height:200px;"><br>
+                {% endif %}
+            </div>
+            <div class="mt-3 custom-file">  
+                {% render_field form.image class="custom-file-input" id="profile-image"%}
+                <label class="custom-file-label" for="profile-image">Choose file</label>
+            </div>
+        </div>
+        <div class="col-sm-6 form-group">
+            <label for="{{ field.id_for_label }}">{{ form.username.label }}</label>
+            {% render_field form.username class="form-control" %}
+            {{ form.name.errors }}
+        </div>
     </div>
-    <div class="custom-file">  
-        {% render_field form.image class="custom-file-input" id="profile-image"%}
-        <label class="custom-file-label" for="profile-image">Choose file</label>
+    <div class="mt-5 text-center">
+        <button type="submit" class="btn btn-primary btn-lg">OK</button>
     </div>
-    <div class="text-center">
-        {% if user.profile.image %}
-            <img src="{{ user.profile.image.url }}" id="preview" style="width:200px;height:200px;"><br>
-        {% endif %}
-    </div>
-    <button type="submit" class="btn btn-primary btn-lg">OK</button>
 </form>
 {% endblock %}
 
