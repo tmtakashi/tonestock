@@ -90,6 +90,10 @@ class User(AbstractBaseUser, PermissionsMixin):
         """Send an email to this user."""
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
+    def get_followers(self):
+        relations = Relationship.objects.filter(followee=self)
+        return [relation.follower for relation in relations]
+
     @property
     def username(self):
         """username属性のゲッター
@@ -108,3 +112,16 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.username
+
+
+class Relationship(models.Model):
+    '''
+    フォロー機能用の中間テーブル
+    '''
+    followee = models.ForeignKey(
+        User, related_name='follows', on_delete=models.CASCADE)
+    follower = models.ForeignKey(
+        User, related_name='followers', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.follower} => {self.followee}"

@@ -1,7 +1,13 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 
-from .views import signup_view, SignUpDoneView, SignUpCompleteView, UpdateProfileView
+from .views import (
+    signup_view,
+    SignUpDoneView,
+    SignUpCompleteView,
+    UpdateProfileView,
+    UserListView,
+    follow_user_view)
 app_name = 'users'
 
 urlpatterns = [
@@ -12,4 +18,6 @@ urlpatterns = [
     path('signup/complete/<token>/',
          SignUpCompleteView.as_view(), name='signup_complete'),
     path('edit/<int:pk>/', UpdateProfileView.as_view(), name='edit_profile'),
+    path('list/', UserListView.as_view(), name='list'),
+    path('follow/<int:pk>', follow_user_view, name='follow'),
 ]

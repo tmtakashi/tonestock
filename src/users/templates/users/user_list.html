@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% for user in user_list %}
+    {{ user.username }}<a href="{% url 'users:follow' user.pk %}">Follow</a><br>
+    {% endfor %}
+{% endblock %}

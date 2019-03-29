@@ -2,13 +2,13 @@ from django.conf import settings
 from django.contrib.auth import get_user_model, login
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.signing import BadSignature, SignatureExpired, loads, dumps
-from django.http import Http404, HttpResponseBadRequest
+from django.http import HttpResponseRedirect, Http404, HttpResponseBadRequest
 from django.shortcuts import redirect, render
 from django.template.loader import get_template
-from django.views.generic import TemplateView, UpdateView
+from django.views.generic import TemplateView, UpdateView, ListView
 from django.urls import reverse_lazy
 
-from .models import Profile
+from .models import Profile, Relationship
 from .forms import UserForm, ProfileForm
 
 User = get_user_model()
@@ -112,3 +112,20 @@ class UpdateProfileView(UpdateView):
     form_class = ProfileForm
     template_name = 'users/edit_profile.html'
     success_url = reverse_lazy('home')
+
+
+class UserListView(ListView):
+    model = User
+    template_name = 'user_list.html'
+
+
+def follow_user_view(request, pk):
+    followee = User.objects.get(pk=pk)
+    follower = request.user
+    print(followee)
+
+    relation = Relationship(followee=followee, follower=follower)
+    relation.save()
+
+    # go back to the previous page
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
