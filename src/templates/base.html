@@ -47,6 +47,9 @@
                     <a class="nav-link" href="{% url 'add_gears' %}">機材を追加</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{% url 'users:edit_profile' user.profile.pk %}">プロフィールを編集</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{% url 'users:logout' %}">ログアウト</a>
                 </li>
                 {% else %}

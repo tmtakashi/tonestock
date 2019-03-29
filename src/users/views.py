@@ -5,8 +5,10 @@ from django.core.signing import BadSignature, SignatureExpired, loads, dumps
 from django.http import Http404, HttpResponseBadRequest
 from django.shortcuts import redirect, render
 from django.template.loader import get_template
-from django.views import generic
+from django.views.generic import TemplateView, UpdateView
+from django.urls import reverse_lazy
 
+from .models import Profile
 from .forms import UserForm, ProfileForm
 
 User = get_user_model()
@@ -55,14 +57,14 @@ def signup_view(request):
     return render(request, 'users/signup.html', context)
 
 
-class SignUpDoneView(generic.TemplateView):
+class SignUpDoneView(TemplateView):
     '''
     仮登録完了ページ
     '''
     template_name = 'users/signup_done.html'
 
 
-class SignUpCompleteView(generic.TemplateView):
+class SignUpCompleteView(TemplateView):
     '''
     メール内URLアクセス後の本登録処理
     '''
@@ -103,3 +105,10 @@ class SignUpCompleteView(generic.TemplateView):
                     return super().get(request, **kwargs)
 
         return HttpResponseBadRequest()
+
+
+class UpdateProfileView(UpdateView):
+    model = Profile
+    form_class = ProfileForm
+    template_name = 'users/edit_profile.html'
+    success_url = reverse_lazy('home')

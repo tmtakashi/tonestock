@@ -16,20 +16,25 @@ Including another URLconf
 from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls.static import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 from main.views import HomePageView, AddGearView, UserGearListView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', HomePageView.as_view(), name='home'),
-    path('accounts/', include('allauth.urls')),
     path('add_gears/', AddGearView.as_view(), name='add_gears'),
     path('gear_list/', UserGearListView.as_view(), name="user_gear_list"),
+    path('users/', include('users.urls'), name='users'),
     path('tones/', include('tones.urls'), name='tones'),
     path('instruments/', include('instruments.urls'), name='instruments'),
     path('pedals/', include('pedals.urls'), name='pedals'),
     path('amps/', include('amps.urls'), name='amps'),
 ]
+
+urlpatterns += staticfiles_urlpatterns()
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
     import debug_toolbar
@@ -40,3 +45,5 @@ if settings.DEBUG:
         # url(r'^__debug__/', include(debug_toolbar.urls)),
 
     ] + urlpatterns
+
+SITE_ID = 1
