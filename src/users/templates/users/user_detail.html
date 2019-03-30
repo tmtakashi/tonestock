@@ -2,6 +2,7 @@
 
 {% block content %}
 <div class="row">
+    <!-- left side -->
     <div class="col-sm-4">
         {% if object.profile.image %}
             <img src="{{ object.profile.image.url }}" id="preview" style="width:200px;"><br>
@@ -17,7 +18,28 @@
         <br>
         {% include 'users/_follow_button.html' %}
     </div>
+    <!-- right side -->
     <div class="col-sm-8">
+        <div>
+            <h4>Instruments</h4>
+            {% for instrument in object.instruments.all %}
+                {{ instrument.name }} ({{ instrument.brand }})
+            {% endfor %}
+        </div>
+        
+        <div class="mt-5">
+            <h4>Pedals</h4>
+            {% for pedal in object.pedals.all %}
+                {{ pedal.name }} ({{ pedal.brand }})
+            {% endfor %}   
+        </div>
+        
+        <div class="mt-5">
+            <h4>Amps</h4>
+            {% for amp in object.amps.all %}
+                {{ amp.name }} ({{ amp.brand }})
+            {% endfor %}   
+        </div>
     </div>
 </div>
 
