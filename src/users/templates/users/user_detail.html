@@ -23,21 +23,36 @@
         <div>
             <h4>Instruments</h4>
             {% for instrument in object.instruments.all %}
-                {{ instrument.name }} ({{ instrument.brand }})
+                <div>
+                    {% if instrument.image %}
+                        <img src="{{ instrument.image.url }}"  style="width:100px;"><br>
+                    {% endif %}
+                    {{ instrument.name }} ({{ instrument.brand }})
+                </div>
             {% endfor %}
         </div>
         
         <div class="mt-5">
             <h4>Pedals</h4>
             {% for pedal in object.pedals.all %}
+            <div>
+                {% if pedal.image %}
+                    <img src="{{ pedal.image.url }}"  style="width:100px;"><br>
+                {% endif %}
                 {{ pedal.name }} ({{ pedal.brand }})
+            </div>
             {% endfor %}   
         </div>
         
         <div class="mt-5">
             <h4>Amps</h4>
             {% for amp in object.amps.all %}
+            <div>
+                {% if amp.image %}
+                    <img src="{{ amp.image.url }}"  style="width:100px;"><br>
+                {% endif %}
                 {{ amp.name }} ({{ amp.brand }})
+            </div>
             {% endfor %}   
         </div>
 

@@ -6,7 +6,7 @@ class InstrumentForm(forms.ModelForm):
 
     class Meta:
         model = Instrument
-        fields = ('name', 'type', 'brand')
+        fields = ('name', 'type', 'brand', 'image')
         widgets = {
             'type': forms.RadioSelect()
         }

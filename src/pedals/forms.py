@@ -7,7 +7,7 @@ from .models import Pedal
 class PedalForm(forms.ModelForm):
     class Meta:
         model = Pedal
-        fields = ('name', 'type', 'brand')
+        fields = ('name', 'type', 'brand', 'image')
         widgets = {
             'type': forms.RadioSelect()
         }
