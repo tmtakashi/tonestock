@@ -1,5 +1,8 @@
+import json
+
 from django.conf import settings
 from django.contrib.auth import get_user_model, login
+from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.signing import BadSignature, SignatureExpired, loads, dumps
 from django.http import HttpResponseRedirect, Http404, HttpResponseBadRequest
@@ -8,7 +11,7 @@ from django.template.loader import get_template
 from django.views.generic import TemplateView, UpdateView, ListView
 from django.urls import reverse_lazy
 
-from .models import Profile, Relationship
+from .models import Profile
 from .forms import UserForm, ProfileForm
 
 User = get_user_model()
@@ -116,16 +119,22 @@ class UpdateProfileView(UpdateView):
 
 class UserListView(ListView):
     model = User
-    template_name = 'user_list.html'
+    template_name = "user_list.html"
 
 
-def follow_user_view(request, pk):
-    followee = User.objects.get(pk=pk)
-    follower = request.user
-    print(followee)
+@login_required
+def follow(request, pk):
+    user = User.objects.get(pk=pk)
+    request.user.profile.follows.add(user.profile)
 
-    relation = Relationship(followee=followee, follower=follower)
-    relation.save()
+    # go back to the previous page
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
+
+@login_required
+def unfollow(request, pk):
+    user = User.objects.get(pk=pk)
+    request.user.profile.follows.remove(user.profile)
+    print(request.user.profile.follows.all())
     # go back to the previous page
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))

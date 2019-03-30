@@ -1,7 +1,34 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-    {% for user in user_list %}
-    {{ user.username }}<a href="{% url 'users:follow' user.pk %}">Follow</a><br>
+    {% for user_object in user_list %}
+        {% if user_object.profile and user_object != user %}
+            <div class="my-3">
+                {{ user_object.profile.username }}
+                {% if user.profile in user_object.profile.followed_by.all%} 
+                    You are following this user.
+                    <div>
+                        Followers:
+                        {% for follower in user_object.profile.followed_by.all %}
+                            {% if user.profile != follower %}
+                                {{ follower }}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <a class="btn btn-outline-danger unfollow-btn" 
+                    href="{% url 'users:unfollow' user_object.pk %}">Unfollow</a>
+                    <span class="follow-alert" role="alert"></span><br>
+                {% else %}
+                    <a class="btn btn-outline-primary follow-btn" 
+                    href="{% url 'users:follow' user_object.pk %}">Follow</a>
+                    <span class="follow-alert" role="alert"></span><br>
+                {% endif %}
+            </div>
+        {% endif %}
     {% endfor %}
+{% endblock %}
+
+{% block extrajs %}
+<script src="{% static "users/js/follow.js" %}"></script>
 {% endblock %}

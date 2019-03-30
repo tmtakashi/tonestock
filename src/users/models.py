@@ -109,19 +109,8 @@ class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, models.CASCADE)
     image = models.ImageField(
         "プロフィール画像", upload_to="images/%Y/%m/%d/", blank=True, null=True)
+    follows = models.ManyToManyField(
+        'self', related_name='followed_by', symmetrical=False)
 
     def __str__(self):
         return self.username
-
-
-class Relationship(models.Model):
-    '''
-    フォロー機能用の中間テーブル
-    '''
-    followee = models.ForeignKey(
-        User, related_name='follows', on_delete=models.CASCADE)
-    follower = models.ForeignKey(
-        User, related_name='followers', on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"{self.follower} => {self.followee}"

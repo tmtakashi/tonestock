@@ -7,7 +7,8 @@ from .views import (
     SignUpCompleteView,
     UpdateProfileView,
     UserListView,
-    follow_user_view)
+    follow,
+    unfollow)
 app_name = 'users'
 
 urlpatterns = [
@@ -19,5 +20,6 @@ urlpatterns = [
          SignUpCompleteView.as_view(), name='signup_complete'),
     path('edit/<int:pk>/', UpdateProfileView.as_view(), name='edit_profile'),
     path('list/', UserListView.as_view(), name='list'),
-    path('follow/<int:pk>', follow_user_view, name='follow'),
+    path('follow/<int:pk>', follow, name='follow'),
+    path('unfollow/<int:pk>', unfollow, name='unfollow'),
 ]
