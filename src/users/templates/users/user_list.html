@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    {% for user_object in user_list %}
+        {% if user_object.profile and user_object != user %}
+            <div class="my-3">
+                {{ user_object.profile.username }}
+                {% if user.profile in user_object.profile.followed_by.all %} 
+                    <button class="btn btn-outline-danger follow-btn" 
+                    data-href="{% url 'users:follow_toggle' user_object.pk %}">Unfollow</button>
+                {% else %}
+                    <button class="btn btn-outline-primary follow-btn" 
+                    data-href="{% url 'users:follow_toggle' user_object.pk %}">Follow</button>
+                {% endif %}
+                <br>
+                <span class="num_follower">{{ user_object.profile.followed_by.all|length }}</span> followers <br>
+                <span class="num_follows">{{ user_object.profile.follows.all|length }}</span> follows <br>
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endblock %}
+
+{% block extrajs %}
+<script src="{% static "users/js/follow.js" %}"></script>
+{% endblock %}

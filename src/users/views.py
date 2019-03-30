@@ -1,11 +1,13 @@
 from django.conf import settings
 from django.contrib.auth import get_user_model, login
+from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.signing import BadSignature, SignatureExpired, loads, dumps
-from django.http import Http404, HttpResponseBadRequest
+from django.http import HttpResponseRedirect, Http404, HttpResponseBadRequest
+from django.http.response import JsonResponse
 from django.shortcuts import redirect, render
 from django.template.loader import get_template
-from django.views.generic import TemplateView, UpdateView
+from django.views.generic import TemplateView, UpdateView, ListView
 from django.urls import reverse_lazy
 
 from .models import Profile
@@ -112,3 +114,34 @@ class UpdateProfileView(UpdateView):
     form_class = ProfileForm
     template_name = 'users/edit_profile.html'
     success_url = reverse_lazy('home')
+
+
+class UserListView(ListView):
+    model = User
+    template_name = "user_list.html"
+
+
+@login_required
+def follow_toggle(request, pk):
+    user = User.objects.get(pk=pk)
+    follows_list = request.user.profile.follows.all()
+    if user.profile in follows_list:
+        # フォロー一覧にいれば解除
+        request.user.profile.follows.remove(user.profile)
+        message = "フォロー解除しました"
+        command = "unfollow"
+    else:
+        # フォロー一覧にいなければ追加
+        request.user.profile.follows.add(user.profile)
+        message = "フォローしました"
+        command = "follow"
+    # ボタンに対応するユーザーのフォロワー数
+    num_follower = len(user.profile.followed_by.all())
+    # ボタンに対応するユーザーのフォロー数
+    num_follow = len(user.profile.follows.all())
+    data = {
+        "message": message,
+        "command": command,
+        "num_follower": num_follower,
+    }
+    return JsonResponse(data)

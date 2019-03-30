@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'betterforms',
     'debug_toolbar',
     'widget_tweaks',
+    'rest_framework',
     'main',
     'users',
     'tones',

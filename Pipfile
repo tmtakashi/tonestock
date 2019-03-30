@@ -12,6 +12,7 @@ django = "*"
 django-debug-toolbar = "*"
 django-widgets-improved = "*"
 django-betterforms = "*"
+djangorestframework = "*"
 
 [requires]
 python_version = "3.7"

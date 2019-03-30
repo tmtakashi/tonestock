@@ -90,6 +90,10 @@ class User(AbstractBaseUser, PermissionsMixin):
         """Send an email to this user."""
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
+    def get_followers(self):
+        relations = Relationship.objects.filter(followee=self)
+        return [relation.follower for relation in relations]
+
     @property
     def username(self):
         """username属性のゲッター
@@ -105,6 +109,8 @@ class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, models.CASCADE)
     image = models.ImageField(
         "プロフィール画像", upload_to="images/%Y/%m/%d/", blank=True, null=True)
+    follows = models.ManyToManyField(
+        'self', related_name='followed_by', symmetrical=False)
 
     def __str__(self):
         return self.username
