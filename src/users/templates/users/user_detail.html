@@ -11,7 +11,11 @@
         </div>
         {% endif %}
         <h3>{{ user.profile.username }}</h3>
-        {{ user.profile.followed_by.all|length }} followers {{ user.profile.follows.all|length }} follows
+        <span class="num_follower">{{ user.profile.followed_by.all|length }}</span> followers
+        <span>{{ user.profile.follows.all|length }}</span>
+         follows
+        <br>
+        {% include 'users/_follow_button.html' %}
     </div>
     <div class="col-sm-8">
     </div>

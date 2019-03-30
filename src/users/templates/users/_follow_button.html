@@ -1,11 +1,11 @@
 {% load static %}
 
-{% if user.profile in user_object.profile.followed_by.all %} 
+{% if user.profile in object.profile.followed_by.all %} 
     <button class="btn btn-outline-danger follow-btn" 
-    data-href="{% url 'users:follow_toggle' user_object.pk %}">Unfollow</button>
+    data-href="{% url 'users:follow_toggle' object.pk %}">Unfollow</button>
 {% else %}
     <button class="btn btn-outline-primary follow-btn" 
-    data-href="{% url 'users:follow_toggle' user_object.pk %}">Follow</button>
+    data-href="{% url 'users:follow_toggle' object.pk %}">Follow</button>
 {% endif %}
 
 <script src="{% static "users/js/follow.js" %}"></script>
