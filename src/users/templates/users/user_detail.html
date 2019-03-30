@@ -3,16 +3,16 @@
 {% block content %}
 <div class="row">
     <div class="col-sm-4">
-        {% if user.profile.image %}
-            <img src="{{ user.profile.image.url }}" id="preview" style="width:200px;"><br>
+        {% if object.profile.image %}
+            <img src="{{ object.profile.image.url }}" id="preview" style="width:200px;"><br>
         {% else %}
         <div class="">
             <i class="fas fa-image" style="font-size:200px; color: #333;"></i>
         </div>
         {% endif %}
-        <h3>{{ user.profile.username }}</h3>
-        <span class="num_follower">{{ user.profile.followed_by.all|length }}</span> followers
-        <span>{{ user.profile.follows.all|length }}</span>
+        <h3>{{ object.profile.username }}</h3>
+        <span class="num_follower">{{ object.profile.followed_by.all|length }}</span> followers
+        <span>{{ object.profile.follows.all|length }}</span>
          follows
         <br>
         {% include 'users/_follow_button.html' %}

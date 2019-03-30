@@ -119,6 +119,7 @@ class UpdateProfileView(UpdateView):
 class UserDetailView(DetailView):
     model = User
     template_name = 'users/user_detail.html'
+    context_object_name = 'target_user'
 
 
 class UserListView(ListView):
@@ -142,8 +143,6 @@ def follow_toggle(request, pk):
         command = "follow"
     # ボタンに対応するユーザーのフォロワー数
     num_follower = len(user.profile.followed_by.all())
-    # ボタンに対応するユーザーのフォロー数
-    num_follow = len(user.profile.follows.all())
     data = {
         "message": message,
         "command": command,
