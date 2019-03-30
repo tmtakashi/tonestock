@@ -40,6 +40,13 @@
                 {{ amp.name }} ({{ amp.brand }})
             {% endfor %}   
         </div>
+
+        <div class="mt-5">
+            <h4>Tones</h4>
+            {% for tone in object.tones.all %}
+                {{ tone.name }}
+            {% endfor %}   
+        </div>
     </div>
 </div>
 
