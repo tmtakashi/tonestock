@@ -1,7 +1,12 @@
 {% extends 'base.html' %}
+
+{% load static %}
 {% load widget_tweaks %}
 
+
+
 {% block content %}
+<link href="{% static 'tones/css/add_tone.css' %}" rel="stylesheet">
 
 <div class="contain mt-5">
     <h2 class="title">プリセット作成</h2>
@@ -32,22 +37,44 @@
                 </div>
                 <!-- Pedals -->
                 <div id="pedal-area">
-                    <div class="card mx-1 pedal-card" style="height: 20rem;">
-                        <div class="col-sm card-body">
-                            <div class="form-group">
-                                    {{ formset.pedal.name.label }}
-                                    {{ formset.pedal.name|add_class:"form-control" }}
+                    <ul id='pedal-sortable'>
+                        <li id='1'>
+                            <div class="card mx-1 pedal-card" style="height: 20rem;">
+                                <div class="col-sm card-body">
+                                    <div class="form-group">
+                                        {{ formset.pedal.name.label }}
+                                        {{ formset.pedal.name|add_class:"form-control" }}
+                                    </div>
+                                    <div class="form-group">
+                                        {{ formset.pedal.brand.label }}
+                                        {{ formset.pedal.brand|add_class:"form-control" }}
+                                    </div>
+                                    <div class="form-group">
+                                        {{ formset.pedal.type.label}} 
+                                        {{ formset.pedal.type|add_class:"form-check-input" }}
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    {{ formset.pedal.brand.label }}
-                                    {{ formset.pedal.brand|add_class:"form-control" }}
+                            </div>
+                        </li>
+                        <li id='2'>
+                            <div class="card mx-1 pedal-card" style="height: 20rem;">
+                                <div class="col-sm card-body">
+                                    <div class="form-group">
+                                        {{ formset.pedal.name.label }}
+                                        {{ formset.pedal.name|add_class:"form-control" }}
+                                    </div>
+                                    <div class="form-group">
+                                        {{ formset.pedal.brand.label }}
+                                        {{ formset.pedal.brand|add_class:"form-control" }}
+                                    </div>
+                                    <div class="form-group">
+                                        {{ formset.pedal.type.label}} 
+                                        {{ formset.pedal.type|add_class:"form-check-input" }}
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    {{ formset.pedal.type.label}} 
-                                    {{ formset.pedal.type|add_class:"form-check-input" }}
-                                </div>
-                        </div>
-                    </div>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
                 <!-- <button type="button" class="btn btn-success add-pedal align-self-center" >+</button> -->
                 <!-- Amp -->
@@ -75,37 +102,6 @@
 
 {% endblock %}
 
-<!-- {% block extrajs %}
-<script type="text/html" id="pedal-template">
-    <div class="card mx-1" style="height: 20rem;">
-        <div class="col-sm card-body" id="pedal-__prefix__">
-            <div class="form-group">
-                    {{ formset.pedal.empty_form.name.label }}
-                    {{ formset.pedal.empty_form.name|add_class:"form-control" }}
-                </div>
-                <div class="form-group">
-                    {{ formset.pedal.empty_form.brand.label }}
-                    {{ formset.pedal.empty_form.brand|add_class:"form-control" }}
-                </div>
-                <div class="form-group">
-                    {{ formset.pedal.empty_form.type.label }}
-                    {{ formset.pedal.empty_form.type|add_class:"form-check-input" }}
-            </div>
-        </div>
-        <button type="button" class="btn btn-danger delete-pedal align-self-center" >-</button>
-    </div>
-</script>
-<script>
-    $(function () {
-            $('.add-pedal').click(function (e) {
-                e.preventDefault();
-                var count = parseInt($('#id_pedal-TOTAL_FORMS').attr('value'), 10);
-                var tmplMarkup = $('#pedal-template').html();
-                var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count)
-                console.log(compiledTmpl);
-                $('#pedal-area').append(compiledTmpl);
-                $('#id_pedal-TOTAL_FORMS').attr('value', count + 1);
-            });
-        });
-</script>
-{% endblock %} -->
+{% block extrajs %}
+<script src="{% static 'tones/js/add_tones.js' %}"></script>
+{% endblock %}
