@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-sm-4">
+        {% if user.profile.image %}
+            <img src="{{ user.profile.image.url }}" id="preview" style="width:200px;"><br>
+        {% else %}
+        <div class="">
+            <i class="fas fa-image" style="font-size:200px; color: #333;"></i>
+        </div>
+        {% endif %}
+        <h3>{{ user.profile.username }}</h3>
+        {{ user.profile.followed_by.all|length }} followers {{ user.profile.follows.all|length }} follows
+    </div>
+    <div class="col-sm-8">
+    </div>
+</div>
+
+
+{% endblock %}
