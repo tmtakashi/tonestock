@@ -16,6 +16,8 @@ class Amp(models.Model):
     brand = models.CharField(max_length=128, verbose_name='ブランド名')
     type = models.CharField(
         max_length=128, choices=AMP_TYPES, verbose_name='アンプの種類', default="真空管アンプ")
+    image = models.ImageField(
+        "アンプの画像", upload_to="images/%Y/%m/%d/", blank=True, null=True)
 
     gain = bass = models.FloatField(verbose_name='Gain/Drive',
                                     validators=[MinValueValidator(

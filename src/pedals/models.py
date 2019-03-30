@@ -30,6 +30,8 @@ class Pedal(models.Model):
     effect = models.CharField(
         max_length=128, choices=EFFECT_TYPES, verbose_name='エフェクト名')
     brand = models.CharField(max_length=128, verbose_name='ブランド名')
+    image = models.ImageField(
+        "エフェクターの画像", upload_to="images/%Y/%m/%d/", blank=True, null=True)
 
     '''
     歪み系
