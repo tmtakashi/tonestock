@@ -1,11 +1,10 @@
-import json
-
 from django.conf import settings
 from django.contrib.auth import get_user_model, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.signing import BadSignature, SignatureExpired, loads, dumps
 from django.http import HttpResponseRedirect, Http404, HttpResponseBadRequest
+from django.http.response import JsonResponse
 from django.shortcuts import redirect, render
 from django.template.loader import get_template
 from django.views.generic import TemplateView, UpdateView, ListView
@@ -123,18 +122,25 @@ class UserListView(ListView):
 
 
 @login_required
-def follow(request, pk):
+def follow_toggle(request, pk):
     user = User.objects.get(pk=pk)
-    request.user.profile.follows.add(user.profile)
-
-    # go back to the previous page
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
-
-
-@login_required
-def unfollow(request, pk):
-    user = User.objects.get(pk=pk)
-    request.user.profile.follows.remove(user.profile)
-    print(request.user.profile.follows.all())
-    # go back to the previous page
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+    follows_list = request.user.profile.follows.all()
+    if user.profile in follows_list:
+        # フォロー一覧にいれば解除
+        request.user.profile.follows.remove(user.profile)
+        message = "フォロー解除しました"
+        command = "unfollow"
+    else:
+        # フォロー一覧にいなければ追加
+        request.user.profile.follows.add(user.profile)
+        message = "フォローしました"
+        command = "follow"
+    # ボタンに対応するユーザーのフォロワー一覧
+    followers = [
+        profile.username for profile in user.profile.followed_by.all()]
+    data = {
+        "message": message,
+        "command": command,
+        "followers": followers,
+    }
+    return JsonResponse(data)

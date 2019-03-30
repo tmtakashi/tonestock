@@ -7,8 +7,7 @@ from .views import (
     SignUpCompleteView,
     UpdateProfileView,
     UserListView,
-    follow,
-    unfollow)
+    follow_toggle)
 app_name = 'users'
 
 urlpatterns = [
@@ -20,6 +19,5 @@ urlpatterns = [
          SignUpCompleteView.as_view(), name='signup_complete'),
     path('edit/<int:pk>/', UpdateProfileView.as_view(), name='edit_profile'),
     path('list/', UserListView.as_view(), name='list'),
-    path('follow/<int:pk>', follow, name='follow'),
-    path('unfollow/<int:pk>', unfollow, name='unfollow'),
+    path('follow_toggle/<int:pk>', follow_toggle, name='follow_toggle'),
 ]
