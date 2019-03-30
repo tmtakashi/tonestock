@@ -135,12 +135,13 @@ def follow_toggle(request, pk):
         request.user.profile.follows.add(user.profile)
         message = "フォローしました"
         command = "follow"
-    # ボタンに対応するユーザーのフォロワー一覧
-    followers = [
-        profile.username for profile in user.profile.followed_by.all()]
+    # ボタンに対応するユーザーのフォロワー数
+    num_follower = len(user.profile.followed_by.all())
+    # ボタンに対応するユーザーのフォロー数
+    num_follow = len(user.profile.follows.all())
     data = {
         "message": message,
         "command": command,
-        "followers": followers,
+        "num_follower": num_follower,
     }
     return JsonResponse(data)

@@ -13,14 +13,9 @@
                     <button class="btn btn-outline-primary follow-btn" 
                     data-href="{% url 'users:follow_toggle' user_object.pk %}">Follow</button>
                 {% endif %}
-                <div>
-                    Followers:
-                    {% for follower in user_object.profile.followed_by.all %}
-                        {% if user.profile != follower %}
-                            {{ follower }}
-                        {% endif %}
-                    {% endfor %}
-                </div>
+                <br>
+                <span class="num_follower">{{ user_object.profile.followed_by.all|length }}</span> followers <br>
+                <span class="num_follows">{{ user_object.profile.follows.all|length }}</span> follows <br>
             </div>
         {% endif %}
     {% endfor %}

@@ -2,6 +2,7 @@ $(function () {
     // Follow
     $('.follow-btn').click(function () {
         $follow_btn = $(this);
+        $num_follower = $(this).siblings('.num_follower');
         $.ajax({
             url: $(this).attr("data-href"),
         }).then(
@@ -19,6 +20,7 @@ $(function () {
                     addClass('btn-outline-primary follow-btn').
                     text('Follow');
                 }
+                $num_follower.text(data.num_follower);
                 console.log(data.message);
             },
             // Error
