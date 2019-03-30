@@ -7,7 +7,7 @@ from django.http import HttpResponseRedirect, Http404, HttpResponseBadRequest
 from django.http.response import JsonResponse
 from django.shortcuts import redirect, render
 from django.template.loader import get_template
-from django.views.generic import TemplateView, UpdateView, ListView
+from django.views.generic import TemplateView, UpdateView, ListView, DetailView
 from django.urls import reverse_lazy
 
 from .models import Profile
@@ -116,9 +116,15 @@ class UpdateProfileView(UpdateView):
     success_url = reverse_lazy('home')
 
 
+class UserDetailView(DetailView):
+    model = User
+    template_name = 'users/user_detail.html'
+    context_object_name = 'target_user'
+
+
 class UserListView(ListView):
     model = User
-    template_name = "user_list.html"
+    template_name = "users/user_list.html"
 
 
 @login_required
@@ -137,8 +143,6 @@ def follow_toggle(request, pk):
         command = "follow"
     # ボタンに対応するユーザーのフォロワー数
     num_follower = len(user.profile.followed_by.all())
-    # ボタンに対応するユーザーのフォロー数
-    num_follow = len(user.profile.follows.all())
     data = {
         "message": message,
         "command": command,

@@ -9,7 +9,8 @@ User = get_user_model()
 
 
 class Tone(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(
+        User, related_name='tones', on_delete=models.CASCADE)
     name = models.CharField(max_length=124, verbose_name='プリセット名')
     instrument = models.ManyToManyField(
         Instrument, blank=True)

@@ -13,6 +13,7 @@ class CreateInstrumentView(CreateView):
 
     def form_valid(self, form):
         self.object = form.save()
+        print(self.request.user)
         self.object.owner = self.request.user
         return super().form_valid(form)
 

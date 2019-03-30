@@ -24,7 +24,7 @@ class Pedal(models.Model):
     ]
     name = models.CharField(max_length=128, verbose_name='エフェクターの名前')
     owner = models.ForeignKey(
-        get_user_model(), on_delete=models.CASCADE, null=True)
+        get_user_model(), on_delete=models.CASCADE, related_name='pedals', null=True)
     type = models.CharField(
         max_length=128, choices=PEDAL_TYPES, verbose_name='エフェクターの種類', default="コンパクトエフェクター")
     effect = models.CharField(

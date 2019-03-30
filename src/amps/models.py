@@ -12,7 +12,7 @@ class Amp(models.Model):
     ]
     name = models.CharField(max_length=128, verbose_name='アンプ名')
     owner = models.ForeignKey(
-        get_user_model(), on_delete=models.CASCADE, null=True)
+        get_user_model(), on_delete=models.CASCADE, related_name='amps', null=True)
     brand = models.CharField(max_length=128, verbose_name='ブランド名')
     type = models.CharField(
         max_length=128, choices=AMP_TYPES, verbose_name='アンプの種類', default="真空管アンプ")
