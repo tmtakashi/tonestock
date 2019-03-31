@@ -1,7 +1,19 @@
 $(function () {
     let allPedalInfo = {};
     let order = ["pedal1", "pedal2"]
-    let numPedals = $("#pedal-sortable").children('li').length;
+
+
+    // これはページ読み込み時に定義されてしまうので、ペダル追加後には更新する必要あり
+    let numPedals = $("#pedal-sortable").children('li').length;　
+
+    // ペダル追加
+    $("#add-pedal").click(function () {
+        let newPedalNum = numPedals + 1;
+        let newPedal = $("#pedal-template").html().replace(/__pedal_number__/g, newPedalNum);
+        $("#pedal-sortable").append(newPedal);
+        numPedals = newPedalNum;
+    });
+
 
     for (let i = 1; i <= numPedals; i++) {
         allPedalInfo[`pedal${i}`] = {}
@@ -27,7 +39,6 @@ $(function () {
     
     // ajaxで送信
     $("#confirm").click(function () {
-        console.log(order);
         $.ajax({
             url: $(this).attr("data-href"),
             data: {

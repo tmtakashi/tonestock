@@ -54,23 +54,10 @@
                                 </div>
                             </div>
                         </li>
-                        <li class="list-inline-item" id="pedal2">
-                            <div class="card mx-1 pedal-card">
-                                <div class="card-body">
-                                    2
-                                    <div class="form-group">
-                                        <label for="">Pedal Name:</label>
-                                        <input class="form-conrol" type="text" id="pedal2-name">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="">Brand: </label>
-                                        <input class="form-conrol" type="text" id="pedal2-brand">
-                                    </div>
-                                    <button type="button" class="btn btn-primary" id='pedal2-button'>OK</button>
-                                </div>
-                            </div>
-                        </li>
                     </ul>
+                    <!-- ペダル追加 -->
+                    <button type="button" class="btn btn-success" id="add-pedal">+</button>
+                    <!-- 送信 -->
                     <button type="button" class="btn btn-primary" data-href="{% url 'tones:test' %}" id="confirm">OK</button>
                 </div>
                 <!-- <button type="button" class="btn btn-success add-pedal align-self-center" >+</button> -->
@@ -121,4 +108,23 @@
 
 {% block extrajs %}
 <script src="{% static 'tones/js/add_tones.js' %}"></script>
+
+<script type="text/html" id='pedal-template'>
+    <li class="list-inline-item" id="pedal__pedal_number__">
+        <div class="card mx-1 pedal-card">
+            <div class="card-body">
+                __pedal_number__
+                <div class="form-group">
+                    <label for="">Pedal Name:</label>
+                    <input class="form-conrol" type="text" id="pedal__pedal_number__-name">
+                </div>
+                <div class="form-group">
+                    <label for="">Brand: </label>
+                    <input class="form-conrol" type="text" id="pedal__pedal_number__-brand">
+                </div>
+                <button type="button" class="btn btn-primary" id='pedal__pedal_number__-button'>OK</button>
+            </div>
+        </div>
+    </li>
+</script>
 {% endblock %}
