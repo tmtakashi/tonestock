@@ -17,9 +17,9 @@
             {{ formset.tone.name|add_class:"form-control" }}
         </div>
         <div class="px-auto">
-            <div class="row justify-content-center">
+            <div class="row">
                 <!-- Instruments -->
-                <div class="card mx-4 pedal-card" style="height: 20rem;">
+                <div class="card mx-2 pedal-card" style="height: 20rem;">
                     <div class="col-sm card-body">
                         <div class="form-group">
                             {{ formset.instrument.name.label }}
@@ -36,49 +36,46 @@
                     </div>
                 </div>
                 <!-- Pedals -->
-                <div id="pedal-area">
-                    <ul id='pedal-sortable'>
-                        <li id='1'>
-                            <div class="card mx-1 pedal-card" style="height: 20rem;">
-                                <div class="col-sm card-body">
+                <div class="col-sm-7" id="pedal-area">
+                    <ul class="list-inline" id='pedal-sortable'>
+                        <li class="list-inline-item" id="pedal1">
+                            <div class="card mx-1 pedal-card">
+                                <div class="card-body">
+                                    1
                                     <div class="form-group">
-                                        {{ formset.pedal.name.label }}
-                                        {{ formset.pedal.name|add_class:"form-control" }}
+                                        <label for="">Pedal Name:</label>
+                                        <input class="form-conrol" type="text" id="pedal1-name">
                                     </div>
                                     <div class="form-group">
-                                        {{ formset.pedal.brand.label }}
-                                        {{ formset.pedal.brand|add_class:"form-control" }}
+                                        <label for="">Brand: </label>
+                                        <input class="form-conrol" type="text" id="pedal1-brand">
                                     </div>
-                                    <div class="form-group">
-                                        {{ formset.pedal.type.label}} 
-                                        {{ formset.pedal.type|add_class:"form-check-input" }}
-                                    </div>
+                                    <button type="button" class="btn btn-primary" id='pedal1-button'>OK</button>
                                 </div>
                             </div>
                         </li>
-                        <li id='2'>
-                            <div class="card mx-1 pedal-card" style="height: 20rem;">
-                                <div class="col-sm card-body">
+                        <li class="list-inline-item" id="pedal2">
+                            <div class="card mx-1 pedal-card">
+                                <div class="card-body">
+                                    2
                                     <div class="form-group">
-                                        {{ formset.pedal.name.label }}
-                                        {{ formset.pedal.name|add_class:"form-control" }}
+                                        <label for="">Pedal Name:</label>
+                                        <input class="form-conrol" type="text" id="pedal2-name">
                                     </div>
                                     <div class="form-group">
-                                        {{ formset.pedal.brand.label }}
-                                        {{ formset.pedal.brand|add_class:"form-control" }}
+                                        <label for="">Brand: </label>
+                                        <input class="form-conrol" type="text" id="pedal2-brand">
                                     </div>
-                                    <div class="form-group">
-                                        {{ formset.pedal.type.label}} 
-                                        {{ formset.pedal.type|add_class:"form-check-input" }}
-                                    </div>
+                                    <button type="button" class="btn btn-primary" id='pedal2-button'>OK</button>
                                 </div>
                             </div>
                         </li>
                     </ul>
+                    <button type="button" class="btn btn-primary" data-href="{% url 'tones:test' %}" id="confirm">OK</button>
                 </div>
                 <!-- <button type="button" class="btn btn-success add-pedal align-self-center" >+</button> -->
                 <!-- Amp -->
-                <div class="card mx-5" style="height: 20rem;">
+                <div class="card mx-2" style="height: 20rem;">
                     <div class="col-sm card-body">
                         <div class="form-group">
                             {{ formset.amp.name.label }} 
@@ -100,6 +97,26 @@
     </form>    
 </div>
 
+
+<div class="modal fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="label1" aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="">Pedal Name:</label>
+                <input class="form-conrol" type="text">
+            </div>
+            <div class="form-group">
+                    <label for="">Brand: </label>
+                    <input class="form-conrol" type="text">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+</div>
+</div>      
 {% endblock %}
 
 {% block extrajs %}

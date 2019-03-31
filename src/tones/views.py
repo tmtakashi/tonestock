@@ -1,7 +1,9 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 from django.http import Http404
+from django.http.response import JsonResponse
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, DeleteView
+from django.views.generic import ListView, DetailView, DeleteView, View
 from django.urls import reverse_lazy
 from django.shortcuts import redirect, get_object_or_404
 
@@ -99,3 +101,15 @@ class ToneDetailView(DetailView):
 class ToneDeleteView(DeleteView):
     model = Tone
     success_url = reverse_lazy('tones:user_tone_list')
+
+
+@login_required
+def ajax_test(request):
+    info = request.GET.get('allPedalInfo')
+    print("="*80)
+    print(info)
+    print("="*80)
+    data = {
+        "success": True,
+    }
+    return JsonResponse(data)
