@@ -17,6 +17,16 @@ $(function () {
         numPedals = newPedalNum;
     });
 
+    // ペダル削除
+    $(document).on('click', ".remove-pedal", function () {
+        console.log("clicked");
+        let newPedalNum = numPedals - 1;
+        $(this)
+            .parent()
+            .parent()
+            .parent()
+            .remove();
+    });
 
     for (let i = 1; i <= numPedals; i++) {
         $(`#pedal${i}-button`).on('click', function () {
