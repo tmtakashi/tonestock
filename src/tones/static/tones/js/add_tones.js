@@ -1,24 +1,24 @@
 $(function () {
-    let allPedalInfo = {};
-    let order = ["pedal1", "pedal2"]
-
-
-    // これはページ読み込み時に定義されてしまうので、ペダル追加後には更新する必要あり
+    // 初期化
+    let allPedalInfo = {
+        'pedal1': {}
+    };
     let numPedals = $("#pedal-sortable").children('li').length;　
+
+    let order = ["pedal1"];
 
     // ペダル追加
     $("#add-pedal").click(function () {
         let newPedalNum = numPedals + 1;
         let newPedal = $("#pedal-template").html().replace(/__pedal_number__/g, newPedalNum);
         $("#pedal-sortable").append(newPedal);
+        order.push(`pedal${newPedalNum}`);
+        allPedalInfo[`pedal${newPedalNum}`] = {};
         numPedals = newPedalNum;
     });
 
 
     for (let i = 1; i <= numPedals; i++) {
-        allPedalInfo[`pedal${i}`] = {}
-        allPedalInfo[`pedal${i}`]['order'] = order.indexOf(`pedal${i}`) + 1;
-
         $(`#pedal${i}-button`).on('click', function () {
             allPedalInfo[`pedal${i}`]['name'] = $(`#pedal${i}-name`).val();
             allPedalInfo[`pedal${i}`]['brand'] = $(`#pedal${i}-brand`).val();
@@ -31,7 +31,7 @@ $(function () {
             order = $(this).sortable("toArray");
             order.forEach(function (pedal) {
                 let pedalOrder = order.indexOf(pedal) + 1;
-                allPedalInfo[pedal]['order'] = pedalOrder
+                allPedalInfo[pedal]['order'] = pedalOrder;
             });
         }
     }); 
