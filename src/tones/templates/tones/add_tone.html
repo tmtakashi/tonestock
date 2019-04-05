@@ -37,30 +37,27 @@
                 </div>
                 <!-- Pedals -->
                 <div class="col-sm-7" id="pedal-area">
-                    <ul class="list-inline" id='pedal-sortable'>
-                        <li class="list-inline-item" id="pedal1">
-                            <div class="card mx-1 pedal-card">
-                                <div class="card-body">
-                                    1
-                                    <div class="form-group">
-                                        <label for="">Pedal Name:</label>
-                                        <input class="form-conrol" type="text" id="pedal1-name">
+                    <ul class="list-inline">
+                        <draggable v-modal="pedals">
+                            <li 
+                            v-for="pedal in pedals"
+                            :key="pedal.no" 
+                            class="list-inline-item">
+                                <div class="card">
+                                    <div class="card-body">
+                                        {% verbatim %}
+                                        {{ pedal.no }}<br>
+                                        {{ pedal.name }}<br>
+                                        {{ pedal.brand }}
+                                        {% endverbatim %}
                                     </div>
-                                    <div class="form-group">
-                                        <label for="">Brand: </label>
-                                        <input class="form-conrol" type="text" id="pedal1-brand">
-                                    </div>
-                                    <button type="button" class="btn btn-primary" id='pedal1-button'>OK</button>
-                                    <!-- ペダル削除 -->
-                                    <button type="button" class="btn btn-danger remove-pedal">-</button>
                                 </div>
-                            </div>
-                        </li>
+                            </li>
+                        </draggable>
                     </ul>
-                    <!-- ペダル追加 -->
-                    <button type="button" class="btn btn-success" id="add-pedal">+</button>
-                    <!-- 送信 -->
-                    <button type="button" class="btn btn-primary" data-href="{% url 'tones:test' %}" id="confirm">OK</button>
+                    Name: <input type="text" v-model="name"><br>
+                    Brand: <input type="text" v-model="brand">
+                    <button type="button" class="btn btn-primary" @click="addPedal">+</button>
                 </div>
                 <!-- <button type="button" class="btn btn-success add-pedal align-self-center" >+</button> -->
                 <!-- Amp -->
