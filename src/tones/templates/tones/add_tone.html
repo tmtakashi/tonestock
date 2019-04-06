@@ -38,7 +38,7 @@
                 <!-- Pedals -->
                 <div class="col-sm-7" id="pedal-area">
                     <ul class="list-inline">
-                        <draggable>
+                        <draggable v-model='pedals'>
                             <pedal-item
                             v-for="pedal in pedals"
                             :key="pedal.no"
@@ -49,10 +49,29 @@
                             @destroy="handleDestroy"></pedal-item>
                         </draggable>
                     </ul>
-                    Name: <input type="text" v-model="addName"><br>
-                    Brand: <input type="text" v-model="addBrand">
-                    <button type="button" class="btn btn-primary" @click="addPedal">+</button>
-                    <!-- Modal -->
+                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                    data-target="#pedalAddModal">+</button>
+                    <!-- Add Pedal Modal -->
+                    <div class="modal fade" id="pedalAddModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Add Pedal</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <div class="modal-body">
+                                Name: <input type="text" v-model="addName"><br>
+                                Brand: <input type="text" v-model="addBrand">
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" @click="addPedal">Add Pedal</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    <!-- Edit Pedal Modal -->
                     <div class="modal fade" id="pedalEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                         <div class="modal-content">
