@@ -38,28 +38,40 @@
                 <!-- Pedals -->
                 <div class="col-sm-7" id="pedal-area">
                     <ul class="list-inline">
-                        <draggable v-modal="pedals">
-                            <li 
+                        <draggable>
+                            <pedal-item
                             v-for="pedal in pedals"
-                            :key="pedal.no" 
-                            class="list-inline-item">
-                                <div class="card">
-                                    <div class="card-body">
-                                        {% verbatim %}
-                                        {{ pedal.no }}<br>
-                                        {{ pedal.name }}<br>
-                                        {{ pedal.brand }}
-                                        {% endverbatim %}
-                                    </div>
-                                </div>
-                            </li>
+                            :key="pedal.no"
+                            v-bind:no="pedal.no"
+                            v-bind:name="pedal.name"
+                            v-bind:brand="pedal.brand"
+                            v-on:edit="handleEdit"></pedal-item>
                         </draggable>
                     </ul>
                     Name: <input type="text" v-model="name"><br>
                     Brand: <input type="text" v-model="brand">
                     <button type="button" class="btn btn-primary" @click="addPedal">+</button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="pedalEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Edit Pedal</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <div class="modal-body">
+                                Name: <input type="text" v-model="name"><br>
+                                Brand: <input type="text" v-model="brand">
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" @click="saveEdit">Save changes</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
                 </div>
-                <!-- <button type="button" class="btn btn-success add-pedal align-self-center" >+</button> -->
                 <!-- Amp -->
                 <div class="card mx-2" style="height: 20rem;">
                     <div class="col-sm card-body">
