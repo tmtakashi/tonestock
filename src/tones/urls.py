@@ -10,5 +10,5 @@ urlpatterns = [
     path('<int:pk>/detail/', ToneDetailView.as_view(), name='detail'),
     path('<int:pk>/edit/', tone_edit_view, name='edit_tone'),
     path('<int:pk>/delete/', ToneDeleteView.as_view(), name='delete'),
-    path('test', ajax_test, name='test'),
+    path('test/', ajax_test, name='test'),
 ]

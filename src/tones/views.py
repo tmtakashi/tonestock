@@ -4,6 +4,7 @@ from django.http import Http404
 from django.http.response import JsonResponse
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, DeleteView, View
+from django.views.decorators.csrf import csrf_protect
 from django.urls import reverse_lazy
 from django.shortcuts import redirect, get_object_or_404
 
@@ -104,8 +105,9 @@ class ToneDeleteView(DeleteView):
 
 
 @login_required
+@csrf_protect
 def ajax_test(request):
-    info = request.GET.get('allPedalInfo')
+    info = request.body.decode('utf-8')
     print("="*80)
     print(info)
     print("="*80)

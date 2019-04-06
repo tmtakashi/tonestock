@@ -68,7 +68,25 @@ var app = new Vue({
             })
             this.pedals = this.pedals.slice(0, idx).concat(newNoPedals)
             this.no -= 1
-            
+        },
+        submitPedal: function () {
+            var csrfToken = $("[name=csrfmiddlewaretoken]").val();
+            axios.post(
+                'http://127.0.0.1:8000/tones/test/',
+                {
+                    data: {
+                        pedals: this.pedals
+                    }
+                }, {
+                    headers: {"X-CSRFToken": csrfToken}
+                }
+                
+            )
+                .then(response => {
+                console.log(response)
+            })
         }
-    },
+    }
 })
+
+
