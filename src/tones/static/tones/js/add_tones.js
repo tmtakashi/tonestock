@@ -74,9 +74,7 @@ var app = new Vue({
             axios.post(
                 'http://127.0.0.1:8000/tones/test/',
                 {
-                    data: {
-                        pedals: this.pedals
-                    }
+                    pedals: this.pedals
                 }, {
                     headers: {"X-CSRFToken": csrfToken}
                 }
