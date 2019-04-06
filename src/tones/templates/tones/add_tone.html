@@ -49,8 +49,8 @@
                             @destroy="handleDestroy"></pedal-item>
                         </draggable>
                     </ul>
-                    Name: <input type="text" v-model="name"><br>
-                    Brand: <input type="text" v-model="brand">
+                    Name: <input type="text" v-model="addName"><br>
+                    Brand: <input type="text" v-model="addBrand">
                     <button type="button" class="btn btn-primary" @click="addPedal">+</button>
                     <!-- Modal -->
                     <div class="modal fade" id="pedalEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -63,8 +63,8 @@
                             </button>
                             </div>
                             <div class="modal-body">
-                                Name: <input type="text" v-model="name"><br>
-                                Brand: <input type="text" v-model="brand">
+                                Name: <input type="text" v-model="editName"><br>
+                                Brand: <input type="text" v-model="editBrand">
                             </div>
                             <div class="modal-footer">
                             <button type="button" class="btn btn-primary" data-dismiss="modal" @click="saveEdit">Save changes</button>

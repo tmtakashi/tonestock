@@ -33,25 +33,30 @@ var app = new Vue({
     el: '#pedal-area',
     data: {
         no: 0,
-        name: '',
-        brand: '',
+        addName: '',
+        addBrand: '',
+        editName: '',
+        editBrand: '',
         pedals: [],
         pedalEditNo: 0 
     },
     methods: {
         addPedal: function () {
-            this.pedals.push({ no: this.no += 1, name: this.name, brand: this.brand })
-            this.name = ''
-            this.brand = ''
+            this.pedals.push({ no: this.no += 1, name: this.addName, brand: this.addBrand })
+            this.addName = ''
+            this.addBrand = ''
         },
         handleEdit: function (no) {
             this.pedalEditNo = no
+            let idx = no - 1
+            this.editName = this.pedals[idx].name
+            this.editBrand = this.pedals[idx].brand
         },
         saveEdit: function () {
             let idx = this.pedalEditNo - 1
             Vue.set(this.pedals,
                 idx,
-                {no: this.pedalEditNo, name: this.name, brand: this.brand}
+                {no: this.pedalEditNo, name: this.editName, brand: this.editBrand}
             )
         },
         handleDestroy: function (no) {
