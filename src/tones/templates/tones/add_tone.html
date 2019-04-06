@@ -45,7 +45,8 @@
                             v-bind:no="pedal.no"
                             v-bind:name="pedal.name"
                             v-bind:brand="pedal.brand"
-                            v-on:edit="handleEdit"></pedal-item>
+                            @edit="handleEdit"
+                            @destroy="handleDestroy"></pedal-item>
                         </draggable>
                     </ul>
                     Name: <input type="text" v-model="name"><br>
