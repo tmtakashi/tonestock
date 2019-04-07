@@ -69,6 +69,28 @@ var app = new Vue({
             this.pedals = this.pedals.slice(0, idx).concat(newNoPedals)
             this.no -= 1
         },
+        reorderAfterDrag: function (event) {
+            let newIndex = event.newIndex
+            let oldIndex = event.oldIndex
+            this.pedals[newIndex].no = newIndex + 1
+            if (newIndex < oldIndex) {
+                let newNoPedals = this.pedals.slice(newIndex + 1, oldIndex + 1).map(function (pedal) {
+                    let newNo = pedal.no + 1
+                    return { no: newNo, name: pedal.name, brand: pedal.brand }
+                })
+                this.pedals = this.pedals.slice(0, newIndex + 1)
+                    .concat(newNoPedals)
+                    .concat(this.pedals.slice(oldIndex + 1))
+            } else if (newIndex > oldIndex) {
+                let newNoPedals = this.pedals.slice(oldIndex, newIndex).map(function (pedal) {
+                    let newNo = pedal.no - 1
+                    return { no: newNo, name: pedal.name, brand: pedal.brand }
+                })
+                this.pedals = this.pedals.slice(0, oldIndex)
+                    .concat(newNoPedals)
+                    .concat(this.pedals.slice(newIndex))
+            }
+        },
         submitPedal: function () {
             var csrfToken = $("[name=csrfmiddlewaretoken]").val();
             axios.post(
