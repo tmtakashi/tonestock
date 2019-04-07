@@ -1,17 +1,39 @@
+// ============TONENAME===============
+Vue.component('tone-name', {
+    props: ['name'],
+    template: `
+    <div>
+        <p>プリセット名</p>
+        <h4>{{ name }}</h4>
+        <button type='button' 
+        class="btn btn-success"
+        data-toggle="modal"
+        data-target="#toneNameEditModal"
+        @click="editToneName">Edit</button>
+    </div>
+    `,
+    methods: {
+        editToneName: function () {
+            this.$emit("editToneName")
+        }
+    }
+})
+
+// ==============PEDAL=================
+
 Vue.component('pedal-item', {
     props: ['no', 'name', 'brand'],
     template: `
     <li class="list-inline-item">
         <div class="card">
             <div class="card-body">
-                {{ no }}<br>
                 Name: {{ name }}<br>
                 Brand: {{ brand }}<br>
                 <button type='button' 
                 class="btn btn-success"
                 data-toggle="modal"
                 data-target="#pedalEditModal"
-                @click="edit">Edit</button>
+                @click="editPedal">Edit</button>
                 <button type='button' 
                 class="btn btn-danger"
                 @click="destroy">Delete</button>
@@ -20,8 +42,8 @@ Vue.component('pedal-item', {
     </li>
     `,
     methods: {
-        edit: function () {
-            this.$emit("edit", this.no)
+        editPedal: function () {
+            this.$emit("editPedal", this.no)
         },
         destroy: function () {
             this.$emit("destroy", this.no)
@@ -29,34 +51,48 @@ Vue.component('pedal-item', {
     }
 })
 
-var app = new Vue({
-    el: '#pedal-area',
+// ===========PARENT COMPONENT============
+
+new Vue({
+    el: '#add-tone',
     data: {
+        // ---- TONE NAME ----
+        toneName: 'Untitled Tone',
+        editToneName: '',
+        // ----PEDAL----
         no: 0,
-        addName: '',
-        addBrand: '',
-        editName: '',
-        editBrand: '',
+        addPedalName: '',
+        addPedalBrand: '',
+        editPedalName: '',
+        editPedalBrand: '',
         pedals: [],
         pedalEditNo: 0 
     },
     methods: {
-        addPedal: function () {
-            this.pedals.push({ no: this.no += 1, name: this.addName, brand: this.addBrand })
-            this.addName = ''
-            this.addBrand = ''
+        // ---- TONE NAME ----
+        handleEditToneName: function () {
+            this.editToneName = this.toneName
         },
-        handleEdit: function (no) {
+        saveToneNameEdit: function () {
+            this.toneName = this.editToneName
+        },
+        // ----PEDAL----
+        addPedal: function () {
+            this.pedals.push({ no: this.no += 1, name: this.addPedalName, brand: this.addPedalBrand })
+            this.addPedalName = ''
+            this.addPedalBrand = ''
+        },
+        handleEditPedal: function (no) {
             this.pedalEditNo = no
             let idx = no - 1
             this.editName = this.pedals[idx].name
-            this.editBrand = this.pedals[idx].brand
+            this.editPedalBrand = this.pedals[idx].brand
         },
-        saveEdit: function () {
+        savePedalEdit: function () {
             let idx = this.pedalEditNo - 1
             Vue.set(this.pedals,
                 idx,
-                {no: this.pedalEditNo, name: this.editName, brand: this.editBrand}
+                {no: this.pedalEditNo, name: this.editName, brand: this.editPedalBrand}
             )
         },
         handleDestroy: function (no) {

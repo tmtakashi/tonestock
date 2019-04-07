@@ -8,13 +8,34 @@
 {% block content %}
 <link href="{% static 'tones/css/add_tone.css' %}" rel="stylesheet">
 
-<div class="contain mt-5">
+<div class="contain mt-5" id="add-tone">
     <h2 class="title">プリセット作成</h2>
     <form method="POST">
         {% csrf_token %}
-        <div class="form-group" style="width: 15rem;">
-            {{ formset.tone.name.label }}
-            {{ formset.tone.name|add_class:"form-control" }}
+        <div id="tone-name">
+            <tone-name v-bind:name="toneName"></tone-name>
+            <!-- Edit Tone Name Modal -->
+            <div class="modal fade" id="toneNameEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Change Tone Name</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="tone-edit-name">Name</label>
+                                <input class="form-control" id="tone-edit-name" type="text" v-model="editToneName">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" @click="saveToneNameEdit">Save changes</button>
+                        </div>
+                    </div>
+                    </div>
+                </div>
         </div>
         <div class="px-auto">
             <div class="row">
@@ -45,7 +66,7 @@
                             v-bind:no="pedal.no"
                             v-bind:name="pedal.name"
                             v-bind:brand="pedal.brand"
-                            @edit="handleEdit"
+                            @editPedal="handleEditPedal"
                             @destroy="handleDestroy"></pedal-item>
                         </draggable>
                     </ul>
@@ -65,11 +86,11 @@
                             <div class="modal-body">
                                 <div class="form-group">
                                     <label for="pedal-add-name">Name</label>
-                                    <input class="form-control" id="pedal-add-name" type="text" v-model="addName">
+                                    <input class="form-control" id="pedal-add-name" type="text" v-model="addPedalName">
                                 </div>
                                 <div class="form-group">
                                     <label for="pedal-add-brand">Brand</label>
-                                    <input class="form-control" id="pedal-add-brand" type="text" v-model="addBrand">
+                                    <input class="form-control" id="pedal-add-brand" type="text" v-model="addPedalBrand">
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -91,15 +112,15 @@
                             <div class="modal-body">
                                 <div class="form-group">
                                     <label for="pedal-edit-name">Name</label>
-                                    <input class="form-control" id="pedal-edit-name" type="text" v-model="editName">
+                                    <input class="form-control" id="pedal-edit-name" type="text" v-model="editPedalName">
                                 </div>
                                 <div class="form-group">
                                     <label for="pedal-edit-brand">Brand</label>
-                                    <input class="form-control" id="pedal-edit-brand" type="text" v-model="editBrand">
+                                    <input class="form-control" id="pedal-edit-brand" type="text" v-model="editPedalBrand">
                                 </div>
                             </div>
                             <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-dismiss="modal" @click="saveEdit">Save changes</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" @click="savePedalEdit">Save changes</button>
                             </div>
                         </div>
                         </div>
