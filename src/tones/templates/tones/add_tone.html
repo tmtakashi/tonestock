@@ -63,8 +63,14 @@
                             </button>
                             </div>
                             <div class="modal-body">
-                                Name: <input type="text" v-model="addName"><br>
-                                Brand: <input type="text" v-model="addBrand">
+                                <div class="form-group">
+                                    <label for="pedal-add-name">Name</label>
+                                    <input class="form-control" id="pedal-add-name" type="text" v-model="addName">
+                                </div>
+                                <div class="form-group">
+                                    <label for="pedal-add-brand">Brand</label>
+                                    <input class="form-control" id="pedal-add-brand" type="text" v-model="addBrand">
+                                </div>
                             </div>
                             <div class="modal-footer">
                             <button type="button" class="btn btn-primary" data-dismiss="modal" @click="addPedal">Add Pedal</button>
@@ -83,8 +89,14 @@
                             </button>
                             </div>
                             <div class="modal-body">
-                                Name: <input type="text" v-model="editName"><br>
-                                Brand: <input type="text" v-model="editBrand">
+                                <div class="form-group">
+                                    <label for="pedal-edit-name">Name</label>
+                                    <input class="form-control" id="pedal-edit-name" type="text" v-model="editName">
+                                </div>
+                                <div class="form-group">
+                                    <label for="pedal-edit-brand">Brand</label>
+                                    <input class="form-control" id="pedal-edit-brand" type="text" v-model="editBrand">
+                                </div>
                             </div>
                             <div class="modal-footer">
                             <button type="button" class="btn btn-primary" data-dismiss="modal" @click="saveEdit">Save changes</button>
