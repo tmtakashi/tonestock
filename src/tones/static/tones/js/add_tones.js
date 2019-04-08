@@ -174,6 +174,11 @@ new Vue({
             axios.post(
                 'http://127.0.0.1:8000/tones/test/',
                 {
+                    instrument: {
+                        name: this.instrumentName,
+                        brand: this.instrumentBrand,
+                        type: this.instrumentType
+                    },
                     pedals: this.pedals
                 }, {
                     headers: {"X-CSRFToken": csrfToken}
