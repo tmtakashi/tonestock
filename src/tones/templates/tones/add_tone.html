@@ -10,7 +10,7 @@
 
 <div class="contain mt-5" id="add-tone">
     <h2 class="title">プリセット作成</h2>
-    <form method="POST">
+    
         {% csrf_token %}
         <div id="tone-name">
             <tone-name v-bind:name="toneName"></tone-name>
@@ -43,8 +43,9 @@
                 <instrument
                 v-bind:name="instrumentName"
                 v-bind:brand="instrumentBrand"
+                v-bind:type="instrumentType"
                 @edit-instrument="handleEditInstrument"></instrument>
-                <!-- Edit Pedal Modal -->
+                <!-- Edit Instrument Modal -->
                 <div class="modal fade" id="instrumentEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -56,12 +57,24 @@
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
-                                <label for="pedal-edit-name">Name</label>
-                                <input class="form-control" id="pedal-edit-name" type="text" v-model="editInstrumentName">
+                                <label for="instrument-edit-name">Name</label>
+                                <input class="form-control" id="instrument-edit-name" type="text" v-model="editInstrumentName">
                             </div>
                             <div class="form-group">
-                                <label for="pedal-edit-brand">Brand</label>
-                                <input class="form-control" id="pedal-edit-brand" type="text" v-model="editInstrumentBrand">
+                                <label for="instrument-edit-brand">Brand</label>
+                                <input class="form-control" id="instrument-edit-brand" type="text" v-model="editInstrumentBrand">
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="instrument-type" id="guitar" value="Guitar" v-model="editInstrumentType" :checked="instrumentType === 'Guitar'">
+                                <label class="form-check-label" for="guitar">
+                                    Guitar
+                                </label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="instrument-type" id="bass" value="Bass" v-model="editInstrumentType" :checked="instrumentType === 'Bass'">
+                                <label class="form-check-label" for="bass">
+                                    Bass
+                                </label>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -140,27 +153,9 @@
                         </div>
                     </div>
                 </div>
-                <!-- Amp -->
-                <div class="card mx-2" style="height: 20rem;">
-                    <div class="col-sm card-body">
-                        <div class="form-group">
-                            {{ formset.amp.name.label }} 
-                            {{ formset.amp.name|add_class:"form-control" }}
-                        </div>
-                        <div class="form-group">
-                            {{ formset.amp.brand.label }} 
-                            {{ formset.amp.brand|add_class:"form-control" }}
-                        </div>
-                        <div class="form-group">
-                            {{ formset.amp.type.label }}
-                            {{ formset.amp.type|add_class:"form-check-input" }}
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
-        <input class="btn btn-primary mt-5" type="submit" value="登録">
-    </form>    
+          
 </div>
 
 
