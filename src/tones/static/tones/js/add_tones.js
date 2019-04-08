@@ -1,4 +1,4 @@
-// ============TONENAME===============
+// ============TONE NAME===============
 Vue.component('tone-name', {
     props: ['name'],
     template: `
@@ -15,6 +15,30 @@ Vue.component('tone-name', {
     methods: {
         editToneName: function () {
             this.$emit("editToneName")
+        }
+    }
+})
+
+// ============INSTRUMENT===============
+Vue.component('instrument', {
+    props: ['name', 'brand', 'type'],
+    template: `
+    <div class="card">
+        <div class="card-body" style="height: 20rem;">
+            Name: {{ name }}<br>
+            Brand: {{ brand }}<br>
+            Type: {{ type }}<br>
+            <button type='button' 
+            class="btn btn-success"
+            data-toggle="modal"
+            data-target="#instrumentEditModal"
+            @click="editInstrument">Edit</button>
+        </div>
+    </div>
+    `,
+    methods: {
+        editInstrument: function () {
+            this.$emit("edit-instrument")
         }
     }
 })
@@ -43,7 +67,7 @@ Vue.component('pedal-item', {
     `,
     methods: {
         editPedal: function () {
-            this.$emit("editPedal", this.no)
+            this.$emit("edit-pedal", this.no)
         },
         destroy: function () {
             this.$emit("destroy", this.no)
@@ -59,6 +83,13 @@ new Vue({
         // ---- TONE NAME ----
         toneName: 'Untitled Tone',
         editToneName: '',
+        // ---- INSTRUMENT ----
+        instrumentName: 'Untitled Name',
+        instrumentBrand: 'Untitled Brand',
+        instrumentType: 'Guitar',
+        editInstrumentName: '',
+        editInstrumentBrand: '',
+        editInstrumentType: '',
         // ----PEDAL----
         no: 0,
         addPedalName: '',
@@ -76,6 +107,17 @@ new Vue({
         saveToneNameEdit: function () {
             this.toneName = this.editToneName
         },
+        // ---- INSTRUMENT ----
+        handleEditInstrument: function () {
+            this.editInstrumentName = this.instrumentName
+            this.editInstrumentBrand = this.instrumentBrand
+            this.editInstrumentType = this.instrumentType
+        },
+        saveInstrumentEdit: function () {
+            this.instrumentName = this.editInstrumentName
+            this.instrumentBrand = this.editInstrumentBrand
+            this.instrumentType = this.editInstrumentType
+        },
         // ----PEDAL----
         addPedal: function () {
             this.pedals.push({ no: this.no += 1, name: this.addPedalName, brand: this.addPedalBrand })
@@ -92,7 +134,7 @@ new Vue({
             let idx = this.pedalEditNo - 1
             Vue.set(this.pedals,
                 idx,
-                {no: this.pedalEditNo, name: this.editName, brand: this.editPedalBrand}
+                {no: this.pedalEditNo, name: this.editPedalName, brand: this.editPedalBrand}
             )
         },
         handleDestroy: function (no) {

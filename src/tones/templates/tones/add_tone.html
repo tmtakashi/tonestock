@@ -40,20 +40,34 @@
         <div class="px-auto">
             <div class="row">
                 <!-- Instruments -->
-                <div class="card mx-2 pedal-card" style="height: 20rem;">
-                    <div class="col-sm card-body">
-                        <div class="form-group">
-                            {{ formset.instrument.name.label }}
-                            {{ formset.instrument.name|add_class:"form-control" }}
+                <instrument
+                v-bind:name="instrumentName"
+                v-bind:brand="instrumentBrand"
+                @edit-instrument="handleEditInstrument"></instrument>
+                <!-- Edit Pedal Modal -->
+                <div class="modal fade" id="instrumentEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Instrument</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                         </div>
-                        <div class="form-group">
-                            {{ formset.instrument.brand.label }}
-                            {{ formset.instrument.brand|add_class:"form-control" }}
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="pedal-edit-name">Name</label>
+                                <input class="form-control" id="pedal-edit-name" type="text" v-model="editInstrumentName">
+                            </div>
+                            <div class="form-group">
+                                <label for="pedal-edit-brand">Brand</label>
+                                <input class="form-control" id="pedal-edit-brand" type="text" v-model="editInstrumentBrand">
+                            </div>
                         </div>
-                        <div class="form-check">
-                            {{ formset.instrument.type.label}} 
-                            {{ formset.instrument.type|add_class:"form-check-input" }}
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" @click="saveInstrumentEdit">Save changes</button>
                         </div>
+                    </div>
                     </div>
                 </div>
                 <!-- Pedals -->
@@ -66,7 +80,7 @@
                             v-bind:no="pedal.no"
                             v-bind:name="pedal.name"
                             v-bind:brand="pedal.brand"
-                            @editPedal="handleEditPedal"
+                            @edit-pedal="handleEditPedal"
                             @destroy="handleDestroy"></pedal-item>
                         </draggable>
                     </ul>
