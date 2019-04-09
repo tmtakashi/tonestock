@@ -93,6 +93,7 @@
                         v-bind:no="pedal.no"
                         v-bind:name="pedal.name"
                         v-bind:brand="pedal.brand"
+                        v-bind:type="pedal.type"
                         @edit-pedal="handleEditPedal"
                         @destroy="handleDestroy"></pedal-item>
                     </draggable>
@@ -117,6 +118,18 @@
                             <div class="form-group">
                                 <label for="pedal-add-brand">Brand</label>
                                 <input class="form-control" id="pedal-add-brand" type="text" v-model="addPedalBrand">
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="pedal-type-add" id="stompbox-add" value="Stomp Box" v-model="addPedalType" :checked="addPedalType == 'Stomp Box'">
+                                <label class="form-check-label" for="stompbox">
+                                    Stomp Box
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="pedal-type-add" id="multi-effects-add" value="Multi Effects" v-model="addPedalType" :checked="addPedalType === 'Multi Effects'">
+                                <label class="form-check-label" for="multi-effects">
+                                    Multi Effects
+                                </label>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -143,6 +156,18 @@
                             <div class="form-group">
                                 <label for="pedal-edit-brand">Brand</label>
                                 <input class="form-control" id="pedal-edit-brand" type="text" v-model="editPedalBrand">
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="pedal-type-edit" id="stompbox-edit" value="Stomp Box" v-model="editPedalType" :checked="editPedalType == 'Stomp Box'">
+                                <label class="form-check-label" for="stompbox">
+                                    Stomp Box
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="pedal-type-edit" id="multi-effects-edit" value="Multi Effects" v-model="editPedalType" :checked="editPedalType === 'Multi Effects'">
+                                <label class="form-check-label" for="multi-effects">
+                                    Multi Effects
+                                </label>
                             </div>
                         </div>
                         <div class="modal-footer">

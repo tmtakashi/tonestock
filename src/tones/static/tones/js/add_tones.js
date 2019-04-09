@@ -46,13 +46,14 @@ Vue.component('instrument', {
 // ==============PEDAL=================
 
 Vue.component('pedal-item', {
-    props: ['no', 'name', 'brand'],
+    props: ['no', 'name', 'brand', 'type'],
     template: `
     <li class="list-inline-item">
         <div class="card">
             <div class="card-body">
                 Name: {{ name }}<br>
                 Brand: {{ brand }}<br>
+                Type: {{ type }}<br>
                 <button type='button' 
                 class="btn btn-success"
                 data-toggle="modal"
@@ -118,8 +119,10 @@ new Vue({
         no: 0,
         addPedalName: '',
         addPedalBrand: '',
+        addPedalType: 'Stomp Box',
         editPedalName: '',
         editPedalBrand: '',
+        editPedalType: '',
         pedals: [],
         pedalEditNo: 0,
         // ---- AMP ----
@@ -151,21 +154,23 @@ new Vue({
         },
         // ----PEDAL----
         addPedal: function () {
-            this.pedals.push({ no: this.no += 1, name: this.addPedalName, brand: this.addPedalBrand })
+            this.pedals.push({ no: this.no += 1, name: this.addPedalName, brand: this.addPedalBrand, type: this.addPedalType })
             this.addPedalName = ''
             this.addPedalBrand = ''
+            this.addPedalType = 'Stomp Box'
         },
         handleEditPedal: function (no) {
             this.pedalEditNo = no
             let idx = no - 1
             this.editName = this.pedals[idx].name
             this.editPedalBrand = this.pedals[idx].brand
+            this.editPedalType = this.pedals[idx].type
         },
         savePedalEdit: function () {
             let idx = this.pedalEditNo - 1
             Vue.set(this.pedals,
                 idx,
-                {no: this.pedalEditNo, name: this.editPedalName, brand: this.editPedalBrand}
+                {no: this.pedalEditNo, name: this.editPedalName, brand: this.editPedalBrand, type: this.editPedalType}
             )
         },
         handleDestroy: function (no) {
@@ -173,7 +178,7 @@ new Vue({
             //  削除した要素以降の要素のnoを1つづつ繰り下げる
             let newNoPedals = this.pedals.slice(idx + 1).map(function (pedal) {
                 let newNo = pedal.no - 1
-                return { no: newNo, name: pedal.name, brand: pedal.brand }
+                return { no: newNo, name: pedal.name, brand: pedal.brand, type: pedal.type }
             })
             this.pedals = this.pedals.slice(0, idx).concat(newNoPedals)
             this.no -= 1
@@ -185,7 +190,7 @@ new Vue({
             if (newIndex < oldIndex) {
                 let newNoPedals = this.pedals.slice(newIndex + 1, oldIndex + 1).map(function (pedal) {
                     let newNo = pedal.no + 1
-                    return { no: newNo, name: pedal.name, brand: pedal.brand }
+                    return { no: newNo, name: pedal.name, brand: pedal.brand, type: pedal.type }
                 })
                 this.pedals = this.pedals.slice(0, newIndex + 1)
                     .concat(newNoPedals)
@@ -193,7 +198,7 @@ new Vue({
             } else if (newIndex > oldIndex) {
                 let newNoPedals = this.pedals.slice(oldIndex, newIndex).map(function (pedal) {
                     let newNo = pedal.no - 1
-                    return { no: newNo, name: pedal.name, brand: pedal.brand }
+                    return { no: newNo, name: pedal.name, brand: pedal.brand, type: pedal.type }
                 })
                 this.pedals = this.pedals.slice(0, oldIndex)
                     .concat(newNoPedals)
