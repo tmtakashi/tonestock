@@ -75,6 +75,30 @@ Vue.component('pedal-item', {
     }
 })
 
+// ============AMP===============
+Vue.component('amp', {
+    props: ['name', 'brand', 'type'],
+    template: `
+    <div class="card">
+        <div class="card-body" style="height: 20rem;">
+            Name: {{ name }}<br>
+            Brand: {{ brand }}<br>
+            Type: {{ type }}<br>
+            <button type='button' 
+            class="btn btn-success"
+            data-toggle="modal"
+            data-target="#ampEditModal"
+            @click="editAmp">Edit</button>
+        </div>
+    </div>
+    `,
+    methods: {
+        editAmp: function () {
+            this.$emit("edit-amp")
+        }
+    }
+})
+
 // ===========PARENT COMPONENT============
 
 new Vue({
@@ -97,7 +121,14 @@ new Vue({
         editPedalName: '',
         editPedalBrand: '',
         pedals: [],
-        pedalEditNo: 0 
+        pedalEditNo: 0,
+        // ---- AMP ----
+        ampName: 'Untitled Name',
+        ampBrand: 'Untitled Brand',
+        ampType: 'Solid State',
+        editAmpName: '',
+        editAmpBrand: '',
+        editAmpType: '',
     },
     methods: {
         // ---- TONE NAME ----
@@ -169,7 +200,18 @@ new Vue({
                     .concat(this.pedals.slice(newIndex))
             }
         },
-        submitPedal: function () {
+        // ---- AMP ----
+        handleEditAmp: function () {
+            this.editAmpName = this.ampName
+            this.editAmpBrand = this.ampBrand
+            this.editAmpType = this.ampType
+        },
+        saveAmpEdit: function () {
+            this.ampName = this.editAmpName
+            this.ampBrand = this.editAmpBrand
+            this.ampType = this.editAmpType
+        },
+        submit: function () {
             var csrfToken = $("[name=csrfmiddlewaretoken]").val();
             axios.post(
                 'http://127.0.0.1:8000/tones/test/',
@@ -179,7 +221,12 @@ new Vue({
                         brand: this.instrumentBrand,
                         type: this.instrumentType
                     },
-                    pedals: this.pedals
+                    pedals: this.pedals,
+                    amp: {
+                        name: this.ampName,
+                        brand: this.ampBrand,
+                        type: this.ampType
+                    },
                 }, {
                     headers: {"X-CSRFToken": csrfToken}
                 }
