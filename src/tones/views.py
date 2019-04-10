@@ -14,10 +14,8 @@ from .forms import ToneCreationMultiForm
 
 def tone_create_view(request):
     user = request.user
-    if request.method == 'GET':
-        formset = ToneCreationMultiForm(request.GET or None)
-    elif request.method == 'POST':
-        formset = ToneCreationMultiForm(request.POST)
+    if request.method == 'POST':
+        info = request.body.decode('utf-8')
         if formset.is_valid():
             tone = formset['tone'].save(commit=False)
             tone.author = user
