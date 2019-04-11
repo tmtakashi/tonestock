@@ -29,7 +29,9 @@ def tone_create_view(request):
         )
         tone.save()
 
-        return redirect('tones:user_tone_list')
+        return JsonResponse({
+            'redirect_url': reverse('tones:user_tone_list')
+        })
 
     return render(request, 'tones/add_tone.html')
 

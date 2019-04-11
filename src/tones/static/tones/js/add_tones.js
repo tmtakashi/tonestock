@@ -239,7 +239,7 @@ new Vue({
                 
             )
                 .then(response => {
-                console.log(response)
+                window.location.href = response.data.redirect_url
             })
         }
     }
