@@ -112,7 +112,7 @@ new Vue({
         // ---- INSTRUMENT ----
         instrumentName: '',
         instrumentBrand: '',
-        instrumentType: 'Bass',
+        instrumentType: 'Guitar',
         editInstrumentName: '',
         editInstrumentBrand: '',
         editInstrumentType: '',
