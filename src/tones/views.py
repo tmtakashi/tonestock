@@ -38,39 +38,18 @@ def tone_create_view(request):
 
 def tone_edit_view(request, pk):
     tone = get_object_or_404(Tone, pk=pk)
-    instance = {
-        'tone': tone,
-        'instrument': tone.instrument.all().first(),
-        # Needs to be changed when adding multiple pedals
-        'pedal': tone.pedal.all().first(),
-        'amp': tone.amp.all().first()
-    }
-    if request.method == 'GET':
-        formset = ToneCreationMultiForm(instance=instance)
-    if request.method == "POST":
-        formset = ToneCreationMultiForm(request.POST)
-        if formset.is_valid():
+    tone_info = tone.info
+    tone_info['pk'] = pk
+    if request.method == 'POST':
+        new_info = json.loads(request.body.decode('utf-8'))
+        tone.info = new_info
+        tone.save()
 
-            tone.name = formset['tone'].cleaned_data['name']
+        return JsonResponse({
+            'redirect_url': reverse('tones:user_tone_list')
+        })
 
-            instrument = formset['instrument'].save()
-            pedal = formset['pedal'].save()
-            amp = formset['amp'].save()
-
-            tone.instrument.all().delete()
-            tone.instrument.add(instrument)
-
-            tone.pedal.all().delete()
-            tone.pedal.add(pedal)
-
-            tone.amp.all().delete()
-            tone.amp.add(amp)
-
-            tone.save()
-
-        return redirect('tones:detail', pk=tone.pk)
-
-    return render(request, 'tones/edit_tone.html', {'formset': formset})
+    return render(request, 'tones/edit_tone.html', {'tone_info': json.dumps(tone_info)})
 
 
 def user_tones(request):
