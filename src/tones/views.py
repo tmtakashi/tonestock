@@ -1,74 +1,55 @@
+import json
+
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 from django.http import Http404
+from django.http.response import JsonResponse
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, DeleteView
-from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, DeleteView, View
+from django.views.decorators.csrf import csrf_protect
+from django.urls import reverse, reverse_lazy
 from django.shortcuts import redirect, get_object_or_404
 
+from instruments.models import Instrument
+from amps.models import Amp
 from .models import Tone
-from .forms import ToneCreationMultiForm
+
+User = get_user_model()
 
 
+@csrf_protect
 def tone_create_view(request):
-    user = request.user
-    if request.method == 'GET':
-        formset = ToneCreationMultiForm(request.GET or None)
-    elif request.method == 'POST':
-        formset = ToneCreationMultiForm(request.POST)
-        if formset.is_valid():
-            tone = formset['tone'].save(commit=False)
-            tone.author = user
-            tone.save()
+    user_id = request.user.id
+    if request.method == 'POST':
+        info = json.loads(request.body.decode('utf-8'))
 
-            instrument = formset['instrument'].save()
-            pedal = formset['pedal'].save()
-            amp = formset['amp'].save()
+        tone = Tone(
+            author=User(pk=user_id),
+            info=info
+        )
+        tone.save()
 
-            tone.instrument.add(instrument)
-            tone.pedal.add(pedal)
-            tone.amp.add(amp)
+        return JsonResponse({
+            'redirect_url': reverse('tones:user_tone_list')
+        })
 
-            tone.save()
-            return redirect('tones:user_tone_list')
-
-    return render(request, 'tones/add_tone.html', {'formset': formset})
+    return render(request, 'tones/add_tone.html')
 
 
 def tone_edit_view(request, pk):
     tone = get_object_or_404(Tone, pk=pk)
-    instance = {
-        'tone': tone,
-        'instrument': tone.instrument.all().first(),
-        # Needs to be changed when adding multiple pedals
-        'pedal': tone.pedal.all().first(),
-        'amp': tone.amp.all().first()
-    }
-    if request.method == 'GET':
-        formset = ToneCreationMultiForm(instance=instance)
-    if request.method == "POST":
-        formset = ToneCreationMultiForm(request.POST)
-        if formset.is_valid():
+    tone_info = tone.info
+    tone_info['pk'] = pk
+    if request.method == 'POST':
+        new_info = json.loads(request.body.decode('utf-8'))
+        tone.info = new_info
+        tone.save()
 
-            tone.name = formset['tone'].cleaned_data['name']
+        return JsonResponse({
+            'redirect_url': reverse('tones:user_tone_list')
+        })
 
-            instrument = formset['instrument'].save()
-            pedal = formset['pedal'].save()
-            amp = formset['amp'].save()
-
-            tone.instrument.all().delete()
-            tone.instrument.add(instrument)
-
-            tone.pedal.all().delete()
-            tone.pedal.add(pedal)
-
-            tone.amp.all().delete()
-            tone.amp.add(amp)
-
-            tone.save()
-
-        return redirect('tones:detail', pk=tone.pk)
-
-    return render(request, 'tones/edit_tone.html', {'formset': formset})
+    return render(request, 'tones/edit_tone.html', {'tone_info': json.dumps(tone_info)})
 
 
 def user_tones(request):
@@ -87,13 +68,6 @@ class ToneListView(ListView):
 class ToneDetailView(DetailView):
     model = Tone
     template_name = 'tones/tone_detail.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['instruments'] = self.object.instrument.all()
-        context['pedals'] = self.object.pedal.all()
-        context['amps'] = self.object.amp.all()
-        return context
 
 
 class ToneDeleteView(DeleteView):

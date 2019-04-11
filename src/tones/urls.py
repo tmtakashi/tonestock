@@ -9,5 +9,5 @@ urlpatterns = [
     path('all_tones/', ToneListView.as_view(), name='all_tone_list'),
     path('<int:pk>/detail/', ToneDetailView.as_view(), name='detail'),
     path('<int:pk>/edit/', tone_edit_view, name='edit_tone'),
-    path('<int:pk>/delete/', ToneDeleteView.as_view(), name='delete')
+    path('<int:pk>/delete/', ToneDeleteView.as_view(), name='delete'),
 ]

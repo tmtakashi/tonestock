@@ -103,14 +103,15 @@ Vue.component('amp', {
 // ===========PARENT COMPONENT============
 
 new Vue({
-    el: '#add-tone',
+    el: '#edit-tone',
     data: {
+        pk: 0,
         // ---- TONE NAME ----
-        toneName: 'Untitled Tone',
+        toneName: '',
         editToneName: '',
         // ---- INSTRUMENT ----
-        instrumentName: 'Untitled Name',
-        instrumentBrand: 'Untitled Brand',
+        instrumentName: '',
+        instrumentBrand: '',
         instrumentType: 'Bass',
         editInstrumentName: '',
         editInstrumentBrand: '',
@@ -126,18 +127,34 @@ new Vue({
         pedals: [],
         pedalEditNo: 0,
         // ---- AMP ----
-        ampName: 'Untitled Name',
-        ampBrand: 'Untitled Brand',
+        ampName: '',
+        ampBrand: '',
         ampType: 'Solid State',
         editAmpName: '',
         editAmpBrand: '',
         editAmpType: '',
     },
+    beforeMount() {
+        var toneInfo = JSON.parse(document.getElementById('edit-tone').getAttribute('data') || '{}')
+        this.pk = toneInfo.pk
+
+        this.toneName = toneInfo.name
+        
+        this.instrumentName = toneInfo.instrument.name
+        this.instrumentBrand = toneInfo.instrument.brand
+        this.instrumentType = toneInfo.instrument.type
+
+        this.no = toneInfo.no
+        this.pedals = toneInfo.pedals
+
+        this.ampName = toneInfo.amp.name
+        this.ampBrand = toneInfo.amp.brand
+        this.ampType = toneInfo.amp.type
+    },
     methods: {
         // ---- TONE NAME ----
         handleEditToneName: function () {
             this.editToneName = this.toneName
-            console.log(this.editToneName)
         },
         saveToneNameEdit: function () {
             this.toneName = this.editToneName
@@ -220,7 +237,7 @@ new Vue({
         submit: function () {
             var csrfToken = $("[name=csrfmiddlewaretoken]").val();
             axios.post(
-                'http://127.0.0.1:8000/tones/add_tone/',
+                `http://127.0.0.1:8000/tones/${this.pk}/edit/`,
                 {   
                     name: this.toneName,
                     instrument: {
