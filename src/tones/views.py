@@ -88,13 +88,6 @@ class ToneDetailView(DetailView):
     model = Tone
     template_name = 'tones/tone_detail.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['instruments'] = self.object.instrument.all()
-        context['pedals'] = self.object.pedal.all()
-        context['amps'] = self.object.amp.all()
-        return context
-
 
 class ToneDeleteView(DeleteView):
     model = Tone

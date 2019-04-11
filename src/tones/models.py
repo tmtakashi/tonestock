@@ -13,4 +13,4 @@ User = get_user_model()
 class Tone(models.Model):
     author = models.ForeignKey(
         User, related_name='tones', on_delete=models.CASCADE)
-    tone_info = JSONField(null=True)
+    info = JSONField(null=True)
