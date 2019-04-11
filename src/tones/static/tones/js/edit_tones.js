@@ -14,7 +14,7 @@ Vue.component('tone-name', {
     `,
     methods: {
         editToneName: function () {
-            this.$emit("editToneName")
+            this.$emit("edit-tone-name")
         }
     }
 })
