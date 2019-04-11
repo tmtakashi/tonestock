@@ -21,11 +21,11 @@ User = get_user_model()
 def tone_create_view(request):
     user_id = request.user.id
     if request.method == 'POST':
-        tone_info = json.loads(request.body.decode('utf-8'))
+        info = json.loads(request.body.decode('utf-8'))
 
         tone = Tone(
             author=User(pk=user_id),
-            tone_info=tone_info
+            info=info
         )
         tone.save()
 
