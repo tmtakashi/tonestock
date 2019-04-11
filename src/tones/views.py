@@ -1,3 +1,5 @@
+import json
+
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
@@ -5,34 +7,31 @@ from django.http.response import JsonResponse
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, DeleteView, View
 from django.views.decorators.csrf import csrf_protect
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.shortcuts import redirect, get_object_or_404
 
+from instruments.models import Instrument
+from amps.models import Amp
 from .models import Tone
-from .forms import ToneCreationMultiForm
+
+User = get_user_model()
 
 
+@csrf_protect
 def tone_create_view(request):
-    user = request.user
+    user_id = request.user.id
     if request.method == 'POST':
-        info = request.body.decode('utf-8')
-        if formset.is_valid():
-            tone = formset['tone'].save(commit=False)
-            tone.author = user
-            tone.save()
+        tone_info = json.loads(request.body.decode('utf-8'))
 
-            instrument = formset['instrument'].save()
-            pedal = formset['pedal'].save()
-            amp = formset['amp'].save()
+        tone = Tone(
+            author=User(pk=user_id),
+            tone_info=tone_info
+        )
+        tone.save()
 
-            tone.instrument.add(instrument)
-            tone.pedal.add(pedal)
-            tone.amp.add(amp)
+        return redirect('tones:user_tone_list')
 
-            tone.save()
-            return redirect('tones:user_tone_list')
-
-    return render(request, 'tones/add_tone.html', {'formset': formset})
+    return render(request, 'tones/add_tone.html')
 
 
 def tone_edit_view(request, pk):
@@ -100,16 +99,3 @@ class ToneDetailView(DetailView):
 class ToneDeleteView(DeleteView):
     model = Tone
     success_url = reverse_lazy('tones:user_tone_list')
-
-
-@login_required
-@csrf_protect
-def ajax_test(request):
-    info = request.body.decode('utf-8')
-    print("="*80)
-    print(info)
-    print("="*80)
-    data = {
-        "success": True,
-    }
-    return JsonResponse(data)

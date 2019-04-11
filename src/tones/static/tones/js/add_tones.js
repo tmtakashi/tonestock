@@ -219,8 +219,9 @@ new Vue({
         submit: function () {
             var csrfToken = $("[name=csrfmiddlewaretoken]").val();
             axios.post(
-                'http://127.0.0.1:8000/tones/test/',
-                {
+                'http://127.0.0.1:8000/tones/add_tone/',
+                {   
+                    name: this.toneName,
                     instrument: {
                         name: this.instrumentName,
                         brand: this.instrumentBrand,

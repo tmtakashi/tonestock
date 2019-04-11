@@ -13,12 +13,4 @@ User = get_user_model()
 class Tone(models.Model):
     author = models.ForeignKey(
         User, related_name='tones', on_delete=models.CASCADE)
-    name = models.CharField(max_length=124, verbose_name='プリセット名')
-    instrument = models.ForeignKey(Instrument, on_delete=models.CASCADE)
-    pedals = ArrayField(
-        JSONField()
-    )
-    amp = models.ForeignKey(Amp, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.name
+    tone_info = JSONField(null=True)
