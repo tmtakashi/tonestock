@@ -16,7 +16,9 @@
         <span>{{ object.profile.follows.all|length }}</span>
          follows
         <br>
-        {% include 'users/_follow_button.html' %}
+        {% if user != object %}
+            {% include 'users/_follow_button.html' %}
+        {% endif %}
     </div>
     <!-- right side -->
     <div class="col-sm-8">
