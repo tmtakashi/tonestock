@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block content %}
+<link href="{% static 'css/user_gear_list.css' %}" rel="stylesheet">
+
 <h2>My Gears</h2>
 {% if instruments|length_is:"0" and pedals|length_is:"0" and amps|length_is:"0" %}
     <p>まだ機材が一個もありません。</p>
@@ -8,30 +12,60 @@
     <a class="btn btn-primary" href="{% url "add_gears" %}">機材を登録</a>
 {% endif %}
 
-{% if instruments|length > 0 %}
-    <h3>楽器</h3>
-    {% for instrument in instruments %}
-    <a href="{% url 'instruments:detail' instrument.pk %}">{{ instrument.name }}</a>
-    <a class="fas fa-edit" href="{% url 'instruments:edit_instrument' instrument.pk %}"></a>
-    <a class="fas fa-trash-alt" href="{% url 'instruments:delete_instrument'  instrument.pk %}"></a><br>
-    {% endfor %}
-{% endif %}
+<div class="row mt-5">
+    <div class="col-sm-4">
+        <h3>楽器</h3>
+        {% if instruments|length > 0 %}
+            {% for instrument in instruments %}
+            <div class="card col-sm-6 mt-3 gear-card">
+                <div class="card-body">
+                    <h5><a href="{% url 'instruments:detail' instrument.pk %}">{{ instrument.name }}</a></h5>
+                    <a class="fas fa-edit" href="{% url 'instruments:edit_instrument' instrument.pk %}"></a>
+                    <a class="fas fa-trash-alt" href="{% url 'instruments:delete_instrument'  instrument.pk %}"></a><br>
+                </div>
+            </div>
+            {% endfor %}
+        {% endif %}
+        <div class="mt-5">
+            <a class="btn btn-primary" href="{% url 'instruments:add_instrument' %}">楽器を登録する</a>
+        </div>
+    </div>
+    
+    <div class="col-sm-4">
+        <h3>エフェクター</h3>
+        {% if pedals|length > 0 %}
+            {% for pedal in pedals %}
+            <div class="card col-sm-6 mt-3 gear-card">
+                <div class="card-body">
+                    <h5><a href="{% url 'pedals:detail' pedal.pk %}">{{ pedal.name }}</a></h5>
+                    <a class="fas fa-edit" href="{% url 'pedals:edit_pedal' pedal.pk %}"></a>
+                    <a class="fas fa-trash-alt" href="{% url 'pedals:delete_pedal' pedal.pk %}"></a><br>
+                </div>
+            </div>
+            {% endfor %}
+        {% endif %}
+        <div class="mt-5">
+                <a class="btn btn-primary" href="{% url 'pedals:add_pedal' %}">エフェクターを登録する</a>
+        </div>
+    </div>
+    
+    <div class="col-sm-4">
+        <h3>アンプ</h3>
+        {% if amps|length > 0 %}
+            {% for amp in amps %}
+            <div class="card col-sm-6 mt-3 gear-card">
+                <div class="card-body">
+                    <h5><a href="{% url 'amps:detail' amp.pk %}">{{ amp.name }}</a></h5>
+                    <a class="fas fa-edit" href="{% url 'amps:edit_amp' amp.pk %}"></a>
+                    <a class="fas fa-trash-alt" href="{% url 'amps:delete_amp'  amp.pk %}"></a><br>
+                </div>
+            </div>
+            {% endfor %}
+        {% endif %}
+        <div class="mt-5">
+            <a class="btn btn-primary" href="{% url 'amps:add_amp' %}">アンプを登録する</a>
+        </div>
+    </div>
+</div>
 
-{% if pedals|length > 0 %}
-    <h3>エフェクター</h3>
-    {% for pedal in pedals %}
-        <a href="{% url 'pedals:detail' pedal.pk %}">{{ pedal.name }}</a>
-        <a class="fas fa-edit" href="{% url 'pedals:edit_pedal' pedal.pk %}"></a>
-        <a class="fas fa-trash-alt" href="{% url 'pedals:delete_pedal' pedal.pk %}"></a><br>
-    {% endfor %}
-{% endif %}
-
-{% if amps|length > 0 %}
-    <h3>アンプ</h3>
-    {% for amp in amps %}
-        <a href="{% url 'amps:detail' amp.pk %}">{{ amp.name }}</a>
-        <a class="fas fa-edit" href="{% url 'amps:edit_amp' amp.pk %}"></a>
-        <a class="fas fa-trash-alt" href="{% url 'amps:delete_amp'  amp.pk %}"></a><br>
-    {% endfor %}
-{% endif %}
 {% endblock %}

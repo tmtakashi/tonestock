@@ -9,7 +9,7 @@ class CreateAmpView(CreateView):
     model = Amp
     form_class = AmpForm
     template_name = 'amps/add_amp.html'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('user_gear_list')
 
     def form_valid(self, form):
         self.object = form.save()
