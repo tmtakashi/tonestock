@@ -61,7 +61,7 @@
         <div class="mt-5">
             <h4>Tones</h4>
             {% for tone in object.tones.all %}
-                <a href="{% url 'tones:detail' tone.pk %}">{{ tone.name }}</a>
+                <p><a href="{% url 'tones:detail' tone.pk %}">{{ tone.info.name }}</a></p>
             {% endfor %}   
         </div>
     </div>
