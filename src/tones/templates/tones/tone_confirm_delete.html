@@ -1,1 +1,8 @@
-{% include "_confirm_delete.html" %}
+{% extends 'base.html' %}
+
+{% block content %}
+<form action="" method="POST">{% csrf_token %}
+    <p>"{{ object.info.name }}"を削除してもよろしいですか?</p>
+    <input class="btn btn-danger" type="submit" value="OK" />
+</form>
+{% endblock %}
