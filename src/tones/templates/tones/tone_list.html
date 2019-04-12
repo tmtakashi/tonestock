@@ -1,10 +1,21 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block content %}
+<link href="{% static 'tones/css/tone_list.css' %}" rel="stylesheet">
 <h2 class='title'>Tone Feed</h2>
+<div class="row">
 {% for tone in tone_list %}
-    <div>
-        <a href="{% url 'tones:detail' tone.pk %}">{{ tone.info.name }}</a> {{ tone.author.profile.username }}
+    <div class="col-sm-4 my-5">
+        <div class="card tone-card">
+            <div class="card-body" style="display: block;">
+                <h5 class="tone-name"><a href="{% url 'tones:detail' tone.pk %}">{{ tone.info.name }}</a></h5>
+                <p>{{ tone.info.instrument.brand }} {{ tone.info.instrument.name }}</p>
+                <a href="{% url 'users:detail' tone.author.pk %}">{{ tone.author.profile.username }}</a>
+            </div>
+        </div>
     </div>
 {% endfor %}
+</div>
 {% endblock %}
