@@ -33,7 +33,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal" @click="saveToneNameEdit">Save changes</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" @click="saveToneNameEdit">変更</button>
                     </div>
                 </div>
             </div>
@@ -80,7 +80,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" @click="saveInstrumentEdit">Save changes</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" @click="saveInstrumentEdit">変更</button>
                     </div>
                 </div>
                 </div>
@@ -101,7 +101,7 @@
                     </draggable>
                 </ul>
                 <button type="button" class="btn btn-primary" data-toggle="modal"
-                data-target="#pedalAddModal">+</button>
+                data-target="#pedalAddModal">エフェクター追加</button>
                 <!-- Add Pedal Modal -->
                 <div class="modal fade" id="pedalAddModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
@@ -173,7 +173,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal" @click="savePedalEdit">Save changes</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" @click="savePedalEdit">変更</button>
                         </div>
                     </div>
                     </div>
@@ -218,14 +218,16 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" @click="saveAmpEdit">Save changes</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" @click="saveAmpEdit">変更</button>
                     </div>
                 </div>
                 </div>
             </div>
         </div>
     </div>  
-    <button type="button" class="btn btn-primary" @click="submit">Submit</button>    
+    <div class="mt-5">
+        <button type="button" class="btn btn-primary" @click="submit">保存</button>    
+    </div>
 </div>     
 {% endblock %}
 

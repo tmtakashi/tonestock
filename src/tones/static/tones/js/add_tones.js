@@ -25,6 +25,7 @@ Vue.component('instrument', {
     template: `
     <div class="card">
         <div class="card-body" style="height: 20rem;">
+            <h5>楽器</h5>
             Name: {{ name }}<br>
             Brand: {{ brand }}<br>
             Type: {{ type }}<br>
@@ -82,6 +83,7 @@ Vue.component('amp', {
     template: `
     <div class="card">
         <div class="card-body" style="height: 20rem;">
+            <h5>アンプ</h5>
             Name: {{ name }}<br>
             Brand: {{ brand }}<br>
             Type: {{ type }}<br>
