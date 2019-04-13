@@ -1,8 +1,23 @@
+.gear-type {
+    font-size: 20px;
+}
+
+.add-gear {
+    color: #333;
+    margin-left: 10px;
+}
+
 .gear-card a {
     color: #333;
 }
 
 .gear-name {
     font-size: 18px;
+    white-space: nowrap;
 }
 
+.options {
+    float: right;
+    cursor: hand;
+    cursor: pointer;
+}

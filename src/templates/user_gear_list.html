@@ -14,66 +14,66 @@
 
 <div class="row mt-5">
     <div class="col-sm-4">
-        <h3>楽器</h3>
-        <div class="row">
-            {% if instruments|length > 0 %}
-                {% for instrument in instruments %}
-                <div class="card col-sm-5 mt-3 mx-2 gear-card">
-                    <div class="card-body">
-                        <h5 class="gear-name"><a href="{% url 'instruments:detail' instrument.pk %}">{{ instrument.name }}</a></h5>
-                        <small>{{ instrument.brand }}</small><br>
-                        <a class="fas fa-edit" href="{% url 'instruments:edit_instrument' instrument.pk %}"></a>
-                        <a class="fas fa-trash-alt" href="{% url 'instruments:delete_instrument'  instrument.pk %}"></a><br>
+        <span class="gear-type">楽器</span><a class="add-gear" href="{% url 'instruments:add_instrument' %}"><i class="fas fa-plus"></i></a>
+        {% if instruments|length > 0 %}
+            {% for instrument in instruments %}
+            <div class="card mt-3 mr-2 gear-card">
+                <div class="card-body">
+                    <div class="options">
+                        <i class="fas fa-chevron-down" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></i>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{% url 'instruments:edit_instrument' instrument.pk %}">編集</a>
+                            <a class="dropdown-item" href="{% url 'instruments:delete_instrument' instrument.pk %}">削除</a>
+                        </div>
                     </div>
+                    <h5 class="gear-name"><a href="{% url 'instruments:detail' instrument.pk %}">{{ instrument.name }}</a></h5>
+                    <small>{{ instrument.brand }}</small><br>
                 </div>
-                {% endfor %}
-            {% endif %}
-        </div>
-        <div class="mt-5">
-            <a class="btn btn-primary" href="{% url 'instruments:add_instrument' %}">+</a>
-        </div>
+            </div>
+            {% endfor %}
+        {% endif %}
     </div>
     
     <div class="col-sm-4">
-        <h3>エフェクター</h3>
+            <span class="gear-type">エフェクター</span><a class="add-gear" href="{% url 'pedals:add_pedal' %}"><i class="fas fa-plus"></i></a>
         {% if pedals|length > 0 %}
-            <div class="row">
-                {% for pedal in pedals %}
-                <div class="card col-sm-5 mt-3 mx-2 gear-card">
-                    <div class="card-body">
-                        <h5 class="gear-name"><a href="{% url 'pedals:detail' pedal.pk %}">{{ pedal.name }}</a></h5>
-                        <small>{{ pedal.brand }}</small><br>
-                        <a class="fas fa-edit" href="{% url 'pedals:edit_pedal' pedal.pk %}"></a>
-                        <a class="fas fa-trash-alt" href="{% url 'pedals:delete_pedal' pedal.pk %}"></a><br>
+            {% for pedal in pedals %}
+            <div class="card mt-3 mr-2 gear-card">
+                <div class="card-body">
+                    <div class="options">
+                        <i class="fas fa-chevron-down" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></i>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{% url 'pedals:edit_pedal' pedal.pk %}">編集</a>
+                            <a class="dropdown-item" href="{% url 'pedals:delete_pedal' pedal.pk %}">削除</a>
+                        </div>
                     </div>
+                    <h5 class="gear-name"><a href="{% url 'pedals:detail' pedal.pk %}">{{ pedal.name }}</a></h5>
+                    <small>{{ pedal.brand }}</small><br>
                 </div>
-                {% endfor %}
             </div>
+            {% endfor %}
         {% endif %}
-        <div class="mt-5">
-                <a class="btn btn-primary" href="{% url 'pedals:add_pedal' %}">+</a>
-        </div>
     </div>
     
     <div class="col-sm-4">
-        <h3>アンプ</h3>
+        <span class="gear-type">アンプ</span><a class="add-gear" href="{% url 'amps:add_amp' %}"><i class="fas fa-plus"></i></a>
         {% if amps|length > 0 %}
-            <div class="row">
-                {% for amp in amps %}
-                <div class="card col-sm-5 mt-3 mx-2 gear-card">
-                    <div class="card-body">
-                        <h5 class="gear-name"><a href="{% url 'amps:detail' amp.pk %}">{{ amp.name }}</a></h5>
-                        <small>{{ amp.brand }}</small><br>
-                        <a class="fas fa-edit" href="{% url 'amps:edit_amp' amp.pk %}"></a>
-                        <a class="fas fa-trash-alt" href="{% url 'amps:delete_amp'  amp.pk %}"></a><br>
+            {% for amp in amps %}
+            <div class="card mt-3 mr-2 gear-card">
+                <div class="card-body">
+                    <div class="options">
+                        <i class="fas fa-chevron-down" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></i>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{% url 'amps:edit_amp' amp.pk %}">編集</a>
+                            <a class="dropdown-item" href="{% url 'amps:delete_amp' amp.pk %}">削除</a>
+                        </div>
                     </div>
+                    <h5 class="gear-name"><a href="{% url 'amps:detail' amp.pk %}">{{ amp.name }}</a></h5>
+                    <small>{{ amp.brand }}</small><br>
                 </div>
-                {% endfor %}
             </div>
+            {% endfor %}
         {% endif %}
-        <div class="mt-5">
-            <a class="btn btn-primary" href="{% url 'amps:add_amp' %}">+</a>
-        </div>
     </div>
 </div>
 
