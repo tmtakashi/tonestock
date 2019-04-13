@@ -1,4 +1,4 @@
-from django.contrib.auth import get_user_model
+from django.conf import settings
 from django.db import models
 
 
@@ -9,7 +9,7 @@ class Instrument(models.Model):
     ]
     name = models.CharField(max_length=128, verbose_name='楽器の名前')
     owner = models.ForeignKey(
-        get_user_model(), related_name='instruments', on_delete=models.CASCADE, null=True)
+        settings.AUTH_USER_MODEL, related_name='instruments', on_delete=models.CASCADE, null=True)
     type = models.CharField(
         max_length=10, choices=INSTRUMENT_TYPES, verbose_name='楽器の種類', default='ギター')
     brand = models.CharField(max_length=128, verbose_name='ブランド名')

@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth import get_user_model
+from django.conf import settings
 
 from django.core.validators import MaxValueValidator, MinValueValidator
 
@@ -24,7 +24,7 @@ class Pedal(models.Model):
     ]
     name = models.CharField(max_length=128, verbose_name='エフェクターの名前')
     owner = models.ForeignKey(
-        get_user_model(), on_delete=models.CASCADE, related_name='pedals', null=True)
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='pedals', null=True)
     type = models.CharField(
         max_length=128, choices=PEDAL_TYPES, verbose_name='エフェクターの種類', default="コンパクトエフェクター")
     effect = models.CharField(
