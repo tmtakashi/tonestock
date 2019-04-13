@@ -114,7 +114,7 @@ class Profile(models.Model):
     follows = models.ManyToManyField(
         'self', related_name='followed_by', symmetrical=False)
     favorite_tone = models.ManyToManyField(
-        Tone, verbose_name='お気に入りのプリセット', blank=True)
+        Tone, related_name='fav_by', verbose_name='お気に入りのプリセット', blank=True)
 
     def __str__(self):
         return self.username

@@ -1,0 +1,12 @@
+{% load static %}
+
+<link href="{% static 'tones/css/favorite.css' %}" rel="stylesheet">
+{% if user.profile in tone.fav_by.all %} 
+    <i class="fas fa-heart favorite-btn" 
+    data-href="{% url 'tones:favorite_toggle' tone.pk %}"></i>
+{% else %}
+    <i class="far fa-heart favorite-btn"
+    data-href="{% url 'tones:favorite_toggle' tone.pk %}"></i>
+{% endif %}
+
+<script src="{% static "tones/js/favorite.js" %}"></script>
