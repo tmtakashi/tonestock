@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth import get_user_model
+from django.conf import settings
 from django.contrib.postgres.fields import ArrayField
 from django.contrib.postgres.fields import JSONField
 
@@ -7,10 +7,8 @@ from instruments.models import Instrument
 from pedals.models import Pedal
 from amps.models import Amp
 
-User = get_user_model()
-
 
 class Tone(models.Model):
     author = models.ForeignKey(
-        User, related_name='tones', on_delete=models.CASCADE)
+        settings.AUTH_USER_MODEL, related_name='tones', on_delete=models.CASCADE)
     info = JSONField(null=True)

@@ -7,6 +7,8 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 from django.contrib.auth.base_user import BaseUserManager
 
+from tones.models import Tone
+
 
 class UserManager(BaseUserManager):
     """ユーザーマネージャー."""
@@ -111,6 +113,8 @@ class Profile(models.Model):
         "プロフィール画像", upload_to="images/%Y/%m/%d/", blank=True, null=True)
     follows = models.ManyToManyField(
         'self', related_name='followed_by', symmetrical=False)
+    favorite_tone = models.ManyToManyField(
+        Tone, related_name='fav_by', verbose_name='お気に入りのプリセット', blank=True)
 
     def __str__(self):
         return self.username

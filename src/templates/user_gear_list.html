@@ -15,55 +15,64 @@
 <div class="row mt-5">
     <div class="col-sm-4">
         <h3>楽器</h3>
-        {% if instruments|length > 0 %}
-            {% for instrument in instruments %}
-            <div class="card col-sm-6 mt-3 gear-card">
-                <div class="card-body">
-                    <h5><a href="{% url 'instruments:detail' instrument.pk %}">{{ instrument.name }}</a></h5>
-                    <a class="fas fa-edit" href="{% url 'instruments:edit_instrument' instrument.pk %}"></a>
-                    <a class="fas fa-trash-alt" href="{% url 'instruments:delete_instrument'  instrument.pk %}"></a><br>
+        <div class="row">
+            {% if instruments|length > 0 %}
+                {% for instrument in instruments %}
+                <div class="card col-sm-5 mt-3 mx-2 gear-card">
+                    <div class="card-body">
+                        <h5 class="gear-name"><a href="{% url 'instruments:detail' instrument.pk %}">{{ instrument.name }}</a></h5>
+                        <small>{{ instrument.brand }}</small><br>
+                        <a class="fas fa-edit" href="{% url 'instruments:edit_instrument' instrument.pk %}"></a>
+                        <a class="fas fa-trash-alt" href="{% url 'instruments:delete_instrument'  instrument.pk %}"></a><br>
+                    </div>
                 </div>
-            </div>
-            {% endfor %}
-        {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
         <div class="mt-5">
-            <a class="btn btn-primary" href="{% url 'instruments:add_instrument' %}">楽器を登録する</a>
+            <a class="btn btn-primary" href="{% url 'instruments:add_instrument' %}">+</a>
         </div>
     </div>
     
     <div class="col-sm-4">
         <h3>エフェクター</h3>
         {% if pedals|length > 0 %}
-            {% for pedal in pedals %}
-            <div class="card col-sm-6 mt-3 gear-card">
-                <div class="card-body">
-                    <h5><a href="{% url 'pedals:detail' pedal.pk %}">{{ pedal.name }}</a></h5>
-                    <a class="fas fa-edit" href="{% url 'pedals:edit_pedal' pedal.pk %}"></a>
-                    <a class="fas fa-trash-alt" href="{% url 'pedals:delete_pedal' pedal.pk %}"></a><br>
+            <div class="row">
+                {% for pedal in pedals %}
+                <div class="card col-sm-5 mt-3 mx-2 gear-card">
+                    <div class="card-body">
+                        <h5 class="gear-name"><a href="{% url 'pedals:detail' pedal.pk %}">{{ pedal.name }}</a></h5>
+                        <small>{{ pedal.brand }}</small><br>
+                        <a class="fas fa-edit" href="{% url 'pedals:edit_pedal' pedal.pk %}"></a>
+                        <a class="fas fa-trash-alt" href="{% url 'pedals:delete_pedal' pedal.pk %}"></a><br>
+                    </div>
                 </div>
+                {% endfor %}
             </div>
-            {% endfor %}
         {% endif %}
         <div class="mt-5">
-                <a class="btn btn-primary" href="{% url 'pedals:add_pedal' %}">エフェクターを登録する</a>
+                <a class="btn btn-primary" href="{% url 'pedals:add_pedal' %}">+</a>
         </div>
     </div>
     
     <div class="col-sm-4">
         <h3>アンプ</h3>
         {% if amps|length > 0 %}
-            {% for amp in amps %}
-            <div class="card col-sm-6 mt-3 gear-card">
-                <div class="card-body">
-                    <h5><a href="{% url 'amps:detail' amp.pk %}">{{ amp.name }}</a></h5>
-                    <a class="fas fa-edit" href="{% url 'amps:edit_amp' amp.pk %}"></a>
-                    <a class="fas fa-trash-alt" href="{% url 'amps:delete_amp'  amp.pk %}"></a><br>
+            <div class="row">
+                {% for amp in amps %}
+                <div class="card col-sm-5 mt-3 mx-2 gear-card">
+                    <div class="card-body">
+                        <h5 class="gear-name"><a href="{% url 'amps:detail' amp.pk %}">{{ amp.name }}</a></h5>
+                        <small>{{ amp.brand }}</small><br>
+                        <a class="fas fa-edit" href="{% url 'amps:edit_amp' amp.pk %}"></a>
+                        <a class="fas fa-trash-alt" href="{% url 'amps:delete_amp'  amp.pk %}"></a><br>
+                    </div>
                 </div>
+                {% endfor %}
             </div>
-            {% endfor %}
         {% endif %}
         <div class="mt-5">
-            <a class="btn btn-primary" href="{% url 'amps:add_amp' %}">アンプを登録する</a>
+            <a class="btn btn-primary" href="{% url 'amps:add_amp' %}">+</a>
         </div>
     </div>
 </div>

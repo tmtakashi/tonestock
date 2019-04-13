@@ -73,3 +73,27 @@ class ToneDetailView(DetailView):
 class ToneDeleteView(DeleteView):
     model = Tone
     success_url = reverse_lazy('tones:user_tone_list')
+
+
+@login_required
+def favorite_toggle(request, pk):
+    tone = Tone.objects.get(pk=pk)
+    favorites_list = request.user.profile.favorite_tone.all()
+    if tone in favorites_list:
+        # お気に入り一覧にあれば解除
+        request.user.profile.favorite_tone.remove(tone)
+        message = "お気に入り解除しました"
+        command = "unfav"
+    else:
+        # お気に入り一覧になければ追加
+        request.user.profile.favorite_tone.add(tone)
+        message = "お気に入り登録しました"
+        command = "fav"
+    # ボタンに対応するプリセットのお気に入り数
+    num_fav = len(tone.fav_by.all())
+    data = {
+        "message": message,
+        "command": command,
+        "num_fav": num_fav,
+    }
+    return JsonResponse(data)
