@@ -11,9 +11,14 @@
         <div class="col-sm-4 my-5">
             <div class="card tone-card">
                 <div class="card-body">
-                    <h5 class="tone-name"><a href="{% url 'tones:detail' tone.pk %}">{{ tone.info.name }}</a></h5>
-                    <a class="fas fa-edit" href="{% url 'tones:edit_tone'  tone.pk %}"></a>
-                    <a class="fas fa-trash-alt" href="{% url 'tones:delete'  tone.pk %}"></a>
+                    <div class="options">
+                        <i class="fas fa-chevron-down" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></i>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{% url 'tones:edit_tone'  tone.pk %}">編集</a>
+                            <a class="dropdown-item" href="{% url 'tones:delete'  tone.pk %}">削除</a>
+                        </div>
+                    </div>
+                    <h5><a class="tone-name" href="{% url 'tones:detail' tone.pk %}">{{ tone.info.name }}</a></h5>
                 </div>
             </div>
         </div>

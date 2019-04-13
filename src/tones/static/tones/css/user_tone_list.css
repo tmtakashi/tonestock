@@ -1,7 +1,14 @@
 .tone-card a{
     color: #333;
+    text-decoration: none;
 }
 
 .tone-name {
     font-weight: 100; 
+}
+
+.options {
+    float: right;
+    cursor: hand;
+    cursor: pointer;
 }
