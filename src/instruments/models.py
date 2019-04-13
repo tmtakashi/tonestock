@@ -8,6 +8,8 @@ class Instrument(models.Model):
         ('ギター', 'ベース'),
     ]
     name = models.CharField(max_length=128, verbose_name='楽器の名前')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL, related_name='instruments', on_delete=models.CASCADE, null=True)
     type = models.CharField(

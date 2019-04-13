@@ -56,13 +56,16 @@ def user_tones(request):
     user = request.user
     template = 'tones/user_tone_list.html'
     user_tones = Tone.objects.filter(
-        author=request.user)
+        author=request.user).order_by('-updated_at')
     return render(request, template, {'user_tones': user_tones, 'user': user})
 
 
 class ToneListView(ListView):
     model = Tone
     template_name = 'tones/tone_list.html'
+
+    def get_queryset(self):
+        return super().get_queryset().order_by('-updated_at')
 
 
 class ToneDetailView(DetailView):

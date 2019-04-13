@@ -24,9 +24,10 @@ class UserGearListView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['instruments'] = Instrument.objects.filter(
-            owner=self.request.user)
+            owner=self.request.user).order_by('-updated_at')
         context['pedals'] = Pedal.objects.filter(
-            owner=self.request.user)
-        context['amps'] = Amp.objects.filter(owner=self.request.user)
+            owner=self.request.user).order_by('-updated_at')
+        context['amps'] = Amp.objects.filter(
+            owner=self.request.user).order_by('-updated_at')
 
         return context

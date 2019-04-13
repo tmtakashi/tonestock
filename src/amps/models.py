@@ -10,6 +10,8 @@ class Amp(models.Model):
         ("シミュレーター", "シミュレーター"),
     ]
     name = models.CharField(max_length=128, verbose_name='アンプ名')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='amps', null=True)
     brand = models.CharField(max_length=128, verbose_name='ブランド名')
