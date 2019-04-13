@@ -2,8 +2,10 @@
 
 {% block content %}
 <h2>{{ tone.info.name }}</h2>
-{% include 'tones/_favorite_button.html' %}
-<span class="num_favs ml-2">{{ tone.fav_by.all|length }}</span>
+<div class="mt-3">
+    {% include 'tones/_favorite_button.html' %}
+    <span class="num_favs ml-2">{{ tone.fav_by.all|length }}</span>
+</div>
 <div class="row mx-auto mt-5">
     <div class="col-sm-4">
         <h3>楽器</h3>
