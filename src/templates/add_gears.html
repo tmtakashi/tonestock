@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
+<link href="{% static 'css/add_gears.css' %}" rel="stylesheet">
+
 <h2 class="title">機材追加</h2>
 
 <h3>追加したい機材の種類を選択</h3>
@@ -14,7 +17,7 @@
     </div>
 
     <div class="col-sm-4">
-        <a class="card" href="{% url 'pedals:add_pedal' %}">
+        <a class="card gear-type" href="{% url 'pedals:add_pedal' %}">
             <div class="card-body text-center">
                 エフェクター
             </div>
@@ -22,7 +25,7 @@
     </div>
     
     <div class="col-sm-4">
-        <a class="card" href="{% url 'amps:add_amp' %}">
+        <a class="card gear-type" href="{% url 'amps:add_amp' %}">
             <div class="card-body text-center">
                 アンプ
             </div>
