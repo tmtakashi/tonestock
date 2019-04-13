@@ -1,0 +1,20 @@
+ul {
+    list-style: none;
+    cursor: default;
+}
+
+input[type="text"] { 
+  width: 120px; 
+}
+
+.options {
+  float: right;
+  cursor: hand;
+  cursor: pointer;
+}
+
+.edit {
+  cursor: hand;
+  cursor: pointer;
+  font-weight: lighter;
+}

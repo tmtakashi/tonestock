@@ -5,11 +5,11 @@ Vue.component('tone-name', {
     <div>
         <p>プリセット名</p>
         <h4>{{ name }}</h4>
-        <button type='button' 
-        class="btn btn-success"
+        <span
+        class="edit"
         data-toggle="modal"
         data-target="#toneNameEditModal"
-        @click="editToneName">Edit</button>
+        @click="editToneName">変更</span>
     </div>
     `,
     methods: {
@@ -52,17 +52,20 @@ Vue.component('pedal-item', {
     <li class="list-inline-item">
         <div class="card">
             <div class="card-body">
+                <div class="options">
+                    <i class="fas fa-chevron-down" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></i>
+                    <div class="dropdown-menu">
+                        <a data-toggle="modal"
+                        data-target="#pedalEditModal" 
+                        class="dropdown-item"
+                        @click="editPedal">編集</a>
+                        <a class="dropdown-item" 
+                        @click="destroy">削除</a>
+                    </div>
+                </div>
                 Name: {{ name }}<br>
                 Brand: {{ brand }}<br>
                 Type: {{ type }}<br>
-                <button type='button' 
-                class="btn btn-success"
-                data-toggle="modal"
-                data-target="#pedalEditModal"
-                @click="editPedal">Edit</button>
-                <button type='button' 
-                class="btn btn-danger"
-                @click="destroy">Delete</button>
             </div>
         </div>
     </li>

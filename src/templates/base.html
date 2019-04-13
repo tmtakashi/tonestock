@@ -53,8 +53,8 @@
                         {{ user.profile.username }}
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="nav-link" href="{% url 'tones:user_tone_list' %}">My Tones</a>
-                        <a class="nav-link" href="{% url 'user_gear_list' %}">My Gears</a>
+                        <a class="nav-link" href="{% url 'tones:user_tone_list' %}">マイプリセット</a>
+                        <a class="nav-link" href="{% url 'user_gear_list' %}">マイ機材</a>
                         <a class="nav-link" href="{% url 'users:edit_profile' user.profile.pk %}">プロフィール編集</a>
                         <div class="dropdown-divider"></div>
                         <a class="nav-link" href="{% url 'users:logout' %}">ログアウト</a>

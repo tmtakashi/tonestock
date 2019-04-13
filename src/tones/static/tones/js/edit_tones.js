@@ -5,11 +5,10 @@ Vue.component('tone-name', {
     <div>
         <p>プリセット名</p>
         <h4>{{ name }}</h4>
-        <button type='button' 
-        class="btn btn-success"
+        <span
         data-toggle="modal"
         data-target="#toneNameEditModal"
-        @click="editToneName">Edit</button>
+        @click="editToneName">変更</span>
     </div>
     `,
     methods: {

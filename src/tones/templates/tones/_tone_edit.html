@@ -1,14 +1,19 @@
+{% load static %}
+<link href="{% static 'tones/css/tone_edit.css' %}" rel="stylesheet">
+
 {% csrf_token %}
-<div id="tone-name">
-    <tone-name 
-    v-bind:name="toneName"
-    @edit-tone-name="handleEditToneName"></tone-name>
+<div class="mt-3" id="tone-name">
+    <div class="mb-4">
+        <tone-name 
+        v-bind:name="toneName"
+        @edit-tone-name="handleEditToneName"></tone-name>
+    </div>
     <!-- Edit Tone Name Modal -->
     <div class="modal fade" id="toneNameEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Change Tone Name</h5>
+                <h5 class="modal-title" id="exampleModalLabel">プリセット名を変更</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -39,7 +44,7 @@
             <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Edit Instrument</h5>
+                <h5 class="modal-title" id="exampleModalLabel">楽器を編集</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -94,7 +99,7 @@
                 <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add Pedal</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">エフェクターを追加</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -122,7 +127,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" @click="addPedal">Add Pedal</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" @click="addPedal">追加</button>
                     </div>
                 </div>
                 </div>
@@ -132,7 +137,7 @@
                 <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit Pedal</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">エフェクターを編集</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -177,7 +182,7 @@
             <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Edit Amp</h5>
+                <h5 class="modal-title" id="exampleModalLabel">アンプを編集</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.contrib.postgres.fields import ArrayField
 from django.contrib.postgres.fields import JSONField
+from django.utils import timezone
 
 from instruments.models import Instrument
 from pedals.models import Pedal
