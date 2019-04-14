@@ -1,6 +1,8 @@
 var csrfToken = $("[name=csrfmiddlewaretoken]").val();
 
-Vue.component('gear', {
+
+//------------- INSTRUMENTS -------------
+Vue.component('instrument', {
     props: ['name', 'brand', 'type', 'index'],
     template: `
     <div class="card mt-3 mr-2 gear-card">
@@ -36,7 +38,7 @@ Vue.component('gear', {
 })
 
 new Vue({
-    el: '#add-instrument',
+    el: '#instrument-list',
     data: {
         addInstrumentName: '',
         addInstrumentBrand: '',
@@ -49,7 +51,7 @@ new Vue({
         instruments: []
     },
     beforeMount() {
-        var instrumentList = JSON.parse(document.getElementById('add-instrument').getAttribute('data') || '{}').instruments
+        var instrumentList = JSON.parse(document.getElementById('instrument-list').getAttribute('data') || '{}').instruments
         this.instruments = instrumentList
     },
     methods: {
@@ -113,11 +115,116 @@ new Vue({
     }
 })
 
-// // Pedal
-// pedalName: '',
-// pedalBrand: '',
-// pedalType: 'Stomp Box',
-// // Amp
-// ampName: '',
-// ampBrand: '',
-// ampType: 'Tube',
+//------------- PEDALS -------------
+Vue.component('pedal', {
+    props: ['name', 'brand', 'type', 'index'],
+    template: `
+    <div class="card mt-3 mr-2 gear-card">
+        <div class="card-body">
+            <div class="options">
+                <i class="fas fa-chevron-down" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></i>
+                <div class="dropdown-menu">
+                    <span
+                    class="dropdown-item"
+                    @click="edit"
+                    data-toggle="modal"
+                    data-target="#editPedalModal">編集</span>
+                    <span class="dropdown-item"
+                    @click="destroy"
+                    data-toggle="modal"
+                    data-target="#deletePedalModal">削除</span>
+                </div>
+            </div>
+            <h5 class="gear-name"><a href="{% url 'pedals:detail' pedal.pk %}">{{ name }}</a></h5>
+            <small>{{ brand }}</small><br>
+            <small>{{ type }}</small><br>
+        </div>
+    </div>
+    `,
+    methods: {
+        edit: function () {
+            this.$emit('edit', this.index)
+        },
+        destroy: function () {
+            this.$emit('destroy', this.index)
+        }
+    }
+})
+
+new Vue({
+    el: '#pedal-list',
+    data: {
+        addPedalName: '',
+        addPedalBrand: '',
+        addPedalType: 'コンパクトエフェクター',
+        editPedalName: '',
+        editPedalBrand: '',
+        editPedalType: '',
+        editIndex: 0,
+        destroyIndex: 0,
+        pedals: []
+    },
+    beforeMount() {
+        var pedalList = JSON.parse(document.getElementById('pedal-list').getAttribute('data') || '{}').pedals
+        this.pedals = pedalList
+    },
+    methods: {
+        handleEdit: function (index) {
+            var targetPedal = this.pedals[index]
+            this.editPedalName = targetPedal.name
+            this.editPedalBrand = targetPedal.brand
+            this.editPedalType = targetPedal.type
+            this.editPedalPk = targetPedal.pk
+            this.editIndex = index
+        },
+        saveEdit: function () {
+            var editedPedal = {
+                name: this.editPedalName,
+                brand: this.editPedalBrand,
+                type: this.editPedalType,
+                pk: this.editPedalPk,
+            }
+            Vue.set(this.pedals,
+                this.editIndex,
+                editedPedal
+            )
+            axios.post(`/pedals/${this.editPedalPk}/edit/`,
+                editedPedal,
+                {
+                    headers: {"X-CSRFToken": csrfToken}
+                } 
+            )
+        },
+        confirmDestroy: function (index) {
+            var targetName = this.pedals[index].name
+            $('#deletingPedalName').text(targetName)
+            this.destroyIndex = index
+        },
+        executeDestroy: function () {
+            var targetPedal = this.pedals[this.destroyIndex]
+            const pk = targetPedal.pk
+            console.log(csrfToken)
+            axios.post(`/pedals/${pk}/delete/`,
+                {},
+                {
+                    headers: { "X-CSRFToken": csrfToken }
+                } 
+            )
+            this.pedals.splice(this.destroyIndex, 1)
+        },
+        addPedal: function () {
+            var newPedal = {
+                name: this.addPedalName,
+                brand: this.addPedalBrand,
+                type: this.addPedalType,
+            }
+            this.pedals.unshift(newPedal)
+            axios.post('/pedals/add/',
+                newPedal,
+                {
+                    headers: {"X-CSRFToken": csrfToken}
+                } 
+            )
+        }
+    }
+})

@@ -1,34 +1,65 @@
-from django.urls import reverse_lazy
-from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
+import json
+
+from django.http.response import JsonResponse
+from django.urls import reverse_lazy, reverse
+from django.shortcuts import render
+from django.views.decorators.csrf import csrf_protect
+from django.views.generic import DetailView
 
 from .models import Pedal
 from .forms import PedalForm
 
 
-class CreatePedalView(CreateView):
-    model = Pedal
-    form_class = PedalForm
-    template_name = 'pedals/add_pedal.html'
-    success_url = reverse_lazy('user_gear_list')
+@csrf_protect
+def add_pedal(request):
+    if request.method == 'POST':
+        info = json.loads(request.body.decode('utf-8'))
 
-    def form_valid(self, form):
-        self.object = form.save()
-        self.object.owner = self.request.user
-        return super().form_valid(form)
+        pedal = Pedal(
+            owner=request.user,
+            name=info['name'],
+            brand=info['brand'],
+            type=info['type']
+        )
+
+        pedal.save()
+
+        return JsonResponse({
+            'success': True
+        })
+    else:
+        render(reverse('user_gear_list'))
 
 
-class UpdatePedalView(UpdateView):
-    model = Pedal
-    form_class = PedalForm
-    template_name = 'pedals/edit_pedal.html'
+@csrf_protect
+def edit_pedal(request, pk):
+    if request.method == 'POST':
+        info = json.loads(request.body.decode('utf-8'))
 
-    def get_success_url(self, **kwargs):
-        return reverse_lazy("pedals:detail", args=(self.object.pk,))
+        pedal = Pedal.objects.filter(pk=pk)
+        pedal.update(
+            name=info["name"],
+            brand=info["brand"],
+            type=info["type"]
+        )
+        return JsonResponse({
+            'success': True
+        })
+    else:
+        render(reverse('user_gear_list'))
 
 
-class DeletePedalView(DeleteView):
-    model = Pedal
-    success_url = reverse_lazy('user_gear_list')
+@csrf_protect
+def delete_pedal(request, pk):
+    if request.method == 'POST':
+        info = json.loads(request.body.decode('utf-8'))
+
+        Pedal.objects.filter(pk=pk).delete()
+        return JsonResponse({
+            'success': True
+        })
+    else:
+        render(reverse('user_gear_list'))
 
 
 class PedalDetailView(DetailView):

@@ -8,12 +8,12 @@
 <h2>マイ機材</h2>
 <div class="row mt-5">
     {% csrf_token %}
-    <div class="col-sm-4" id="add-instrument" data="{{ instrument_list }}">
+    <div class="col-sm-4" id="instrument-list" data="{{ instrument_list }}">
         <div>
             <span class="gear-type">楽器</span>
             <button type="button" class="btn btn-secondary btn-sm add-gear" data-toggle="modal" data-target="#addInstrumentModal">+</button>
         </div>
-        <gear
+        <instrument
         v-for="(instrument, index) in instruments"
         :key="index"
         v-bind:name="instrument.name"
@@ -21,7 +21,7 @@
         v-bind:type="instrument.type"
         v-bind:index="index"
         @edit="handleEdit"
-        @destroy="confirmDestroy"></gear>
+        @destroy="confirmDestroy"></instrument>
         <!-- Add instrument modal -->
         <div class="modal fade" id="addInstrumentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -114,28 +114,110 @@
         </div>
     </div>
     
-    <div class="col-sm-4">
+    <div class="col-sm-4" id="pedal-list" data="{{ pedal_list }}">
         <div>
             <span class="gear-type">エフェクター</span>
             <button type="button" class="btn btn-secondary btn-sm add-gear" data-toggle="modal" data-target="#addPedalModal">+</button>
         </div>
-        {% if pedals|length > 0 %}
-            {% for pedal in pedals %}
-            <div class="card mt-3 mr-2 gear-card">
-                <div class="card-body">
-                    <div class="options">
-                        <i class="fas fa-chevron-down" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></i>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="{% url 'pedals:edit_pedal' pedal.pk %}">編集</a>
-                            <a class="dropdown-item" href="{% url 'pedals:delete_pedal' pedal.pk %}">削除</a>
-                        </div>
+        <pedal
+        v-for="(pedal, index) in pedals"
+        :key="index"
+        v-bind:name="pedal.name"
+        v-bind:brand="pedal.brand"
+        v-bind:type="pedal.type"
+        v-bind:index="index"
+        @edit="handleEdit"
+        @destroy="confirmDestroy"></pedal>
+        <!-- Add pedal modal -->
+        <div class="modal fade" id="addPedalModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="addPedalModalLabel">エフェクターを追加</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="pedal-name">名前</label>
+                        <input class="form-control" id="add-pedal-name" type="text" v-model="addPedalName">
                     </div>
-                    <h5 class="gear-name"><a href="{% url 'pedals:detail' pedal.pk %}">{{ pedal.name }}</a></h5>
-                    <small>{{ pedal.brand }}</small><br>
+                    <div class="form-group">
+                        <label for="pedal-brand">ブランド</label>
+                        <input class="form-control" id="add-pedal-brand" type="text" v-model="addPedalBrand">
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="add-pedal-type" id="stompbox" value="コンパクトエフェクター" v-model="addPedalType" :checked="addPedalType === 'コンパクトエフェクター'">
+                        <label class="form-check-label" for="stompbox">
+                            コンパクトエフェクター
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="pedal-type" id="multieffects" value="マルチエフェクターエフェクター" v-model="addPedalType" :checked="addPedalType === 'マルチエフェクター'">
+                        <label class="form-check-label" for="multieffects">
+                            マルチエフェクター
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" @click="addPedal">追加</button>
                 </div>
             </div>
-            {% endfor %}
-        {% endif %}
+            </div>
+        </div>
+        <!-- Edit pedal modal -->
+        <div class="modal fade" id="editPedalModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">エフェクターを編集</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="pedal-name">名前</label>
+                            <input class="form-control" id="edit-pedal-name" type="text" v-model="editPedalName">
+                        </div>
+                        <div class="form-group">
+                            <label for="pedal-brand">ブランド</label>
+                            <input class="form-control" id="edit-pedal-brand" type="text" v-model="editPedalBrand">
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="edit-pedal-type" id="stompbox" value="コンパクトエフェクター" v-model="editPedalType" :checked="editPedalType === 'コンパクトエフェクター'">
+                            <label class="form-check-label" for="stompbox">
+                                コンパクトエフェクター
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="edit-pedal-type" id="multieffects" value="マルチエフェクター" v-model="editPedalType" :checked="editPedalType === 'マルチエフェクター'">
+                            <label class="form-check-label" for="multieffects">
+                                マルチエフェクター
+                            </label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" @click="saveEdit">変更</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Pedal Delete Confirmation Modal -->
+        <div class="modal fade" id="deletePedalModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                <span id="deletingPedalName"></span>を本当に削除しますか？
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+                <button type="button" class="btn btn-danger" @click="executeDestroy" data-dismiss="modal">削除</button>
+                </div>
+            </div>
+            </div>
+        </div>
     </div>
     
     <div class="col-sm-4">
