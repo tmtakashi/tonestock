@@ -67,7 +67,7 @@ new Vue({
                 editedInstrument
             )
             var csrfToken = $("[name=csrfmiddlewaretoken]").val();
-            axios.post('http://127.0.0.1:8000/instruments/add/',
+            axios.post(`http://127.0.0.1:8000/instruments/${this.editInstrumentPk}/edit/`,
                 editedInstrument,
                 {
                     headers: {"X-CSRFToken": csrfToken}

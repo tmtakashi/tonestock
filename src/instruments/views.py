@@ -29,17 +29,16 @@ def add_instrument(request):
         render(reverse('user_gear_list'))
 
 
-def edit_instrument(request):
+def edit_instrument(request, pk):
     if request.method == 'POST':
         info = json.loads(request.body.decode('utf-8'))
 
-        instrument = Instrument.objects.get(pk=info["pk"])
+        instrument = Instrument.objects.filter(pk=pk)
         instrument.update(
             name=info["name"],
             brand=info["brand"],
             type=info["type"]
         )
-
         return JsonResponse({
             'success': True
         })
