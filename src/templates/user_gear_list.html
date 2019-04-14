@@ -18,13 +18,15 @@
         :key="index"
         v-bind:name="instrument.name"
         v-bind:brand="instrument.brand"
-        v-bind:type="instrument.type"></gear>
+        v-bind:type="instrument.type"
+        v-bind:index="index"
+        @edit="handleEdit"></gear>
         <!-- Add instrument modal -->
         <div class="modal fade" id="addInstrumentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">楽器を追加</h5>
+                <h5 class="modal-title" id="addInstrumentModalLabel">楽器を追加</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -32,14 +34,14 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="instrument-name">名前</label>
-                        <input class="form-control" id="instrument-name" type="text" v-model="addInstrumentName">
+                        <input class="form-control" id="add-instrument-name" type="text" v-model="addInstrumentName">
                     </div>
                     <div class="form-group">
                         <label for="instrument-brand">ブランド</label>
-                        <input class="form-control" id="instrument-brand" type="text" v-model="addInstrumentBrand">
+                        <input class="form-control" id="add-instrument-brand" type="text" v-model="addInstrumentBrand">
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="instrument-type" id="guitar" value="ギター" v-model="addInstrumentType" :checked="addInstrumentType === 'ギター'">
+                        <input class="form-check-input" type="radio" name="add-instrument-type" id="guitar" value="ギター" v-model="addInstrumentType" :checked="addInstrumentType === 'ギター'">
                         <label class="form-check-label" for="guitar">
                             ギター
                         </label>
@@ -55,6 +57,44 @@
                 <button type="button" class="btn btn-primary" data-dismiss="modal" @click="addInstrument">追加</button>
                 </div>
             </div>
+            </div>
+        </div>
+        <!-- Edit instrument modal -->
+        <div class="modal fade" id="editInstrumentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">楽器を編集</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="instrument-name">名前</label>
+                            <input class="form-control" id="edit-instrument-name" type="text" v-model="editInstrumentName">
+                        </div>
+                        <div class="form-group">
+                            <label for="instrument-brand">ブランド</label>
+                            <input class="form-control" id="edit-instrument-brand" type="text" v-model="editInstrumentBrand">
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="edit-instrument-type" id="guitar" value="ギター" v-model="editInstrumentType" :checked="editInstrumentType === 'ギター'">
+                            <label class="form-check-label" for="guitar">
+                                ギター
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="edit-instrument-type" id="bass" value="ベース" v-model="editInstrumentType" :checked="editInstrumentType === 'ベース'">
+                            <label class="form-check-label" for="bass">
+                                ベース
+                            </label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" @click="saveEdit">変更</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

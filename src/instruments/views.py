@@ -29,6 +29,24 @@ def add_instrument(request):
         render(reverse('user_gear_list'))
 
 
+def edit_instrument(request):
+    if request.method == 'POST':
+        info = json.loads(request.body.decode('utf-8'))
+
+        instrument = Instrument.objects.get(pk=info["pk"])
+        instrument.update(
+            name=info["name"],
+            brand=info["brand"],
+            type=info["type"]
+        )
+
+        return JsonResponse({
+            'success': True
+        })
+    else:
+        render(reverse('user_gear_list'))
+
+
 class InstrumentDetailView(DetailView):
     model = Instrument
     context_object_name = "gear"

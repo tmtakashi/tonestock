@@ -1,13 +1,17 @@
 Vue.component('gear', {
-    props: ['name', 'brand', 'type'],
+    props: ['name', 'brand', 'type', 'index'],
     template: `
     <div class="card mt-3 mr-2 gear-card">
         <div class="card-body">
             <div class="options">
                 <i class="fas fa-chevron-down" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></i>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#" @click="edit">編集</a>
-                    <a class="dropdown-item" href="#" @click="destroy">削除</a>
+                    <span
+                    class="dropdown-item"
+                    @click="edit"
+                    data-toggle="modal"
+                    data-target="#editInstrumentModal">編集</span>
+                    <span class="dropdown-item" @click="destroy">削除</span>
                 </div>
             </div>
             <h5 class="gear-name"><a href="{% url 'instruments:detail' instrument.pk %}">{{ name }}</a></h5>
@@ -18,7 +22,7 @@ Vue.component('gear', {
     `,
     methods: {
         edit: function () {
-            this.$emit('edit')
+            this.$emit('edit', this.index)
         },
         destroy: function () {
             this.$emit('destroy')
@@ -32,24 +36,51 @@ new Vue({
         addInstrumentName: '',
         addInstrumentBrand: '',
         addInstrumentType: 'ギター',
+        editInstrumentName: '',
+        editInstrumentBrand: '',
+        editInstrumentType: '',
+        editIndex: 0,
         instruments: []
     },
     beforeMount() {
         var instrumentList = JSON.parse(document.getElementById('add-instrument').getAttribute('data') || '{}').instruments
         this.instruments = instrumentList
-        console.log(this.instruments)
     },
     methods: {
-        handleEdit: function () {
+        handleEdit: function (index) {
+            var targetInstrument = this.instruments[index]
+            this.editInstrumentName = targetInstrument.name
+            this.editInstrumentBrand = targetInstrument.brand
+            this.editInstrumentType = targetInstrument.type
+            this.editInstrumentPk = targetInstrument.pk
+            this.editIndex = index
+        },
+        saveEdit: function () {
+            var editedInstrument = {
+                name: this.editInstrumentName,
+                brand: this.editInstrumentBrand,
+                type: this.editInstrumentType,
+                pk: this.editInstrumentPk,
+            }
+            Vue.set(this.instruments,
+                this.editIndex,
+                editedInstrument
+            )
+            var csrfToken = $("[name=csrfmiddlewaretoken]").val();
+            axios.post('http://127.0.0.1:8000/instruments/add/',
+                editedInstrument,
+                {
+                    headers: {"X-CSRFToken": csrfToken}
+                } 
+            )
         },
         addInstrument: function () {
             var newInstrument = {
                 name: this.addInstrumentName,
-                brand: this.addInstrumentName,
+                brand: this.addInstrumentBrand,
                 type: this.addInstrumentType,
             }
             this.instruments.unshift(newInstrument)
-            console.log(this.instruments)
             var csrfToken = $("[name=csrfmiddlewaretoken]").val();
             axios.post('http://127.0.0.1:8000/instruments/add/',
                 newInstrument,
