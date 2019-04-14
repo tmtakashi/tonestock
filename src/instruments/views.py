@@ -23,9 +23,10 @@ def add_instrument(request):
         )
 
         instrument.save()
+        pk = instrument.pk
 
         return JsonResponse({
-            'success': True
+            'pk': pk
         })
     else:
         render(reverse('user_gear_list'))

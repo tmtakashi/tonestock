@@ -104,12 +104,17 @@ new Vue({
                 type: this.addInstrumentType,
             }
             this.instruments.unshift(newInstrument)
+            var instruments = this.instruments
             axios.post('/instruments/add/',
                 newInstrument,
                 {
                     headers: {"X-CSRFToken": csrfToken}
                 } 
-            )
+            ).then(function (response) {
+                pk = response.data.pk
+                newInstrument.pk = pk
+                Vue.set(instruments, 0, newInstrument)
+            })
         }
     }
 })
@@ -218,12 +223,17 @@ new Vue({
                 type: this.addPedalType,
             }
             this.pedals.unshift(newPedal)
+            var pedals = this.pedals
             axios.post('/pedals/add/',
                 newPedal,
                 {
                     headers: {"X-CSRFToken": csrfToken}
                 } 
-            )
+            ).then(function (response) {
+                pk = response.data.pk
+                newPedal.pk = pk
+                Vue.set(pedals, 0, newPedal)
+            })
         }
     }
 })
@@ -332,12 +342,17 @@ new Vue({
                 type: this.addAmpType,
             }
             this.amps.unshift(newAmp)
+            var amps = this.amps
             axios.post('/amps/add/',
                 newAmp,
                 {
                     headers: {"X-CSRFToken": csrfToken}
                 } 
-            )
+            ).then(function (response) {
+                pk = response.data.pk
+                newAmp.pk = pk
+                Vue.set(amps, 0, newAmps)
+            })
         }
     }
 })

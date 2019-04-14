@@ -23,9 +23,10 @@ def add_amp(request):
         )
 
         amp.save()
+        pk = amp.pk
 
         return JsonResponse({
-            'success': True
+            'pk': pk
         })
     else:
         render(reverse('user_gear_list'))
