@@ -20,7 +20,8 @@
         v-bind:brand="instrument.brand"
         v-bind:type="instrument.type"
         v-bind:index="index"
-        @edit="handleEdit"></gear>
+        @edit="handleEdit"
+        @destroy="confirmDestroy"></gear>
         <!-- Add instrument modal -->
         <div class="modal fade" id="addInstrumentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -95,6 +96,20 @@
                     <button type="button" class="btn btn-primary" data-dismiss="modal" @click="saveEdit">変更</button>
                     </div>
                 </div>
+            </div>
+        </div>
+        <!-- Instrument Delete Confirmation Modal -->
+        <div class="modal fade" id="deleteInstrumentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                <span id="deletingInstrumentName"></span>を本当に削除しますか？
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+                <button type="button" class="btn btn-danger" @click="executeDestroy" data-dismiss="modal">削除</button>
+                </div>
+            </div>
             </div>
         </div>
     </div>

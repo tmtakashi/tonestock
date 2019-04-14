@@ -3,12 +3,14 @@ import json
 from django.http.response import JsonResponse
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_protect
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 
 from .models import Instrument
 from .forms import InstrumentForm
 
 
+@csrf_protect
 def add_instrument(request):
     if request.method == 'POST':
         info = json.loads(request.body.decode('utf-8'))
@@ -29,6 +31,7 @@ def add_instrument(request):
         render(reverse('user_gear_list'))
 
 
+@csrf_protect
 def edit_instrument(request, pk):
     if request.method == 'POST':
         info = json.loads(request.body.decode('utf-8'))
@@ -46,14 +49,22 @@ def edit_instrument(request, pk):
         render(reverse('user_gear_list'))
 
 
+@csrf_protect
+def delete_instrument(request, pk):
+    if request.method == 'POST':
+        info = json.loads(request.body.decode('utf-8'))
+
+        Instrument.objects.filter(pk=pk).delete()
+        return JsonResponse({
+            'success': True
+        })
+    else:
+        render(reverse('user_gear_list'))
+
+
 class InstrumentDetailView(DetailView):
     model = Instrument
     context_object_name = "gear"
-
-
-class DeleteInstrumentView(DeleteView):
-    model = Instrument
-    success_url = reverse_lazy('user_gear_list')
 
 
 class UpdateInstrumentView(UpdateView):

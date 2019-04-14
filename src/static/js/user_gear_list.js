@@ -1,3 +1,5 @@
+var csrfToken = $("[name=csrfmiddlewaretoken]").val();
+
 Vue.component('gear', {
     props: ['name', 'brand', 'type', 'index'],
     template: `
@@ -11,7 +13,10 @@ Vue.component('gear', {
                     @click="edit"
                     data-toggle="modal"
                     data-target="#editInstrumentModal">編集</span>
-                    <span class="dropdown-item" @click="destroy">削除</span>
+                    <span class="dropdown-item"
+                    @click="destroy"
+                    data-toggle="modal"
+                    data-target="#deleteInstrumentModal">削除</span>
                 </div>
             </div>
             <h5 class="gear-name"><a href="{% url 'instruments:detail' instrument.pk %}">{{ name }}</a></h5>
@@ -25,7 +30,7 @@ Vue.component('gear', {
             this.$emit('edit', this.index)
         },
         destroy: function () {
-            this.$emit('destroy')
+            this.$emit('destroy', this.index)
         }
     }
 })
@@ -40,6 +45,7 @@ new Vue({
         editInstrumentBrand: '',
         editInstrumentType: '',
         editIndex: 0,
+        destroyIndex: 0,
         instruments: []
     },
     beforeMount() {
@@ -66,13 +72,29 @@ new Vue({
                 this.editIndex,
                 editedInstrument
             )
-            var csrfToken = $("[name=csrfmiddlewaretoken]").val();
-            axios.post(`http://127.0.0.1:8000/instruments/${this.editInstrumentPk}/edit/`,
+            axios.post(`/instruments/${this.editInstrumentPk}/edit/`,
                 editedInstrument,
                 {
                     headers: {"X-CSRFToken": csrfToken}
                 } 
             )
+        },
+        confirmDestroy: function (index) {
+            var targetName = this.instruments[index].name
+            $('#deletingInstrumentName').text(targetName)
+            this.destroyIndex = index
+        },
+        executeDestroy: function () {
+            var targetInstrument = this.instruments[this.destroyIndex]
+            const pk = targetInstrument.pk
+            console.log(csrfToken)
+            axios.post(`/instruments/${pk}/delete/`,
+                {},
+                {
+                    headers: { "X-CSRFToken": csrfToken }
+                } 
+            )
+            this.instruments.splice(this.destroyIndex, 1)
         },
         addInstrument: function () {
             var newInstrument = {
@@ -81,8 +103,7 @@ new Vue({
                 type: this.addInstrumentType,
             }
             this.instruments.unshift(newInstrument)
-            var csrfToken = $("[name=csrfmiddlewaretoken]").val();
-            axios.post('http://127.0.0.1:8000/instruments/add/',
+            axios.post('/instruments/add/',
                 newInstrument,
                 {
                     headers: {"X-CSRFToken": csrfToken}
