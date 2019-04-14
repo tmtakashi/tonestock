@@ -242,7 +242,6 @@ new Vue({
                 }, {
                     headers: {"X-CSRFToken": csrfToken}
                 }
-                
             )
                 .then(response => {
                 window.location.href = response.data.redirect_url

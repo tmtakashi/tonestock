@@ -135,7 +135,6 @@ new Vue({
     },
     beforeMount() {
         var toneInfo = JSON.parse(document.getElementById('edit-tone').getAttribute('data') || '{}')
-        console.log(toneInfo)
         this.pk = toneInfo.pk
 
         this.toneName = toneInfo.name

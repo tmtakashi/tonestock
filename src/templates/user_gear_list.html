@@ -6,36 +6,64 @@
 <link href="{% static 'css/user_gear_list.css' %}" rel="stylesheet">
 
 <h2>マイ機材</h2>
-{% if instruments|length_is:"0" and pedals|length_is:"0" and amps|length_is:"0" %}
-    <p>まだ機材が一個もありません。</p>
-    <p>ぜひ自分の機材をtonestockに登録しましょう！</p>
-    <a class="btn btn-primary" href="{% url "add_gears" %}">機材を登録</a>
-{% endif %}
-
 <div class="row mt-5">
-    <div class="col-sm-4">
-        <span class="gear-type">楽器</span><a class="add-gear" href="{% url 'instruments:add_instrument' %}"><i class="fas fa-plus"></i></a>
-        {% if instruments|length > 0 %}
-            {% for instrument in instruments %}
-            <div class="card mt-3 mr-2 gear-card">
-                <div class="card-body">
-                    <div class="options">
-                        <i class="fas fa-chevron-down" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></i>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="{% url 'instruments:edit_instrument' instrument.pk %}">編集</a>
-                            <a class="dropdown-item" href="{% url 'instruments:delete_instrument' instrument.pk %}">削除</a>
-                        </div>
+    {% csrf_token %}
+    <div class="col-sm-4" id="add-instrument" data="{{ instrument_list }}">
+        <div>
+            <span class="gear-type">楽器</span>
+            <button type="button" class="btn btn-secondary btn-sm add-gear" data-toggle="modal" data-target="#addInstrumentModal">+</button>
+        </div>
+        <gear
+        v-for="(instrument, index) in instruments"
+        :key="index"
+        v-bind:name="instrument.name"
+        v-bind:brand="instrument.brand"
+        v-bind:type="instrument.type"></gear>
+        <!-- Add instrument modal -->
+        <div class="modal fade" id="addInstrumentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">楽器を追加</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="instrument-name">名前</label>
+                        <input class="form-control" id="instrument-name" type="text" v-model="addInstrumentName">
                     </div>
-                    <h5 class="gear-name"><a href="{% url 'instruments:detail' instrument.pk %}">{{ instrument.name }}</a></h5>
-                    <small>{{ instrument.brand }}</small><br>
+                    <div class="form-group">
+                        <label for="instrument-brand">ブランド</label>
+                        <input class="form-control" id="instrument-brand" type="text" v-model="addInstrumentBrand">
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="instrument-type" id="guitar" value="ギター" v-model="addInstrumentType" :checked="addInstrumentType === 'ギター'">
+                        <label class="form-check-label" for="guitar">
+                            ギター
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="instrument-type" id="bass" value="ベース" v-model="addInstrumentType" :checked="addInstrumentType === 'ベース'">
+                        <label class="form-check-label" for="bass">
+                            ベース
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" @click="addInstrument">追加</button>
                 </div>
             </div>
-            {% endfor %}
-        {% endif %}
+            </div>
+        </div>
     </div>
     
     <div class="col-sm-4">
-            <span class="gear-type">エフェクター</span><a class="add-gear" href="{% url 'pedals:add_pedal' %}"><i class="fas fa-plus"></i></a>
+        <div>
+            <span class="gear-type">エフェクター</span>
+            <button type="button" class="btn btn-secondary btn-sm add-gear" data-toggle="modal" data-target="#addPedalModal">+</button>
+        </div>
         {% if pedals|length > 0 %}
             {% for pedal in pedals %}
             <div class="card mt-3 mr-2 gear-card">
@@ -56,7 +84,10 @@
     </div>
     
     <div class="col-sm-4">
-        <span class="gear-type">アンプ</span><a class="add-gear" href="{% url 'amps:add_amp' %}"><i class="fas fa-plus"></i></a>
+        <div>
+            <span class="gear-type">アンプ</span>
+            <button type="button" class="btn btn-secondary btn-sm add-gear" data-toggle="modal" data-target="#addAmpModal">+</button>
+        </div>
         {% if amps|length > 0 %}
             {% for amp in amps %}
             <div class="card mt-3 mr-2 gear-card">
@@ -76,5 +107,8 @@
         {% endif %}
     </div>
 </div>
+{% endblock %}
 
+{% block extrajs %}
+<script src="{% static 'js/user_gear_list.js' %}"></script>
 {% endblock %}

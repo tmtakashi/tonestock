@@ -4,8 +4,11 @@
 {% csrf_token %}
 <div class="mt-3" id="tone-name">
     <div class="mb-4">
-        <tone-name 
-        v-bind:name="toneName"
+        <tone-name
+        v-for="instrument in instruments"
+        v-bind:name="instrument.name"
+        v-bind:brand="instrument.brand"
+        v-bind:type="instrument.type"
         @edit-tone-name="handleEditToneName"></tone-name>
     </div>
     <!-- Edit Tone Name Modal -->

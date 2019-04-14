@@ -1,21 +1,32 @@
-from django.urls import reverse_lazy
+import json
+
+from django.http.response import JsonResponse
+from django.urls import reverse_lazy, reverse
+from django.shortcuts import render
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 
 from .models import Instrument
 from .forms import InstrumentForm
 
 
-class CreateInstrumentView(CreateView):
-    model = Instrument
-    form_class = InstrumentForm
-    template_name = 'instruments/add_instrument.html'
-    success_url = reverse_lazy('user_gear_list')
+def add_instrument(request):
+    if request.method == 'POST':
+        info = json.loads(request.body.decode('utf-8'))
 
-    def form_valid(self, form):
-        self.object = form.save()
-        print(self.request.user)
-        self.object.owner = self.request.user
-        return super().form_valid(form)
+        instrument = Instrument(
+            owner=request.user,
+            name=info['name'],
+            brand=info['brand'],
+            type=info['type']
+        )
+
+        instrument.save()
+
+        return JsonResponse({
+            'success': True
+        })
+    else:
+        render(reverse('user_gear_list'))
 
 
 class InstrumentDetailView(DetailView):

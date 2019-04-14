@@ -1,10 +1,14 @@
 .gear-type {
-    font-size: 20px;
+    font-size: 22px;
+    vertical-align: middle;
 }
 
 .add-gear {
-    color: #333;
+    color: #fff;
+    padding: 0.3px 5px;
     margin-left: 10px;
+    cursor: hand;
+    cursor: pointer;
 }
 
 .gear-card a {
