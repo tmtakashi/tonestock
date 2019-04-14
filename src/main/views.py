@@ -17,10 +17,6 @@ class HomePageView(TemplateView):
     template_name = 'home.html'
 
 
-class AddGearView(TemplateView):
-    template_name = 'add_gears.html'
-
-
 class UserGearListView(TemplateView):
     template_name = 'user_gear_list.html'
 
