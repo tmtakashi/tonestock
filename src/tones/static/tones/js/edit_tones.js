@@ -135,7 +135,6 @@ new Vue({
     },
     beforeMount() {
         var toneInfo = JSON.parse(document.getElementById('edit-tone').getAttribute('data') || '{}')
-        console.log(toneInfo)
         this.pk = toneInfo.pk
 
         this.toneName = toneInfo.name
@@ -237,7 +236,7 @@ new Vue({
         submit: function () {
             var csrfToken = $("[name=csrfmiddlewaretoken]").val();
             axios.post(
-                `http://127.0.0.1:8000/tones/${this.pk}/edit/`,
+                `/tones/${this.pk}/edit/`,
                 {   
                     name: this.toneName,
                     instrument: {

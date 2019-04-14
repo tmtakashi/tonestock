@@ -1,12 +1,12 @@
 from django.urls import path
 
-from .views import CreateInstrumentView, InstrumentDetailView, DeleteInstrumentView, UpdateInstrumentView
+from .views import add_instrument, edit_instrument, delete_instrument, InstrumentDetailView
 app_name = 'instruments'
 
 urlpatterns = [
-    path('add/', CreateInstrumentView.as_view(), name='add_instrument'),
+    path('add/', add_instrument, name='add_instrument'),
     path('<int:pk>/', InstrumentDetailView.as_view(), name='detail'),
-    path('<int:pk>/edit/', UpdateInstrumentView.as_view(), name='edit_instrument'),
-    path('<int:pk>/delete/', DeleteInstrumentView.as_view(),
+    path('<int:pk>/edit/', edit_instrument, name='edit_instrument'),
+    path('<int:pk>/delete/', delete_instrument,
          name='delete_instrument'),
 ]

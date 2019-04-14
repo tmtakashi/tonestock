@@ -12,11 +12,11 @@ $(function () {
                 if (data.command == "fav") {
                     $fav_btn.
                         removeClass('far').
-                        addClass('fas')
+                        addClass('fas');
                 } else {
                     $fav_btn.
                         removeClass('fas').
-                        addClass('far')
+                        addClass('far');
                 }
                 $num_favs.text(data.num_fav);
             },

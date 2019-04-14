@@ -225,7 +225,7 @@ new Vue({
         submit: function () {
             var csrfToken = $("[name=csrfmiddlewaretoken]").val();
             axios.post(
-                'http://127.0.0.1:8000/tones/add_tone/',
+                '/tones/add_tone/',
                 {   
                     name: this.toneName,
                     instrument: {
@@ -242,7 +242,6 @@ new Vue({
                 }, {
                     headers: {"X-CSRFToken": csrfToken}
                 }
-                
             )
                 .then(response => {
                 window.location.href = response.data.redirect_url

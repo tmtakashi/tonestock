@@ -36,6 +36,7 @@ def tone_create_view(request):
     return render(request, 'tones/add_tone.html')
 
 
+@csrf_protect
 def tone_edit_view(request, pk):
     tone = get_object_or_404(Tone, pk=pk)
     tone_info = tone.info

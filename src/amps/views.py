@@ -1,34 +1,66 @@
-from django.urls import reverse_lazy
-from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
+import json
+
+from django.http.response import JsonResponse
+from django.shortcuts import render
+from django.urls import reverse, reverse_lazy
+from django.views.generic import DetailView
+from django.views.decorators.csrf import csrf_protect
 
 from .models import Amp
 from .forms import AmpForm
 
 
-class CreateAmpView(CreateView):
-    model = Amp
-    form_class = AmpForm
-    template_name = 'amps/add_amp.html'
-    success_url = reverse_lazy('user_gear_list')
+@csrf_protect
+def add_amp(request):
+    if request.method == 'POST':
+        info = json.loads(request.body.decode('utf-8'))
 
-    def form_valid(self, form):
-        self.object = form.save()
-        self.object.owner = self.request.user
-        return super().form_valid(form)
+        amp = Amp(
+            owner=request.user,
+            name=info['name'],
+            brand=info['brand'],
+            type=info['type']
+        )
+
+        amp.save()
+        pk = amp.pk
+
+        return JsonResponse({
+            'pk': pk
+        })
+    else:
+        render(reverse('user_gear_list'))
 
 
-class UpdateAmpView(UpdateView):
-    model = Amp
-    form_class = AmpForm
-    template_name = 'amps/edit_amp.html'
+@csrf_protect
+def edit_amp(request, pk):
+    if request.method == 'POST':
+        info = json.loads(request.body.decode('utf-8'))
 
-    def get_success_url(self, **kwargs):
-        return reverse_lazy("amps:detail", args=(self.object.pk,))
+        amp = Amp.objects.filter(pk=pk)
+        amp.update(
+            name=info["name"],
+            brand=info["brand"],
+            type=info["type"]
+        )
+        return JsonResponse({
+            'success': True
+        })
+    else:
+        render(reverse('user_gear_list'))
 
 
-class DeleteAmpView(DeleteView):
-    model = Amp
-    success_url = reverse_lazy('user_gear_list')
+@csrf_protect
+def delete_amp(request, pk):
+    if request.method == 'POST':
+        info = json.loads(request.body.decode('utf-8'))
+
+        Amp.objects.filter(pk=pk).delete()
+        return JsonResponse({
+            'success': True
+        })
+    else:
+        render(reverse('user_gear_list'))
 
 
 class AmpDetailView(DetailView):
