@@ -89,7 +89,6 @@ new Vue({
         executeDestroy: function () {
             var targetInstrument = this.instruments[this.destroyIndex]
             const pk = targetInstrument.pk
-            console.log(csrfToken)
             axios.post(`/instruments/${pk}/delete/`,
                 {},
                 {
@@ -221,6 +220,120 @@ new Vue({
             this.pedals.unshift(newPedal)
             axios.post('/pedals/add/',
                 newPedal,
+                {
+                    headers: {"X-CSRFToken": csrfToken}
+                } 
+            )
+        }
+    }
+})
+
+//------------- AMPS -------------
+Vue.component('amp', {
+    props: ['name', 'brand', 'type', 'index'],
+    template: `
+    <div class="card mt-3 mr-2 gear-card">
+        <div class="card-body">
+            <div class="options">
+                <i class="fas fa-chevron-down" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></i>
+                <div class="dropdown-menu">
+                    <span
+                    class="dropdown-item"
+                    @click="edit"
+                    data-toggle="modal"
+                    data-target="#editAmpModal">編集</span>
+                    <span class="dropdown-item"
+                    @click="destroy"
+                    data-toggle="modal"
+                    data-target="#deleteAmpModal">削除</span>
+                </div>
+            </div>
+            <h5 class="gear-name"><a href="{% url 'amps:detail' amp.pk %}">{{ name }}</a></h5>
+            <small>{{ brand }}</small><br>
+            <small>{{ type }}</small><br>
+        </div>
+    </div>
+    `,
+    methods: {
+        edit: function () {
+            this.$emit('edit', this.index)
+        },
+        destroy: function () {
+            this.$emit('destroy', this.index)
+        }
+    }
+})
+
+new Vue({
+    el: '#amp-list',
+    data: {
+        addAmpName: '',
+        addAmpBrand: '',
+        addAmpType: '真空管アンプ',
+        editAmpName: '',
+        editAmpBrand: '',
+        editAmpType: '',
+        editIndex: 0,
+        destroyIndex: 0,
+        amps: []
+    },
+    beforeMount() {
+        var ampList = JSON.parse(document.getElementById('amp-list').getAttribute('data') || '{}').amps
+        this.amps = ampList
+    },
+    methods: {
+        handleEdit: function (index) {
+            var targetAmp = this.amps[index]
+            this.editAmpName = targetAmp.name
+            this.editAmpBrand = targetAmp.brand
+            this.editAmpType = targetAmp.type
+            this.editAmpPk = targetAmp.pk
+            this.editIndex = index
+        },
+        saveEdit: function () {
+            var editedAmp = {
+                name: this.editAmpName,
+                brand: this.editAmpBrand,
+                type: this.editAmpType,
+                pk: this.editAmpPk,
+            }
+            Vue.set(this.amps,
+                this.editIndex,
+                editedAmp
+            )
+            axios.post(`/amps/${this.editAmpPk}/edit/`,
+                editedAmp,
+                {
+                    headers: {"X-CSRFToken": csrfToken}
+                } 
+            )
+        },
+        confirmDestroy: function (index) {
+            var targetName = this.amps[index].name
+            $('#deletingAmpName').text(targetName)
+            this.destroyIndex = index
+        },
+        executeDestroy: function () {
+            var targetAmp = this.amps[this.destroyIndex]
+            const pk = targetAmp.pk
+            console.log(csrfToken)
+            axios.post(`/amps/${pk}/delete/`,
+                {},
+                {
+                    headers: { "X-CSRFToken": csrfToken }
+                } 
+            )
+            this.amps.splice(this.destroyIndex, 1)
+        },
+        addAmp: function () {
+            var newAmp = {
+                name: this.addAmpName,
+                brand: this.addAmpBrand,
+                type: this.addAmpType,
+            }
+            this.amps.unshift(newAmp)
+            axios.post('/amps/add/',
+                newAmp,
                 {
                     headers: {"X-CSRFToken": csrfToken}
                 } 
