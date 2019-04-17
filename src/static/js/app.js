@@ -46,7 +46,12 @@ new Vue({
         editAmpName: '',
         editAmpBrand: '',
         editAmpType: '',
-        someValue: 30
+        ampBass: 0,
+        ampMiddle: 0,
+        ampTreble: 0,
+        ampPresence: 0,
+        ampDrive: 0,
+        ampMaster: 0,
     },
     beforeMount() {
         var toneInfo = JSON.parse(document.getElementById('edit-tone').getAttribute('data') || '{}')
@@ -64,6 +69,12 @@ new Vue({
         this.ampName = toneInfo.amp.name
         this.ampBrand = toneInfo.amp.brand
         this.ampType = toneInfo.amp.type
+        this.ampBass = toneInfo.amp.bass,
+        this.ampMiddle = toneInfo.amp.middle,
+        this.ampTreble = toneInfo.amp.treble,
+        this.ampPresence = toneInfo.amp.presence,
+        this.ampDrive = toneInfo.amp.drive,    
+        this.ampMaster = toneInfo.amp.master
     },
     methods: {
         // ---- TONE NAME ----
@@ -163,7 +174,13 @@ new Vue({
                     amp: {
                         name: this.ampName,
                         brand: this.ampBrand,
-                        type: this.ampType
+                        type: this.ampType,
+                        bass: this.ampBass,
+                        middle: this.ampMiddle,
+                        treble: this.ampTreble,
+                        presence: this.ampPresence,
+                        drive: this.ampDrive,
+                        master: this.ampMaster
                     },
                 }, {
                     headers: {"X-CSRFToken": csrfToken}
@@ -321,7 +338,13 @@ new Vue({
                     amp: {
                         name: this.ampName,
                         brand: this.ampBrand,
-                        type: this.ampType
+                        type: this.ampType,
+                        bass: this.ampBass,
+                        middle: this.ampMiddle,
+                        treble: this.ampTreble,
+                        presence: this.ampPresence,
+                        drive: this.ampDrive,
+                        master: this.ampMaster
                     },
                 }, {
                     headers: {"X-CSRFToken": csrfToken}
