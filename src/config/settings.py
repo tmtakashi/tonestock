@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'betterforms',
     'debug_toolbar',
     'widget_tweaks',
+    'webpack_loader',
     'main',
     'users',
     'tones',
@@ -166,3 +167,10 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 ALLOWED_HOSTS = ['*']
+
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'BUNDLE_DIR_NAME': 'bundles/',
+        'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json'),
+    }
+}

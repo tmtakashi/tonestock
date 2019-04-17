@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% load static %}
+{% load render_bundle from webpack_loader %}
 
 {% block content %}
 <link href="{% static 'css/user_gear_list.css' %}" rel="stylesheet">
@@ -342,8 +343,5 @@
         </div>
     </div>
 </div>
-{% endblock %}
-
-{% block extrajs %}
-<script src="{% static 'js/user_gear_list.js' %}"></script>
+{% render_bundle 'main' %} 
 {% endblock %}

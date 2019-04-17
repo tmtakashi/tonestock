@@ -5,10 +5,7 @@
 <div class="mt-3" id="tone-name">
     <div class="mb-4">
         <tone-name
-        v-for="instrument in instruments"
-        v-bind:name="instrument.name"
-        v-bind:brand="instrument.brand"
-        v-bind:type="instrument.type"
+        v-bind:name="toneName"
         @edit-tone-name="handleEditToneName"></tone-name>
     </div>
     <!-- Edit Tone Name Modal -->
@@ -191,25 +188,77 @@
                 </button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label for="amp-edit-name">Name</label>
-                        <input class="form-control" id="amp-edit-name" type="text" v-model="editAmpName">
-                    </div>
-                    <div class="form-group">
-                        <label for="amp-edit-brand">Brand</label>
-                        <input class="form-control" id="amp-edit-brand" type="text" v-model="editAmpBrand">
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="amp-type" id="tube" value="Tube" v-model="editAmpType" :checked="ampType == 'Tube'">
-                        <label class="form-check-label" for="tube">
-                            Tube
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="amp-type" id="solidstate" value="Solid State" v-model="editAmpType" :checked="ampType === 'Solid State'">
-                        <label class="form-check-label" for="solidstate">
-                            Solid State
-                        </label>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="amp-edit-name">Name</label>
+                                <input class="form-control" id="amp-edit-name" type="text" v-model="editAmpName">
+                            </div>
+                            <div class="form-group">
+                                <label for="amp-edit-brand">Brand</label>
+                                <input class="form-control" id="amp-edit-brand" type="text" v-model="editAmpBrand">
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="amp-type" id="tube" value="Tube" v-model="editAmpType" :checked="ampType == 'Tube'">
+                                <label class="form-check-label" for="tube">
+                                    Tube
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="amp-type" id="solidstate" value="Solid State" v-model="editAmpType" :checked="ampType === 'Solid State'">
+                                <label class="form-check-label" for="solidstate">
+                                    Solid State
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-8" id="amp-knobs">
+                            <div class="row">
+                                <div class="col-sm-4 text-center">
+                                    <p class="mb-1">Bass</p>
+                                    <knob-control 
+                                    :size="60"
+                                    :stroke-width="8"
+                                    v-model="ampBass"></knob-control>
+                                </div>
+                                <div class="col-sm-4 text-center">
+                                    <p class="mb-1">Middle</p>
+                                    <knob-control 
+                                    :size="60"
+                                    :stroke-width="8"
+                                    v-model="ampMiddle"></knob-control>
+                                </div>
+                                <div class="col-sm-4 text-center">
+                                    <p class="mb-1">Treble</p>
+                                    <knob-control 
+                                    :size="60"
+                                    :stroke-width="8"
+                                    v-model="ampTreble"></knob-control>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm-4 text-center">
+                                    <p class="mb-1">Presence</p>
+                                    <knob-control 
+                                    :size="60"
+                                    :stroke-width="8"
+                                    v-model="ampPresence"></knob-control>
+                                </div>
+                                <div class="col-sm-4 text-center">
+                                    <p class="mb-1">Drive</p>
+                                    <knob-control 
+                                    :size="60"
+                                    :stroke-width="8"
+                                    v-model="ampDrive"></knob-control>
+                                </div>
+                                <div class="col-sm-4 text-center">
+                                    <p class="mb-1">Master</p>
+                                    <knob-control 
+                                    :size="60"
+                                    :stroke-width="8"
+                                    v-model="ampMaster"></knob-control>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -221,5 +270,5 @@
     </div>
 </div>  
 <div class="mt-5">
-    <button type="button" class="btn btn-primary" @click="submit">保存</button>    
+    <button type="button" class="btn btn-primary" @click="submit">保存</button>  
 </div>

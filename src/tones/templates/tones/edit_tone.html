@@ -2,18 +2,19 @@
 
 {% load static %}
 {% load widget_tweaks %}
-
+{% load render_bundle from webpack_loader %}
 
 
 {% block content %}
-<link href="{% static 'tones/css/add_tone.css' %}" rel="stylesheet">
+<!-- <link href="{% static 'tones/css/add_tone.css' %}" rel="stylesheet"> -->
 
 <div class="contain mt-5" id="edit-tone" data="{{ tone_info }}">
     <h2 class="title">プリセット編集</h2>
     {% include 'tones/_tone_edit.html' %}   
-</div>     
+</div> 
+{% render_bundle 'main' %}      
 {% endblock %}
 
 {% block extrajs %}
-<script src="{% static 'tones/js/edit_tones.js' %}"></script>
+<!-- <script src="{% static 'tones/js/edit_tones.js' %}"></script> -->
 {% endblock %}

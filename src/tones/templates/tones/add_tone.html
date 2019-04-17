@@ -2,15 +2,14 @@
 
 {% load static %}
 {% load widget_tweaks %}
+{% load render_bundle from webpack_loader %}
+
 
 {% block content %}
 
 <div class="mt-3" id="add-tone">
     <h2 class="title">プリセット作成</h2>
     {% include 'tones/_tone_edit.html' %}
-</div>     
-{% endblock %}
-
-{% block extrajs %}
-<script src="{% static 'tones/js/add_tones.js' %}"></script>
+</div>
+{% render_bundle 'main' %}     
 {% endblock %}
