@@ -13,7 +13,6 @@ django-debug-toolbar = "*"
 django-widgets-improved = "*"
 django-betterforms = "*"
 djangorestframework = "*"
-django-webpack-loader = "*"
 
 [requires]
 python_version = "3.7"
