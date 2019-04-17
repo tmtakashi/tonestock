@@ -29,10 +29,3 @@ export default {
   }
 };
 </script>
-
-Vue.component('amp', {
-    
-    template: `
-    
-    `
-})
