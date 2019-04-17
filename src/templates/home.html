@@ -1,6 +1,5 @@
 {% extends 'base.html'%}
 {% load static %}
-{% load render_bundle from webpack_loader %}
 {% block homepage %}
 <header>
     <section class="header-wrapper container">
@@ -10,11 +9,6 @@
         <div class="en_copy"><span>PLAY.</span><img src="{% static "images/maloik.svg" %}" alt="" height="80px"></div>
         <p class="ja_copy">tonestock - share your tone.</p>
     </div>
-    <div id='test'>
-        <test></test>
-    </div>
-    
-    {% render_bundle 'main' %}
     </section>
 </header>
 {% endblock %}
