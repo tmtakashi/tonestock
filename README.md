@@ -3,13 +3,13 @@ a web app that manages your tones and gears
 
 ## Setup
 
-### Postgresql
+### DB
 ```
 $ psql
 # CREATE USER takashi-minagawa;
 # CREATE DATABASE tonestock OWNER takashi-minagawa;
 ```
-
+### Project
 ```
 $ cd tonestock
 $ pip install pipenv
