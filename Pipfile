@@ -14,6 +14,8 @@ django-widgets-improved = "*"
 django-betterforms = "*"
 djangorestframework = "*"
 django-webpack-loader = "*"
+psycopg2 = "*"
+pillow = "*"
 
 [requires]
 python_version = "3.7"
