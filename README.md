@@ -1,22 +1,14 @@
 # tonestock
 a web app that manages your tones and gears
 
-## Setup
+## 環境構築
 
-### DB
 ```
-$ psql
-# CREATE USER takashi-minagawa;
-# CREATE DATABASE tonestock OWNER takashi-minagawa;
+git clone https://github.com/tmtakashi/tonestock.git
+cd tonestock
+docker-compose up -d
 ```
-### Project
-```
-$ cd tonestock
-$ pip install pipenv
-$ pipenv install
-$ pipenv shell
-$ cd src
-$ npm install
-$ python manage.py migrate
-$ python manage.py runserver
-```
+Access to http://0.0.0.0:8000/
+
+## 本登録メールの確認方法
+`docker-compose log -f web`でDjangoのコンソール画面が表示されるので、記載されたURLにアクセスして本登録を完了させる。
