@@ -1,5 +1,5 @@
 # tonestock
-a web app that manages your tones and gears
+A social media web app that manages your tones and gears.
 
 ## 環境構築
 
