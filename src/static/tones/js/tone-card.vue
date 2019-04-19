@@ -10,7 +10,7 @@
             aria-expanded="true"
           ></i>
           <div class="dropdown-menu">
-            <a class="dropdown-item" href="{% url 'tones:edit_tone' tone.pk %}">編集</a>
+            <a class="dropdown-item" :href="editLink">編集</a>
             <span
               class="dropdown-item"
               @click="destroy"
@@ -20,7 +20,7 @@
           </div>
         </div>
         <h5>
-          <a class="tone-name" href="{% url 'tones:detail' tone.pk %}">{{ name }}</a>
+          <a class="tone-name" :href="detailLink">{{ name }}</a>
         </h5>
       </div>
     </div>
@@ -29,10 +29,18 @@
 
 <script>
 export default {
-  props: ["name", "index"],
+  props: ["name", "index", "pk"],
   methods: {
     destroy: function() {
       this.$emit("destroy", this.index);
+    }
+  },
+  computed: {
+    editLink: function() {
+      return `/tones/${this.pk}/edit/`;
+    },
+    detailLink: function() {
+      return `/tones/${this.pk}/detail/`;
     }
   }
 };

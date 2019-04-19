@@ -13,6 +13,7 @@
         :key="index"
         v-bind:name="tone.name"
         v-bind:index="index"
+        v-bind:pk="tone.pk"
         @destroy="confirmDestroy"></tone-card>
         <!-- Tone Delete Confirmation Modal -->
         <div class="modal fade" id="deleteToneModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
