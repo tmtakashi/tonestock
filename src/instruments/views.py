@@ -53,8 +53,6 @@ def edit_instrument(request, pk):
 @csrf_protect
 def delete_instrument(request, pk):
     if request.method == 'POST':
-        info = json.loads(request.body.decode('utf-8'))
-
         Instrument.objects.filter(pk=pk).delete()
         return JsonResponse({
             'success': True

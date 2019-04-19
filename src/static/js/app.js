@@ -7,10 +7,13 @@ import ToneName from '../tones/js/tone-name'
 import ToneInstrument from '../tones/js/tone-instrument'
 import TonePedalItem from '../tones/js/tone-pedal-item'
 import ToneAmp from '../tones/js/tone-amp'
+import ToneCard from '../tones/js/tone-card'
 
 import GearInstrument from './gear-instrument'
 import GearPedal from './gear-pedal'
 import GearAmp from './gear-amp'
+
+// ==================== EDIT TONE ======================
 
 if (document.getElementById('edit-tone') != null) {
     new Vue({
@@ -200,6 +203,9 @@ if (document.getElementById('edit-tone') != null) {
         }
     })
 }
+
+// ==================== ADD TONE ======================
+
 if (document.getElementById('add-tone') != null) {
     new Vue({
         el: '#add-tone',
@@ -365,7 +371,7 @@ if (document.getElementById('add-tone') != null) {
     })
 }
 
-var csrfToken = $("[name=csrfmiddlewaretoken]").val();
+// ==================== GEAR LIST ======================
 
 new Vue({
     el: '#instrument-list',
@@ -422,6 +428,7 @@ new Vue({
         executeDestroy: function () {
             var targetInstrument = this.instruments[this.destroyIndex]
             const pk = targetInstrument.pk
+            var csrfToken = $("[name=csrfmiddlewaretoken]").val();
             axios.post(`/instruments/${pk}/delete/`,
                 {},
                 {
@@ -438,6 +445,7 @@ new Vue({
             }
             this.instruments.unshift(newInstrument)
             var instruments = this.instruments
+            var csrfToken = $("[name=csrfmiddlewaretoken]").val();
             axios.post('/instruments/add/',
                 newInstrument,
                 {
@@ -524,6 +532,7 @@ new Vue({
             }
             this.pedals.unshift(newPedal)
             var pedals = this.pedals
+            var csrfToken = $("[name=csrfmiddlewaretoken]").val();
             axios.post('/pedals/add/',
                 newPedal,
                 {
@@ -578,6 +587,7 @@ new Vue({
                 this.editIndex,
                 editedAmp
             )
+            var csrfToken = $("[name=csrfmiddlewaretoken]").val();
             axios.post(`/amps/${this.editAmpPk}/edit/`,
                 editedAmp,
                 {
@@ -610,6 +620,7 @@ new Vue({
             }
             this.amps.unshift(newAmp)
             var amps = this.amps
+            var csrfToken = $("[name=csrfmiddlewaretoken]").val();
             axios.post('/amps/add/',
                 newAmp,
                 {
@@ -621,5 +632,41 @@ new Vue({
                 Vue.set(amps, 0, newAmps)
             })
         }
+    }
+})
+
+// ==================== USER TONE LIST ======================
+
+new Vue({
+    el: '#user-tone-list',
+    data: {
+        destroyIndex: 0,
+        tones: []
+    },
+    components: {
+        "tone-card": ToneCard
+    },
+    beforeMount() {
+        var toneList = JSON.parse(document.getElementById('user-tone-list').getAttribute('data') || '{}').tones
+        this.tones = toneList
+    },
+    methods: {
+        confirmDestroy: function (index) {
+            var targetName = this.tones[index].name
+            $('#deletingToneName').text(targetName)
+            this.destroyIndex = index
+        },
+        executeDestroy: function () {
+            var targetTone = this.tones[this.destroyIndex]
+            const pk = targetTone.pk
+            var csrfToken = $("[name=csrfmiddlewaretoken]").val();
+            axios.post(`/tones/${pk}/delete/`,
+                {},
+                {
+                    headers: { "X-CSRFToken": csrfToken }
+                } 
+            )
+            this.tones.splice(this.destroyIndex, 1)
+        },
     }
 })

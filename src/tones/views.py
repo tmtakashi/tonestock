@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.http.response import JsonResponse
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, DeleteView, View
+from django.views.generic import ListView, DetailView, DeleteView, View, TemplateView
 from django.views.decorators.csrf import csrf_protect
 from django.urls import reverse, reverse_lazy
 from django.shortcuts import redirect, get_object_or_404
@@ -13,6 +13,7 @@ from django.shortcuts import redirect, get_object_or_404
 from instruments.models import Instrument
 from amps.models import Amp
 from .models import Tone
+from .view_model import ToneMapper
 
 User = get_user_model()
 
@@ -53,12 +54,20 @@ def tone_edit_view(request, pk):
     return render(request, 'tones/edit_tone.html', {'tone_info': json.dumps(tone_info)})
 
 
-def user_tones(request):
-    user = request.user
-    template = 'tones/user_tone_list.html'
-    user_tones = Tone.objects.filter(
-        author=request.user).order_by('-updated_at')
-    return render(request, template, {'user_tones': user_tones, 'user': user})
+class UserToneListView(TemplateView):
+    template_name = 'tones/user_tone_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tones = Tone.objects.filter(
+            author=self.request.user).order_by('-updated_at')
+
+        tone_list = [ToneMapper(tone).as_dict()
+                     for tone in tones]
+        context['tone_list'] = json.dumps({
+            "tones": tone_list
+        }, ensure_ascii=False)
+        return context
 
 
 class ToneListView(ListView):
@@ -74,9 +83,15 @@ class ToneDetailView(DetailView):
     template_name = 'tones/tone_detail.html'
 
 
-class ToneDeleteView(DeleteView):
-    model = Tone
-    success_url = reverse_lazy('tones:user_tone_list')
+@csrf_protect
+def delete_tone(request, pk):
+    if request.method == 'POST':
+        Tone.objects.filter(pk=pk).delete()
+        return JsonResponse({
+            'success': True
+        })
+    else:
+        render(reverse('user_gear_list'))
 
 
 @login_required
