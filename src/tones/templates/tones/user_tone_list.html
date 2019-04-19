@@ -1,27 +1,33 @@
 {% extends 'base.html' %}
 
 {% load static %}
-
+{% load render_bundle from webpack_loader %}
 {% block content %}
 <link href="{% static 'tones/css/user_tone_list.css' %}" rel="stylesheet">
 
 <h2 class="title">マイプリセット</h2>
-<div class="row">
-    {% for tone in user_tones %}
-        <div class="col-sm-4 my-5">
-            <div class="card tone-card">
-                <div class="card-body">
-                    <div class="options">
-                        <i class="fas fa-chevron-down" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"></i>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="{% url 'tones:edit_tone'  tone.pk %}">編集</a>
-                            <a class="dropdown-item" href="{% url 'tones:delete'  tone.pk %}">削除</a>
-                        </div>
-                    </div>
-                    <h5><a class="tone-name" href="{% url 'tones:detail' tone.pk %}">{{ tone.info.name }}</a></h5>
+<div class="row" id="user-tone-list" data="{{ tone_list }}">
+    {% csrf_token %}
+    <tone-card
+        v-for="(tone, index) in tones"
+        :key="index"
+        v-bind:name="tone.name"
+        v-bind:index="index"
+        @destroy="confirmDestroy"></tone-card>
+        <!-- Tone Delete Confirmation Modal -->
+        <div class="modal fade" id="deleteToneModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                <span id="deletingToneName"></span>を本当に削除しますか？
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+                <button type="button" class="btn btn-danger" @click="executeDestroy" data-dismiss="modal">削除</button>
                 </div>
             </div>
+            </div>
         </div>
-    {% endfor %}
 </div>
+{% render_bundle 'main' %}
 {% endblock %}
