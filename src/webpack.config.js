@@ -11,7 +11,7 @@ module.exports = {
    entry: './static/js/app.js',
    output: {
        filename: "[name]-[hash].js",
-       path: path.resolve('./static/bundles/')
+       path: path.resolve('/static/bundles/')
        // publicPath: '/'
    },
 
