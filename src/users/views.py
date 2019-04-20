@@ -1,15 +1,19 @@
 import json
+import base64
+import datetime
 
 from django.conf import settings
 from django.contrib.auth import get_user_model, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
+from django.core.files.base import ContentFile
 from django.core.signing import BadSignature, SignatureExpired, loads, dumps
 from django.http import HttpResponseRedirect, Http404, HttpResponseBadRequest
 from django.http.response import JsonResponse
 from django.shortcuts import redirect, render
 from django.template.loader import get_template
 from django.views.generic import TemplateView, UpdateView, ListView, DetailView
+from django.views.decorators.csrf import csrf_protect
 from django.urls import reverse_lazy
 
 from .models import Profile
@@ -112,11 +116,23 @@ class SignUpCompleteView(TemplateView):
         return HttpResponseBadRequest()
 
 
-class UpdateProfileView(UpdateView):
-    model = Profile
-    form_class = ProfileForm
-    template_name = 'users/edit_profile.html'
-    success_url = reverse_lazy('home')
+def edit_profile(request, pk):
+    if request.method == "POST":
+        new_info = json.loads(request.body.decode('utf-8'))
+        profile = Profile.objects.get(pk=pk)
+        profile.username = new_info["username"]
+        if profile.image == new_info["image_url"]:
+            pass
+        else:
+            fmt, imgstr = new_info["image_url"].split(';base64,')
+            ext = fmt.split('/')[-1]
+
+            data = ContentFile(base64.b64decode(imgstr))
+            dt_now = datetime.datetime.now()
+            file_name = dt_now.strftime('%Y-%m-%d-%H-%M-%S') + "." + ext
+            profile.image.save(file_name, data, save=True)
+        profile.save()
+        return JsonResponse({})
 
 
 class UserDetailView(DetailView):

@@ -12,8 +12,7 @@ import ToneCard from '../tones/js/tone-card'
 import GearInstrument from './gear-instrument'
 import GearPedal from './gear-pedal'
 import GearAmp from './gear-amp'
-
-import UsernameInput from '../users/js/username-input'
+import { throws } from 'assert';
 
 // ==================== EDIT TONE ======================
 
@@ -609,7 +608,6 @@ if (document.getElementById('amp-list') != null) {
             executeDestroy: function () {
                 var targetAmp = this.amps[this.destroyIndex]
                 const pk = targetAmp.pk
-                console.log(csrfToken)
                 axios.post(`/amps/${pk}/delete/`,
                     {},
                     {
@@ -684,20 +682,54 @@ if (document.getElementById('userprofile') != null) {
         el: "#userprofile",
         data: {
             info: {},
+            usernameTmp: '',
+            userImgUrlTmp: '',
+            pk: 0,
             edit: false,
         },
         beforeMount() {
             var profile_info = JSON.parse(document.getElementById('userprofile').getAttribute('data') || '{}')
             this.info = profile_info
+            this.usernameTmp = this.info.username
+            this.userImgUrlTmp = this.info.image_url
         },
         methods: {
             toggleEditMode: function () {
                 this.edit = !this.edit
             },
-            editUsername: function (event) {
-                this.$set(this.info, "username", event.target.value)
-                console.log(this.info.username)
-            }
+            saveEdit: function () {
+                if (this.usernameTmp.length === 0) {
+                    $(".alert").addClass('show')
+                } else {
+                    this.edit = !this.edit
+                    this.$set(this.info, "username", this.usernameTmp)
+                    this.$set(this.info, "image_url", this.userImgUrlTmp)
+                }
+                var csrfToken = $("[name=csrfmiddlewaretoken]").val();
+                axios.post(`/users/edit/${this.info.pk}/`,
+                    this.info,
+                    {
+                        headers: {"X-CSRFToken": csrfToken}
+                    } 
+                )
+            },
+            cancel: function () {
+                this.edit = !this.edit
+                this.usernameTmp = this.info.username
+                this.userImgUrlTmp = this.info.image_url
+            },
+            onFileChange(e) {
+                let files = e.target.files || e.dataTransfer.files;
+                this.createImage(files[0]);
+              },
+            // アップロードした画像を表示
+            createImage(file) {
+                let reader = new FileReader();
+                reader.onload = (e) => {
+                    this.userImgUrlTmp = e.target.result
+                };
+                reader.readAsDataURL(file);
+            },
         }
     })
 }
