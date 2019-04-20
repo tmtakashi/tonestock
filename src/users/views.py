@@ -1,3 +1,5 @@
+import json
+
 from django.conf import settings
 from django.contrib.auth import get_user_model, login
 from django.contrib.auth.decorators import login_required
@@ -11,6 +13,7 @@ from django.views.generic import TemplateView, UpdateView, ListView, DetailView
 from django.urls import reverse_lazy
 
 from .models import Profile
+from .view_model import ProfileMapper
 from .forms import UserForm, ProfileForm
 
 User = get_user_model()
@@ -120,6 +123,13 @@ class UserDetailView(DetailView):
     model = User
     template_name = 'users/user_detail.html'
     context_object_name = 'target_user'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user_profile = self.request.user.profile
+        context['user_profile'] = json.dumps(
+            ProfileMapper(user_profile).as_dict())
+        return context
 
 
 class UserListView(ListView):

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
-
+{% load render_bundle from webpack_loader %}
 {% block content %}
-<div class="row">
+<div class="row" id="userprofile" data="{{ user_profile }}">
     <!-- left side -->
     <div class="col-sm-4">
         {% if object.profile.image %}
@@ -11,13 +11,23 @@
             <i class="fas fa-image" style="font-size:200px; color: #333;"></i>
         </div>
         {% endif %}
-        <h3>{{ object.profile.username }}</h3>
+        {% verbatim %}
+        <div class="form-group mt-3 col-sm-6">
+            <input v-model="info.username" v-if="edit" class="form-control"></input>
+            <h3 v-else v-cloak>{{ info.username }}</h3>
+        </div>
+        {% endverbatim %}
         <span class="num_follower">{{ object.profile.followed_by.all|length }}</span> followers
         <span>{{ object.profile.follows.all|length }}</span>
          follows
         <br>
         {% if user != object %}
             {% include 'users/_follow_button.html' %}
+        {% else %}
+        <div class="mt-3">
+            <button v-if="edit" v-cloak @click="toggleEditMode" class="btn btn-outline-danger">Done</button>
+            <button v-else v-cloak @click="toggleEditMode" class="btn btn-outline-primary">Edit</button>
+        </div>
         {% endif %}
     </div>
     <!-- right side -->
@@ -66,6 +76,6 @@
         </div>
     </div>
 </div>
-
+{% render_bundle 'main' %} 
 
 {% endblock %}
