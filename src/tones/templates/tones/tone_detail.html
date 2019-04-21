@@ -36,15 +36,49 @@
     {% csrf_token %}
     <h4>コメント</h4>
     {% verbatim %}
-    <ul class="list-group">
-        <li class="list-group-item" v-for="comment in comments">
-            {{ comment.username }} : {{ comment.text }}
-        </li>
-    </ul>
+    <div class="row">
+        <ul class="list-group col-sm-6">
+            <li class="list-group-item" v-for="(comment, index) in comments">
+                <div class="row">
+                    <div class="col-sm-10">
+                        <h5>{{ comment.username }}</h5>
+                        <p>{{ comment.text }}</p>
+                    </div>            
+                    <div class="col-sm-2">
+                        <i class="fas fa-trash" v-if="deletable" @click="confirmDelete(index)" data-toggle="modal" data-target="#confirm-delete-modal"></i>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <div class="col-sm-6">
+            <div class="mt-4" class="form-group">
+                <textarea class="form-control" v-model="text" placeholder="Add comment..."></textarea>
+            </div>
+            <br>
+            <button class="btn btn-primary" type="button" @click="postComment">コメントする</button>
+        </div>
+        <!-- Confirm Delete Modal -->
+        <div class="modal fade" id="confirm-delete-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    このコメントを削除しますか？
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" @click="executeDelete">削除</button>
+                </div>
+                </div>
+            </div>
+        </div>  
+    </div>
     {% endverbatim %}
-    <textarea v-model="text" placeholder="Add comment..."></textarea>
-    <br>
-    <button class="btn btn-primary" type="button" @click="postComment">コメントする</button>
 </div>
 {% render_bundle 'main' %}
 {% endblock %}

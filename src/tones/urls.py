@@ -8,7 +8,8 @@ from .views import (
     ToneDetailView,
     delete_tone,
     favorite_toggle,
-    post_comment
+    post_comment,
+    delete_comment
 )
 
 app_name = 'tones'
@@ -21,5 +22,7 @@ urlpatterns = [
     path('<int:pk>/edit/', tone_edit_view, name='edit_tone'),
     path('<int:pk>/delete/', delete_tone, name='delete'),
     path('favorite_toggle/<int:pk>', favorite_toggle, name='favorite_toggle'),
-    path('comment/', post_comment, name="post_comment"),
+    path('post_comment/', post_comment, name="post_comment"),
+    path('delete_comment/', delete_comment, name="delete_comment"),
+
 ]

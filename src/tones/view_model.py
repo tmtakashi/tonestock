@@ -17,5 +17,6 @@ class CommentMapper:
     def as_dict(self):
         return {
             "username": self.obj.profile.username,
-            "text": self.obj.text
+            "text": self.obj.text,
+            "pk": self.obj.pk
         }

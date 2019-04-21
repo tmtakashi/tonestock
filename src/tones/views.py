@@ -85,10 +85,12 @@ class ToneDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         comments = self.object.comment_set.all().order_by('created_at')
+        deletable = self.request.user == self.object.author
         context['comments'] = json.dumps({
             "comments": [CommentMapper(comment).as_dict() for comment in comments],
             "pk": self.object.pk,
-            "current_username": self.request.user.profile.username
+            "current_username": self.request.user.profile.username,
+            "deletable": deletable
         })
         return context
 
@@ -108,12 +110,23 @@ def delete_tone(request, pk):
 def post_comment(request):
     if request.method == 'POST':
         info = json.loads(request.body.decode('utf-8'))
-        print(info)
         target_tone = Tone.objects.get(pk=info['pk'])
         text = info['text']
         comment = Comment(
             tone=target_tone, profile=request.user.profile, text=text)
         comment.save()
+        new_pk = comment.pk
+        return JsonResponse({
+            "pk": new_pk
+        })
+
+
+@login_required
+def delete_comment(request):
+    if request.method == 'POST':
+        info = json.loads(request.body.decode('utf-8'))
+        target_comment = Comment.objects.get(pk=info['pk'])
+        target_comment.delete()
         return JsonResponse({})
 
 
