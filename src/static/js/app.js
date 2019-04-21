@@ -733,3 +733,42 @@ if (document.getElementById('userprofile') != null) {
         }
     })
 }
+
+if (document.getElementById('tone-comment') != null) {
+    new Vue({
+        el: '#tone-comment',
+        data: {
+            currentUsername: '',
+            comments: [],
+            text: '',
+            pk: 0
+        },
+        beforeMount() {
+            var info = JSON.parse(document.getElementById('tone-comment').getAttribute('data') || '{}')
+            var comments = info.comments
+            var pk = info.pk
+            this.comments = comments
+            this.pk = pk
+            this.currentUsername = info.current_username
+        },
+        methods: {
+            postComment: function () {
+                this.comments.push({
+                    username: this.currentUsername,
+                    text: this.text
+                })
+                var csrfToken = $("[name=csrfmiddlewaretoken]").val();
+                axios.post('/tones/comment/',
+                    {
+                        "text": this.text,
+                        "pk": this.pk
+                    },
+                    {
+                        headers: {"X-CSRFToken": csrfToken}
+                    } 
+                )
+                this.text = ''
+            }
+        }
+    })
+}

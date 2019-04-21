@@ -8,7 +8,6 @@ $(function () {
         }).then(
             // Success
             function (data) {
-                console.log(data.command);
                 if (data.command == "fav") {
                     $fav_btn.
                         removeClass('far').

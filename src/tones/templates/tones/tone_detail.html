@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load render_bundle from webpack_loader %}
 
 {% block content %}
 <h2>{{ tone.info.name }}</h2>
@@ -31,6 +32,21 @@
         <p>Type: {{ tone.info.amp.type }}</p>
     </div>
 </div>
+<div class="mt-5" id='tone-comment' data="{{ comments }}">
+    {% csrf_token %}
+    <h4>コメント</h4>
+    {% verbatim %}
+    <ul class="list-group">
+        <li class="list-group-item" v-for="comment in comments">
+            {{ comment.username }} : {{ comment.text }}
+        </li>
+    </ul>
+    {% endverbatim %}
+    <textarea v-model="text" placeholder="Add comment..."></textarea>
+    <br>
+    <button class="btn btn-primary" type="button" @click="postComment">コメントする</button>
+</div>
+{% render_bundle 'main' %}
 {% endblock %}
 
 {% block extrajs %}

@@ -8,7 +8,6 @@ $(function () {
         }).then(
             // Success
             function (data) {
-                console.log(data.command);
                 if (data.command == "follow") {
                     $follow_btn.
                         removeClass('btn-outline-primary follow-btn').

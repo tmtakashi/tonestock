@@ -12,8 +12,8 @@ from django.shortcuts import redirect, get_object_or_404
 
 from instruments.models import Instrument
 from amps.models import Amp
-from .models import Tone
-from .view_model import ToneMapper
+from .models import Tone, Comment
+from .view_model import ToneMapper, CommentMapper
 
 User = get_user_model()
 
@@ -82,6 +82,16 @@ class ToneDetailView(DetailView):
     model = Tone
     template_name = 'tones/tone_detail.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        comments = self.object.comment_set.all().order_by('created_at')
+        context['comments'] = json.dumps({
+            "comments": [CommentMapper(comment).as_dict() for comment in comments],
+            "pk": self.object.pk,
+            "current_username": self.request.user.profile.username
+        })
+        return context
+
 
 @csrf_protect
 def delete_tone(request, pk):
@@ -92,6 +102,19 @@ def delete_tone(request, pk):
         })
     else:
         render(reverse('user_gear_list'))
+
+
+@login_required
+def post_comment(request):
+    if request.method == 'POST':
+        info = json.loads(request.body.decode('utf-8'))
+        print(info)
+        target_tone = Tone.objects.get(pk=info['pk'])
+        text = info['text']
+        comment = Comment(
+            tone=target_tone, profile=request.user.profile, text=text)
+        comment.save()
+        return JsonResponse({})
 
 
 @login_required
