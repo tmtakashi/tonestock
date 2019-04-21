@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 <h2>{{ tone.info.name }}</h2>
@@ -30,4 +31,8 @@
         <p>Type: {{ tone.info.amp.type }}</p>
     </div>
 </div>
+{% endblock %}
+
+{% block extrajs %}
+<script src="{% static "tones/js/favorite.js" %}"></script>
 {% endblock %}

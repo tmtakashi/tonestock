@@ -5,7 +5,7 @@ from .views import (
     signup_view,
     SignUpDoneView,
     SignUpCompleteView,
-    UpdateProfileView,
+    edit_profile,
     UserDetailView,
     UserListView,
     follow_toggle)
@@ -18,7 +18,7 @@ urlpatterns = [
     path('signup/done', SignUpDoneView.as_view(), name='signup_done'),
     path('signup/complete/<token>/',
          SignUpCompleteView.as_view(), name='signup_complete'),
-    path('edit/<int:pk>/', UpdateProfileView.as_view(), name='edit_profile'),
+    path('edit/<int:pk>/', edit_profile, name='edit_profile'),
     path('list/', UserListView.as_view(), name='list'),
     path('detail/<int:pk>/', UserDetailView.as_view(), name='detail'),
     path('follow_toggle/<int:pk>', follow_toggle, name='follow_toggle'),
