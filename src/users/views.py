@@ -26,8 +26,9 @@ User = get_user_model()
 def signup_view(request):
     user_form = UserForm(request.POST or None)
     profile_form = ProfileForm(request.POST or None)
-
     if request.method == "POST" and user_form.is_valid() and profile_form.is_valid():
+        user_form = UserForm(request.POST)
+        profile_form = ProfileForm(data=request.POST, files=request.FILES)
 
         user = user_form.save(commit=False)
         user.is_active = False
