@@ -6,8 +6,16 @@ class ProfileMapper:
         self.obj = obj
 
     def as_dict(self):
-        return {
-            "pk": self.obj.pk,
-            "username": self.obj.username,
-            "image_url": self.obj.image.url,
-        }
+        print(self.obj.image)
+        if self.obj.image:
+            return {
+                "pk": self.obj.pk,
+                "username": self.obj.username,
+                "image_url": self.obj.image.url,
+            }
+        else:
+            return {
+                "pk": self.obj.pk,
+                "username": self.obj.username,
+                "image_url": None
+            }
