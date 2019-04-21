@@ -122,7 +122,7 @@ def edit_profile(request, pk):
         new_info = json.loads(request.body.decode('utf-8'))
         profile = Profile.objects.get(pk=pk)
         profile.username = new_info["username"]
-        if profile.image == new_info["image_url"]:
+        if profile.image.url == new_info["image_url"]:
             pass
         else:
             fmt, imgstr = new_info["image_url"].split(';base64,')
