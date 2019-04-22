@@ -2,31 +2,25 @@
 {% load widget_tweaks %}
 
 {% block content %}
-<div class="row">
-    <!-- ログインエリア（左） -->
-    <div class="card col-md-6">
-        <div class="card-body">
-            <form action="" method="POST">
-                {{ form.non_field_errors }}
-                {% for field in form %}
-                    {% render_field field class="form-control" placeholder=field.label %}
-                    {{ field.errors }}
-                    <hr>
-                {% endfor %}
-                <button type="submit" class="btn btn-success btn-lg btn-block" >ログイン</button>
+<h3 class="text-center">ログイン</h3>
+<div class="card w-50 mx-auto">
+    <div class="card-body">
+        <form action="" method="POST">
+            {{ form.non_field_errors }}
+            {% for field in form %}
+                {% render_field field class="form-control" placeholder=field.label %}
+                {{ field.errors }}
+                <hr>
+            {% endfor %}
+            <div class="text-center">
+                <button type="submit" class="btn btn-success btn-lg">ログイン</button><br>
+                <p class="my-3">または</p>
+                <a href="{% url 'users:signup' %}" class="btn btn-success btn-lg">アカウント作成</a>
                 <input type="hidden" name="next" value="{{ next }}" />
-                {% csrf_token %}
-            </form>
-        </div>
+            </div>
+            {% csrf_token %}
+        </form>
     </div>
-    <!-- ログインエリア（左）終わり -->
-
-    <!-- アカウント作成エリア（右） -->
-    <div class="card col-md-6">
-        <div class="card-body">
-            <a href="{% url 'users:signup' %}" class="btn btn-success btn-lg btn-block" >アカウント作成</a>
-        </div>
-    </div>
-    <!-- アカウント作成エリア（右）終わり -->
 </div>
+
 {% endblock %}

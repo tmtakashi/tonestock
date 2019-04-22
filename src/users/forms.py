@@ -23,7 +23,7 @@ class UserForm(UserCreationForm):
 
 
 class ProfileForm(forms.ModelForm):
-    image = forms.ImageField(label='Profile Image',
+    image = forms.ImageField(label='プロフィール画像',
                              required=False, widget=forms.FileInput)
 
     class Meta:

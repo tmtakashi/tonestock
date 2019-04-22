@@ -1,0 +1,16 @@
+.image-input {
+    text-align: center;
+    font-size: 3rem;
+    border: dotted 2px #333;
+    width: 30%;
+    height: 80px;
+    cursor: pointer;
+}
+
+.image-input label {
+    cursor: pointer;
+}
+
+.image-input label input {
+    display: none;
+}
