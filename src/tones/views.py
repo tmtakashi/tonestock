@@ -42,6 +42,7 @@ def tone_edit_view(request, pk):
     tone = get_object_or_404(Tone, pk=pk)
     tone_info = tone.info
     tone_info['pk'] = pk
+    tone_info['no'] = len(tone_info['pedals'])
     if request.method == 'POST':
         new_info = json.loads(request.body.decode('utf-8'))
         tone.info = new_info
