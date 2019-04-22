@@ -18,3 +18,11 @@ input[type="text"] {
   cursor: pointer;
   font-weight: lighter;
 }
+
+.sortable-chosen {
+  opacity: 0.7;
+  background-color:#dcdcdc;
+}
+.sortable-ghost {
+  background-color:#dcdcdc;
+}

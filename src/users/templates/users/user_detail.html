@@ -46,7 +46,7 @@
         <!-- right side -->
         <div class="col-sm-8">
             <div>
-                <h4>Instruments</h4>
+                <h4>楽器</h4>
                 {% for instrument in object.instruments.all %}
                     <div>
                         {% if instrument.image %}
@@ -58,7 +58,7 @@
             </div>
             
             <div class="mt-5">
-                <h4>Pedals</h4>
+                <h4>エフェクター</h4>
                 {% for pedal in object.pedals.all %}
                 <div>
                     {% if pedal.image %}
@@ -70,7 +70,7 @@
             </div>
             
             <div class="mt-5">
-                <h4>Amps</h4>
+                <h4>アンプ</h4>
                 {% for amp in object.amps.all %}
                 <div>
                     {% if amp.image %}
@@ -82,7 +82,7 @@
             </div>
     
             <div class="mt-5">
-                <h4>Tones</h4>
+                <h4>プリセット</h4>
                 {% for tone in object.tones.all %}
                     <p><a href="{% url 'tones:detail' tone.pk %}">{{ tone.info.name }}</a></p>
                 {% endfor %}   
