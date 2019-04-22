@@ -3,46 +3,118 @@
 {% load render_bundle from webpack_loader %}
 
 {% block content %}
+<link rel="stylesheet" href="{% static 'tones/css/tone_detail.css' %}">
 <h2>{{ tone.info.name }}</h2>
+<p class="tone-author">by <a href="{% url 'users:detail' tone.author.profile.pk %}">{{ tone.author.profile.username }}</a></p>
+{% if user.is_authenticated %}
+    {% if tone.author == user %}
+        <a class="btn btn-secondary" href="{% url 'tones:edit_tone' tone.pk %}">編集する</a>
+    {% endif %}
+{% endif %}
 <div class="mt-3">
     {% include 'tones/_favorite_button.html' %}
     <span class="num_favs ml-2">{{ tone.fav_by.all|length }}</span>
 </div>
-<div class="row mx-auto mt-5">
-    <div class="col-sm-4">
-        <h3>楽器</h3>
-        <h5>{{ tone.info.instrument.name }}</h5>
-        <p>Brand: {{ tone.info.instrument.brand }}</p>
-        <p>Type: {{ tone.info.instrument.type }}</p>
+<div class="row mx-auto mt-3" id="tone-detail" data="{{ tone_detail }}">
+    <div class="col-sm-3">
+        <div class="gear-type">
+            <h3>楽器</h3>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5>{{ tone.info.instrument.name }}</h5>
+                <p>{{ tone.info.instrument.brand }}</p>
+                <p>{{ tone.info.instrument.type }}</p>
+            </div>
+        </div>
     </div>
     
-    <div class="col-sm-4">
-        <h3>エフェクター</h3>
-        {% for pedal in tone.info.pedals %}
-            <span>{{ pedal.no }}</span><h5>{{ pedal.name }}</h5>
-            <p>Brand: {{ pedal.brand }}</p>
-            <p>Type: {{ pedal.type }}</p>
-        {% endfor %}
+    <div class="col-sm-6">
+        <div class="gear-type">
+            <h3>エフェクター</h3>
+        </div>
+        <div class="row">
+            {% for pedal in tone.info.pedals %}
+                <div class="card col-sm-4">
+                    <div class="card-body">
+                        <span>{{ pedal.no }}</span><h5>{{ pedal.name }}</h5>
+                        <p>{{ pedal.brand }}</p>
+                        <p>{{ pedal.type }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
     
-    <div class="col-sm-4">
-        <h3>アンプ</h3>
-        <h5>{{ tone.info.amp.name }}</h5>
-        <p>Brand: {{ tone.info.amp.brand }}</p>
-        <p>Type: {{ tone.info.amp.type }}</p>
+    <div class="col-sm-3">
+        <div class="gear-type">
+            <h3>アンプ</h3>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5>{{ tone.info.amp.name }}</h5>
+                <p>{{ tone.info.amp.brand }}</p>
+                <p>{{ tone.info.amp.type }}</p>
+                <div class="row">
+                    <div class="col-sm-4 amp-param">
+                        <p class="amp-param-name">Bass</p>
+                        <knob-control 
+                        :size="60"
+                        :stroke-width="8"
+                        :value="amp.bass"></knob-control>
+                    </div>
+                    <div class="col-sm-4 amp-param">
+                        <p class="amp-param-name">Middle</p>
+                        <knob-control 
+                        :size="60"
+                        :stroke-width="8"
+                        :value="amp.middle"></knob-control>
+                    </div>
+                    <div class="col-sm-4 amp-param">
+                        <p class="amp-param-name">Treble</p>
+                        <knob-control 
+                        :size="60"
+                        :stroke-width="8"
+                        :value="amp.treble"></knob-control>
+                    </div>
+                    <div class="col-sm-4 amp-param">
+                        <p class="amp-param-name">Presence</p>
+                        <knob-control 
+                        :size="60"
+                        :stroke-width="8"
+                        :value="amp.presence"></knob-control>
+                    </div>
+                    <div class="col-sm-4 amp-param">
+                        <p class="amp-param-name">Drive</p>
+                        <knob-control 
+                        :size="60"
+                        :stroke-width="8"
+                        :value="amp.drive"></knob-control>
+                    </div>
+                    <div class="col-sm-4 amp-param">
+                        <p class="amp-param-name">Master</p>
+                        <knob-control 
+                        :size="60"
+                        :stroke-width="8"
+                        :value="amp.master"></knob-control>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-<div class="mt-5" id='tone-comment' data="{{ comments }}">
+<div class="mt-3" id='tone-comment' data="{{ comments }}">
     {% csrf_token %}
     <h4>コメント</h4>
     {% verbatim %}
+    <p v-if="comments.length === 0">まだコメントはありません。</p>
     <div class="row">
         <ul class="list-group col-sm-6">
             <li class="list-group-item" v-for="(comment, index) in comments">
                 <div class="row">
                     <div class="col-sm-10">
-                        <h5>{{ comment.username }}</h5>
                         <p>{{ comment.text }}</p>
+                        <small>{{ comment.username }}</small>
                     </div>            
                     <div class="col-sm-2">
                         <i class="fas fa-trash" v-if="deletable" @click="confirmDelete(index)" data-toggle="modal" data-target="#confirm-delete-modal"></i>
@@ -52,7 +124,7 @@
         </ul>
         <div class="col-sm-6">
             <div class="mt-4" class="form-group">
-                <textarea class="form-control" v-model="text" placeholder="Add comment..."></textarea>
+                <textarea class="form-control" v-model="text" placeholder="コメントを入力"></textarea>
             </div>
             <br>
             <button class="btn btn-primary" type="button" @click="postComment">コメントする</button>

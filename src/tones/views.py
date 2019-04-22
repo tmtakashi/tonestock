@@ -42,6 +42,7 @@ def tone_edit_view(request, pk):
     tone = get_object_or_404(Tone, pk=pk)
     tone_info = tone.info
     tone_info['pk'] = pk
+    tone_info['no'] = len(tone_info['pedals'])
     if request.method == 'POST':
         new_info = json.loads(request.body.decode('utf-8'))
         tone.info = new_info
@@ -86,10 +87,17 @@ class ToneDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         comments = self.object.comment_set.all().order_by('created_at')
         deletable = self.request.user == self.object.author
+
+        context['tone_detail'] = json.dumps(self.object.info)
+
+        if self.request.user.is_authenticated:
+            current_user = self.request.user.profile.username
+        else:
+            current_user = "anonymus"
         context['comments'] = json.dumps({
             "comments": [CommentMapper(comment).as_dict() for comment in comments],
             "pk": self.object.pk,
-            "current_username": self.request.user.profile.username,
+            "current_username": current_user,
             "deletable": deletable
         })
         return context

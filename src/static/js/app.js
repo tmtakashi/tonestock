@@ -733,6 +733,33 @@ if (document.getElementById('userprofile') != null) {
         }
     })
 }
+if (document.getElementById('tone-comment') != null) {
+    new Vue({
+        el: '#tone-detail',
+        components: {
+            "knob-control": KnobControl
+        },
+        data: {
+            instrument: {
+                name: '',
+                brand: '',
+                type: '',
+            },
+            pedals: [],
+            amp: {
+                name: '',
+                brand: '',
+                type: '',
+            }
+        },
+        beforeMount() {
+            var info = JSON.parse(document.getElementById('tone-detail').getAttribute('data') || '{}')
+            this.instrument = info.instrument
+            this.pedals = info.pedals
+            this.amp = info.amp
+        },
+    })
+}
 
 if (document.getElementById('tone-comment') != null) {
     new Vue({
