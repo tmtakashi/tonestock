@@ -31,9 +31,9 @@
             <span>{{ object.profile.follows.all|length }}</span>
              follows
             <br>
-            {% if user != object %}
+            {% if user != object and user.is_authenticated %}
                 {% include 'users/_follow_button.html' %}
-            {% else %}
+            {% elif user.is_authenticated %}
             <div class="mt-3">
                 <div v-if="edit">
                     <button @click="saveEdit" class="btn btn-outline-success">Save</button>

@@ -12,8 +12,8 @@ from django.shortcuts import redirect, get_object_or_404
 
 from instruments.models import Instrument
 from amps.models import Amp
-from .models import Tone
-from .view_model import ToneMapper
+from .models import Tone, Comment
+from .view_model import ToneMapper, CommentMapper
 
 User = get_user_model()
 
@@ -82,11 +82,24 @@ class ToneDetailView(DetailView):
     model = Tone
     template_name = 'tones/tone_detail.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        comments = self.object.comment_set.all().order_by('created_at')
+        deletable = self.request.user == self.object.author
+        context['comments'] = json.dumps({
+            "comments": [CommentMapper(comment).as_dict() for comment in comments],
+            "pk": self.object.pk,
+            "current_username": self.request.user.profile.username,
+            "deletable": deletable
+        })
+        return context
+
 
 @csrf_protect
 def delete_tone(request, pk):
     if request.method == 'POST':
-        Tone.objects.filter(pk=pk).delete()
+        tone = get_object_or_404(Tone, pk=pk)
+        tone.delete()
         return JsonResponse({
             'success': True
         })
@@ -95,8 +108,32 @@ def delete_tone(request, pk):
 
 
 @login_required
+def post_comment(request):
+    if request.method == 'POST':
+        info = json.loads(request.body.decode('utf-8'))
+        target_tone = get_object_or_404(Tone, pk=info['pk'])
+        text = info['text']
+        comment = Comment(
+            tone=target_tone, profile=request.user.profile, text=text)
+        comment.save()
+        new_pk = comment.pk
+        return JsonResponse({
+            "pk": new_pk
+        })
+
+
+@login_required
+def delete_comment(request):
+    if request.method == 'POST':
+        info = json.loads(request.body.decode('utf-8'))
+        target_comment = get_object_or_404(Comment, pk=info['pk'])
+        target_comment.delete()
+        return JsonResponse({})
+
+
+@login_required
 def favorite_toggle(request, pk):
-    tone = Tone.objects.get(pk=pk)
+    tone = get_object_or_404(Tone, pk=pk)
     favorites_list = request.user.profile.favorite_tone.all()
     if tone in favorites_list:
         # お気に入り一覧にあれば解除

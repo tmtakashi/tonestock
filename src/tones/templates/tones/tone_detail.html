@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load render_bundle from webpack_loader %}
 
 {% block content %}
 <h2>{{ tone.info.name }}</h2>
@@ -31,6 +32,49 @@
         <p>Type: {{ tone.info.amp.type }}</p>
     </div>
 </div>
+<div class="mt-5" id='tone-comment' data="{{ comments }}">
+    {% csrf_token %}
+    <h4>コメント</h4>
+    {% verbatim %}
+    <div class="row">
+        <ul class="list-group col-sm-6">
+            <li class="list-group-item" v-for="(comment, index) in comments">
+                <div class="row">
+                    <div class="col-sm-10">
+                        <h5>{{ comment.username }}</h5>
+                        <p>{{ comment.text }}</p>
+                    </div>            
+                    <div class="col-sm-2">
+                        <i class="fas fa-trash" v-if="deletable" @click="confirmDelete(index)" data-toggle="modal" data-target="#confirm-delete-modal"></i>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <div class="col-sm-6">
+            <div class="mt-4" class="form-group">
+                <textarea class="form-control" v-model="text" placeholder="Add comment..."></textarea>
+            </div>
+            <br>
+            <button class="btn btn-primary" type="button" @click="postComment">コメントする</button>
+        </div>
+        <!-- Confirm Delete Modal -->
+        <div class="modal fade" id="confirm-delete-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-body">
+                    このコメントを削除しますか？
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" @click="executeDelete">削除</button>
+                </div>
+                </div>
+            </div>
+        </div>  
+    </div>
+    {% endverbatim %}
+</div>
+{% render_bundle 'main' %}
 {% endblock %}
 
 {% block extrajs %}

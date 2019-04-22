@@ -733,3 +733,70 @@ if (document.getElementById('userprofile') != null) {
         }
     })
 }
+
+if (document.getElementById('tone-comment') != null) {
+    new Vue({
+        el: '#tone-comment',
+        data: {
+            currentUsername: '',
+            comments: [],
+            text: '',
+            pk: 0,
+            deleteIdx: 0,
+            deletable: false,
+        },
+        beforeMount() {
+            var info = JSON.parse(document.getElementById('tone-comment').getAttribute('data') || '{}')
+            var comments = info.comments
+            var pk = info.pk
+            this.comments = comments
+            this.pk = pk
+            this.currentUsername = info.current_username
+            this.deletable = info.deletable
+        },
+        methods: {
+            postComment: function () {
+                if (this.text.length === 0) {
+                    return false
+                }
+                var self = this
+                var csrfToken = $("[name=csrfmiddlewaretoken]").val();
+                axios.post('/tones/post_comment/',
+                    {
+                        "text": self.text,
+                        "pk": self.pk
+                    },
+                    {
+                        headers: {"X-CSRFToken": csrfToken}
+                    } 
+                ).then(function (response) {
+                    self.comments.push({
+                        username: self.currentUsername,
+                        text: self.text,
+                        pk: response.data.pk
+                    })
+                    self.text = ''
+                })
+            },
+            confirmDelete: function (index) {
+                this.deleteIdx = index
+            },
+            executeDelete: function () {
+                var self = this
+                var targetComment = this.comments[this.deleteIdx]
+                var pk = targetComment.pk
+                var csrfToken = $("[name=csrfmiddlewaretoken]").val()
+                axios.post('/tones/delete_comment/',
+                    {
+                        pk: pk
+                    },
+                    {
+                        headers: { "X-CSRFToken": csrfToken }
+                    } 
+                ).then(function (response) {
+                    self.comments.splice(self.deleteIndex, 1)
+                })
+            }
+        }
+    })
+}

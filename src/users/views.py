@@ -143,7 +143,7 @@ class UserDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        user_profile = self.request.user.profile
+        user_profile = self.object.profile
         context['user_profile'] = json.dumps(
             ProfileMapper(user_profile).as_dict())
         return context
