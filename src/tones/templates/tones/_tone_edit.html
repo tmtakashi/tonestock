@@ -80,7 +80,7 @@
         <!-- Pedals -->
         <div class="col-sm-7" id="pedal-area">
             <ul class="list-inline">
-                <draggable v-model='pedals' @end="reorderAfterDrag">
+                <draggable v-model='pedals' :options="{animation:300}" @end="reorderAfterDrag">
                     <pedal-item
                     v-for="pedal in pedals"
                     :key="pedal.no"
