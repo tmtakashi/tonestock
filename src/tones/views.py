@@ -98,7 +98,8 @@ class ToneDetailView(DetailView):
 @csrf_protect
 def delete_tone(request, pk):
     if request.method == 'POST':
-        Tone.objects.filter(pk=pk).delete()
+        tone = get_object_or_404(Tone, pk=pk)
+        tone.delete()
         return JsonResponse({
             'success': True
         })
@@ -110,7 +111,7 @@ def delete_tone(request, pk):
 def post_comment(request):
     if request.method == 'POST':
         info = json.loads(request.body.decode('utf-8'))
-        target_tone = Tone.objects.get(pk=info['pk'])
+        target_tone = get_object_or_404(Tone, pk=info['pk'])
         text = info['text']
         comment = Comment(
             tone=target_tone, profile=request.user.profile, text=text)
@@ -125,14 +126,14 @@ def post_comment(request):
 def delete_comment(request):
     if request.method == 'POST':
         info = json.loads(request.body.decode('utf-8'))
-        target_comment = Comment.objects.get(pk=info['pk'])
+        target_comment = get_object_or_404(Comment, pk=info['pk'])
         target_comment.delete()
         return JsonResponse({})
 
 
 @login_required
 def favorite_toggle(request, pk):
-    tone = Tone.objects.get(pk=pk)
+    tone = get_object_or_404(Tone, pk=pk)
     favorites_list = request.user.profile.favorite_tone.all()
     if tone in favorites_list:
         # お気に入り一覧にあれば解除
