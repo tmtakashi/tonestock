@@ -414,6 +414,7 @@ if (document.getElementById('instrument-list') != null) {
                     this.editIndex,
                     editedInstrument
                 )
+                var csrfToken = $("[name=csrfmiddlewaretoken]").val();
                 axios.post(`/instruments/${this.editInstrumentPk}/edit/`,
                     editedInstrument,
                     {
@@ -503,6 +504,7 @@ if (document.getElementById('pedal-list') != null) {
                     this.editIndex,
                     editedPedal
                 )
+                var csrfToken = $("[name=csrfmiddlewaretoken]").val();
                 axios.post(`/pedals/${this.editPedalPk}/edit/`,
                     editedPedal,
                     {
