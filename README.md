@@ -1,4 +1,5 @@
-# tonestock
+![logo](https://user-images.githubusercontent.com/38929720/56503196-b8dfb080-654f-11e9-9307-ecc28d646825.png)
+
 A social media web app that manages your tones and gears.
 
 ## 環境構築
