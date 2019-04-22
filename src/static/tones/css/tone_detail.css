@@ -1,0 +1,23 @@
+.gear-type {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.gear-type h3{
+    display: inline-block;
+    border-bottom: solid #333 1px;
+}
+
+.amp-param {
+    margin-bottom: 10px;
+}
+
+.amp-param-name {
+    margin-bottom: 0px;
+    text-align: center;
+    font-size: 0.7rem;
+}
+
+.tone-author a {
+    text-decoration: none;
+    color: #333;
+}
