@@ -234,9 +234,11 @@ if (document.getElementById('add-tone') != null) {
             addPedalName: '',
             addPedalBrand: '',
             addPedalType: 'Stomp Box',
+            addPedalParams: [],
             editPedalName: '',
             editPedalBrand: '',
             editPedalType: '',
+            editPedalParams: [],
             pedals: [],
             pedalEditNo: 0,
             // ---- AMP ----
@@ -257,7 +259,6 @@ if (document.getElementById('add-tone') != null) {
             // ---- TONE NAME ----
             handleEditToneName: function () {
                 this.editToneName = this.toneName
-                console.log(this.editToneName)
             },
             saveToneNameEdit: function () {
                 this.toneName = this.editToneName
@@ -275,10 +276,17 @@ if (document.getElementById('add-tone') != null) {
             },
             // ----PEDAL----
             addPedal: function () {
-                this.pedals.push({ no: this.no += 1, name: this.addPedalName, brand: this.addPedalBrand, type: this.addPedalType })
+                this.pedals.push({
+                    no: this.no += 1,
+                    name: this.addPedalName,
+                    brand: this.addPedalBrand,
+                    type: this.addPedalType,
+                    params: this.addPedalParams,
+                })
                 this.addPedalName = ''
                 this.addPedalBrand = ''
                 this.addPedalType = 'Stomp Box'
+                this.addPedalParams = []
             },
             handleEditPedal: function (no) {
                 this.pedalEditNo = no
@@ -286,12 +294,19 @@ if (document.getElementById('add-tone') != null) {
                 this.editName = this.pedals[idx].name
                 this.editPedalBrand = this.pedals[idx].brand
                 this.editPedalType = this.pedals[idx].type
+                this.editPedalParams = this.pedals[idx].params
             },
             savePedalEdit: function () {
                 let idx = this.pedalEditNo - 1
                 Vue.set(this.pedals,
                     idx,
-                    {no: this.pedalEditNo, name: this.editPedalName, brand: this.editPedalBrand, type: this.editPedalType}
+                    {
+                        no: this.pedalEditNo,
+                        name: this.editPedalName,
+                        brand: this.editPedalBrand,
+                        type: this.editPedalType,
+                        params: this.editPedalParams
+                    }
                 )
             },
             handleDestroy: function (no) {
@@ -325,6 +340,18 @@ if (document.getElementById('add-tone') != null) {
                         .concat(newNoPedals)
                         .concat(this.pedals.slice(newIndex))
                 }
+            },
+            addParamAdd: function () {
+                this.addPedalParams.push({
+                    name: '',
+                    value: 0
+                })
+            },
+            addParamEdit: function () {
+                this.editPedalParams.push({
+                    name: '',
+                    value: 0
+                })
             },
             // ---- AMP ----
             handleEditAmp: function () {
