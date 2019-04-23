@@ -26,3 +26,7 @@ input[type="text"] {
 .sortable-ghost {
   background-color:#dcdcdc;
 }
+
+.delete-param {
+  cursor: pointer;
+}
