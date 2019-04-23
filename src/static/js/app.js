@@ -353,6 +353,12 @@ if (document.getElementById('add-tone') != null) {
                     value: 0
                 })
             },
+            deleteParamAdd: function (index) {
+                this.addPedalParams.splice(index, 1)
+            },
+            deleteParamEdit: function (index) {
+                this.editPedalParams.splice(index, 1)
+            },
             // ---- AMP ----
             handleEditAmp: function () {
                 this.editAmpName = this.ampName

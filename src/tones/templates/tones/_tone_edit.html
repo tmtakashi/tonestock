@@ -129,7 +129,8 @@
                                 </div>
                             </div>
                             <div class="row col-sm-8">
-                                <div class="col-sm-4  mb-3" v-for="param in addPedalParams">
+                                <div class="col-sm-4  mb-3" v-for="(param, index) in addPedalParams">
+                                    <i class="fas fa-times delete-param" @click="deleteParamAdd(index)"></i>
                                     <input type="text" class="form-control w-100" v-model="param.name">
                                     <knob-control 
                                     :size="60"
@@ -181,7 +182,8 @@
                                 </div>
                             </div>
                             <div class="row col-sm-8">
-                                <div class="col-sm-4  mb-3" v-for="param in editPedalParams">
+                                <div class="col-sm-4  mb-3" v-for="(param, index) in editPedalParams">
+                                    <i class="fas fa-times delete-param" @click="deleteParamEdit(index)"></i>
                                     <input type="text" class="form-control w-100" v-model="param.name">
                                     <knob-control 
                                     :size="60"
