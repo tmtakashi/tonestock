@@ -16,7 +16,8 @@
                 <button type="submit" class="btn btn-success btn-lg">ログイン</button><br>
                 <p class="my-3">または</p>
                 <a href="{% url 'users:signup' %}" class="btn btn-success btn-lg">アカウント作成</a>
-                <input type="hidden" name="next" value="{{ next }}" />
+                <input type="hidden" name="next" value="{{ next }}" /><br>
+                <a href="{% url 'users:reset_password' %}">パスワードを忘れた方</a>
             </div>
             {% csrf_token %}
         </form>
