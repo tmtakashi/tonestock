@@ -5,12 +5,16 @@ import datetime
 from django.conf import settings
 from django.contrib.auth import get_user_model, login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import (
+    PasswordChangeView, PasswordChangeDoneView, PasswordResetView,
+    PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
+)
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.files.base import ContentFile
 from django.core.signing import BadSignature, SignatureExpired, loads, dumps
 from django.http import HttpResponseRedirect, Http404, HttpResponseBadRequest
 from django.http.response import JsonResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.template.loader import get_template
 from django.views.generic import TemplateView, UpdateView, ListView, DetailView
 from django.views.decorators.csrf import csrf_protect
@@ -18,7 +22,7 @@ from django.urls import reverse_lazy
 
 from .models import Profile
 from .view_model import ProfileMapper
-from .forms import UserForm, ProfileForm
+from .forms import UserForm, ProfileForm, MyPasswordChangeForm, MyPasswordResetForm, MySetPasswordForm
 
 User = get_user_model()
 
@@ -117,10 +121,11 @@ class SignUpCompleteView(TemplateView):
         return HttpResponseBadRequest()
 
 
+@login_required
 def edit_profile(request, pk):
     if request.method == "POST":
         new_info = json.loads(request.body.decode('utf-8'))
-        profile = Profile.objects.get(pk=pk)
+        profile = get_object_or_404(Profile, pk=pk)
         profile.username = new_info["username"]
         if profile.image.url == new_info["image_url"]:
             pass
@@ -152,6 +157,44 @@ class UserDetailView(DetailView):
 class UserListView(ListView):
     model = User
     template_name = "users/user_list.html"
+
+
+class ChangePasswordView(PasswordChangeView):
+    """パスワード変更ビュー"""
+    form_class = MyPasswordChangeForm
+    success_url = reverse_lazy('users:change_password_done')
+    template_name = 'users/change_password.html'
+
+
+class ChangePasswordDoneView(PasswordChangeDoneView):
+    """パスワード変更しました"""
+    template_name = 'users/change_password_done.html'
+
+
+class ResetPassword(PasswordResetView):
+    """パスワード変更用URLの送付ページ"""
+    subject_template_name = 'users/mail_template/reset_password/subject.txt'
+    email_template_name = 'users/mail_template/reset_password/message.txt'
+    template_name = 'users/reset_password_form.html'
+    form_class = MyPasswordResetForm
+    success_url = reverse_lazy('users:reset_password_done')
+
+
+class ResetPasswordDone(PasswordResetDoneView):
+    """パスワード変更用URLを送りましたページ"""
+    template_name = 'users/reset_password_done.html'
+
+
+class ResetPasswordConfirm(PasswordResetConfirmView):
+    """新パスワード入力ページ"""
+    form_class = MySetPasswordForm
+    success_url = reverse_lazy('users:reset_password_complete')
+    template_name = 'users/reset_password_confirm.html'
+
+
+class ResetPasswordComplete(PasswordResetCompleteView):
+    """新パスワード設定しましたページ"""
+    template_name = 'users/reset_password_complete.html'
 
 
 @login_required

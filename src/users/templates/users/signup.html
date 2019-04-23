@@ -1,25 +1,54 @@
 {% extends 'base.html' %}
 {% load widget_tweaks %}
+{% load static %}
 
 {% block content %}
+<link rel="stylesheet" href="{% static 'users/css/signup.css' %}">
 <form method="POST" enctype='multipart/form-data'>
     {{ user_form.non_field_errors }}
     {{ profile_form.non_field_errors }}
-    {% for field in profile_form %}
-    <div class="form-group">
-        <label for="{{ field.id_for_label }}">{{ field.label_tag }}</label>
-        {{ field|add_class:"form-control" }}
-        {{ field.errors }}
+    <h3 class="text-center">アカウント作成</h3>
+    <div class="card w-50 mx-auto">
+        <div class="card-body">
+            {% for field in profile_form %}
+            {% if field == profile_form.image %}
+                <p>{{ field.label_tag }}</p>
+                <div class="row">
+                    <div class="image-input ml-3 col-sm">
+                        <label for="{{ field.id_for_label }}">
+                            <i class="fas fa-images"></i>
+                            {{ field }}
+                        </label>
+                    </div>
+                    <div class="ml-5 col-sm" id="image-preview">
+                    </div>
+                </div>
+                {{ field.errors }}
+                <p></p>
+            {% else %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label_tag }}</label>
+                    {{ field|add_class:"form-control" }}
+                    {{ field.errors }}
+                </div>
+            {% endif %}
+            {% endfor %}
+            {% for field in user_form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label_tag }}</label>
+                {{ field|add_class:"form-control" }}
+                {{ field.errors }}
+            </div>
+            {% endfor %}
+            {% csrf_token %}
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary btn-lg">仮登録</button>
+            </div>
+        </div>
     </div>
-    {% endfor %}
-    {% for field in user_form %}
-    <div class="form-group">
-        <label for="{{ field.id_for_label }}">{{ field.label_tag }}</label>
-        {{ field|add_class:"form-control" }}
-        {{ field.errors }}
-    </div>
-    {% endfor %}
-    {% csrf_token %}
-    <button type="submit" class="btn btn-primary btn-lg">仮登録</button>
 </form>
+{% endblock %}
+
+{% block extrajs %}
+<script src="{% static 'users/js/signup.js' %}"></script>
 {% endblock %}

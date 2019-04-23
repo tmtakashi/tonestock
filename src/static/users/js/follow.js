@@ -12,12 +12,12 @@ $(function () {
                     $follow_btn.
                         removeClass('btn-outline-primary follow-btn').
                         addClass('btn-outline-danger unfollow-btn').
-                        text('Unfollow');
+                        text('フォロー解除');
                 } else {
                     $follow_btn.
                         removeClass('btn-outline-danger unfollow-btn').
                         addClass('btn-outline-primary follow-btn').
-                        text('Follow');
+                        text('フォロー');
                 }
                 $num_follower.text(data.num_follower);
             },
