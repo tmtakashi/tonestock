@@ -11,7 +11,6 @@
         <div class="card tone-card">
             <div class="card-body">
                 <h5 class="tone-name"><a href="{% url 'tones:detail' tone.pk %}">{{ tone.info.name }}</a></h5>
-                <p>{{ tone.info.instrument.brand }} {{ tone.info.instrument.name }}</p>
                 <a href="{% url 'users:detail' tone.author.pk %}">{{ tone.author.profile.username }}</a>
                 <div class="mt-1">
                     {% include 'tones/_favorite_button.html' %}
