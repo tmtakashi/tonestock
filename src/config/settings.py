@@ -10,7 +10,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 import os
 import environ
 
-env = environ.Env(DEBUG=(bool, False))
+env = environ.Env(DEBUG=(bool, True))
 environ.Env.read_env('.env')
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -134,7 +134,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
-STATIC_ROOT = '/static'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Authentication
 LOGIN_URL = 'users:login'
