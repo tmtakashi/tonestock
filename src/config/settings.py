@@ -133,12 +133,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 if DEBUG:
     STATICFILES_DIRS = [
         os.path.join(BASE_DIR, "static"),
     ]
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 
 # Authentication
 LOGIN_URL = 'users:login'
@@ -170,12 +171,12 @@ if DEBUG:
     }
 
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'tonestocknoreply@gmail.com'
-EMAIL_HOST_PASSWORD = env('EMAIL_PASSWORD')
-EMAIL_USE_TLS = True
+else:
+    EMAIL_HOST = 'smtp.gmail.com'
+    EMAIL_PORT = 587
+    EMAIL_HOST_USER = 'tonestocknoreply@gmail.com'
+    EMAIL_HOST_PASSWORD = env('EMAIL_PASSWORD')
+    EMAIL_USE_TLS = True
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
