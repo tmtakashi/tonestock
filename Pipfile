@@ -16,6 +16,7 @@ djangorestframework = "*"
 django-webpack-loader = "*"
 psycopg2-binary = "*"
 pillow = "*"
+django-environ = "*"
 
 [requires]
 python_version = "3.7"
