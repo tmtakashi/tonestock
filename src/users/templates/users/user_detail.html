@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load render_bundle from webpack_loader %}
+
+{% block title %}
+<title>{{ user.profile.username }}</title>
+{% endblock %}
+
 {% block content %}
 <link rel="stylesheet" href="{% static 'users/css/user_detail.css' %}">
 <div id="userprofile" data="{{ user_profile }}">

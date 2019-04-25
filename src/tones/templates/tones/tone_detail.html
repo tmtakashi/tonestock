@@ -2,6 +2,10 @@
 {% load static %}
 {% load render_bundle from webpack_loader %}
 
+{% block title %}
+<title>{{ tone.info.name }}</title>
+{% endblock %}
+
 {% block content %}
 <link rel="stylesheet" href="{% static 'tones/css/tone_detail.css' %}">
 <h2>{{ tone.info.name }}</h2>

@@ -3,6 +3,10 @@
 {% load static %}
 {% load render_bundle from webpack_loader %}
 
+{% block title %}
+<title>マイ機材</title>
+{% endblock %}
+
 {% block content %}
 <link href="{% static 'css/user_gear_list.css' %}" rel="stylesheet">
 
