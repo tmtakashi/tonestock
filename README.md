@@ -23,7 +23,7 @@ Access to http://0.0.0.0:8000/
 2. ユーザー名、メールアドレス、プロフィール画像、パスワードなど必要な事項を記入（プロフィール画像は省略可）して「仮登録」をクリック
 <img width="1440" alt="スクリーンショット 2019-04-25 16 14 02" src="https://user-images.githubusercontent.com/38929720/56716384-30425980-6775-11e9-8592-b9c3ff44614e.png">
 
-3. 以下の画面が表示されたら、`docker-compose log -f web`でDjangoの標準出力が表示されるので、記載されたURLにアクセスして本登録を完了させる。
+3. 以下の画面が表示されたら、`docker-compose logs -f web`でDjangoの標準出力が表示されるので、記載されたURLにアクセスして本登録を完了させる。
 <img width="1440" alt="スクリーンショット 2019-04-25 16 18 51" src="https://user-images.githubusercontent.com/38929720/56716659-daba7c80-6775-11e9-88bc-ff0842aefc7e.png">
 <img width="703" alt="スクリーンショット 2019-04-25 16 20 09" src="https://user-images.githubusercontent.com/38929720/56716879-5a484b80-6776-11e9-94cf-c5b47d54a21e.png">
 
