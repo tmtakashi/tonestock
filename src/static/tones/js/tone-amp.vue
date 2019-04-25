@@ -10,11 +10,11 @@
       <br>
       <button
         type="button"
-        class="btn btn-success"
+        class="btn btn-outline-success"
         data-toggle="modal"
         data-target="#ampEditModal"
         @click="editAmp"
-      >Edit</button>
+      >編集</button>
     </div>
   </div>
 </template>

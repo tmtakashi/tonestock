@@ -2,7 +2,12 @@
   <div>
     <p>プリセット名</p>
     <h4>{{ name }}</h4>
-    <span class="edit" data-toggle="modal" data-target="#toneNameEditModal" @click="editToneName">変更</span>
+    <button
+      class="edit btn btn-outline-success"
+      data-toggle="modal"
+      data-target="#toneNameEditModal"
+      @click="editToneName"
+    >編集</button>
   </div>
 </template>
 
