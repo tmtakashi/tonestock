@@ -1,19 +1,35 @@
 version: '3.7'
 
 services:
+  nginx:
+      image: nginx:1.13
+      container_name: nginx
+      ports:
+        - "8000:8000"
+      volumes:
+        - ./nginx/conf:/etc/nginx/conf.d
+        - ./nginx/uwsgi_params:/etc/nginx/uwsgi_params
+        - ./src/static:/static
+        - ./src/media:/media
+        - ./nginx/log:/var/log/nginx
+      depends_on:
+        - web
   db:
     image: postgres:10.1-alpine
+    ports:
+      - 5432:5432
     volumes:
       - postgres_data:/var/lib/postgresql/data/
   web:
-    build: .
+    build: ./src
     command: > 
-      bash -c "python /code/src/manage.py migrate --noinput &&
-      python /code/src/manage.py runserver 0.0.0.0:8000"
+      bash -c "python /code/src/manage.py makemigrations &&
+      python /code/src/manage.py migrate --noinput &&
+      sudo uwsgi --ini /code/src/config/django.ini"
     volumes:
       - .:/code
     ports:
-      - 8000:8000
+      - "8001"
     depends_on:
       - db
 

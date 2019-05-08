@@ -9,3 +9,6 @@ node_modules/
 tonestock.pem
 
 src/.env
+# access logs
+nginx/log/
+src/config/uwsgi.log
