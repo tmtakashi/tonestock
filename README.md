@@ -11,7 +11,7 @@ git clone https://github.com/tmtakashi/tonestock.git
 cd tonestock
 docker-compose up -d
 ```
-Access to http://0.0.0.0:80/
+Access to http://127.0.0.1:80/
 
 ## 使用方法
 
