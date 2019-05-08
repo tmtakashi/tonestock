@@ -12,3 +12,4 @@ src/.env
 # access logs
 nginx/log/
 src/config/uwsgi.log
+src/django.log

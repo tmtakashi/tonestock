@@ -1,6 +1,7 @@
 import json
 import base64
 import datetime
+import logging
 
 from django.conf import settings
 from django.contrib.auth import get_user_model, login
@@ -125,6 +126,8 @@ class SignUpCompleteView(TemplateView):
 def edit_profile(request, pk):
     if request.method == "POST":
         new_info = json.loads(request.body.decode('utf-8'))
+        logger = logging.getLogger('command')
+        logger.info(new_info)
         profile = get_object_or_404(Profile, pk=pk)
         profile.username = new_info["username"]
         if profile.image.url == new_info["image_url"]:
