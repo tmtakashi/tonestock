@@ -126,8 +126,6 @@ class SignUpCompleteView(TemplateView):
 def edit_profile(request, pk):
     if request.method == "POST":
         new_info = json.loads(request.body.decode('utf-8'))
-        logger = logging.getLogger('command')
-        logger.info(new_info)
         profile = get_object_or_404(Profile, pk=pk)
         profile.username = new_info["username"]
         if profile.image.url == new_info["image_url"]:
@@ -140,7 +138,11 @@ def edit_profile(request, pk):
             dt_now = datetime.datetime.now()
             file_name = dt_now.strftime('%Y-%m-%d-%H-%M-%S') + "." + ext
             profile.image.save(file_name, data, save=True)
-        profile.save()
+        try:
+            profile.save()
+        except:
+            logger = logging.getLogger('command')
+            logger.info('saving failed')
         return JsonResponse({})
 
 
