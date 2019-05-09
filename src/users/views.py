@@ -127,17 +127,16 @@ def edit_profile(request, pk):
         new_info = json.loads(request.body.decode('utf-8'))
         profile = get_object_or_404(Profile, pk=pk)
         profile.username = new_info["username"]
-        if profile.image:
-            if profile.image.url == new_info["image_url"]:
-                pass
-            else:
-                fmt, imgstr = new_info["image_url"].split(';base64,')
-                ext = fmt.split('/')[-1]
+        if profile.image and profile.image.url == new_info["image_url"]:
+            pass
+        else:
+            fmt, imgstr = new_info["image_url"].split(';base64,')
+            ext = fmt.split('/')[-1]
 
-                data = ContentFile(base64.b64decode(imgstr))
-                dt_now = datetime.datetime.now()
-                file_name = dt_now.strftime('%Y-%m-%d-%H-%M-%S') + "." + ext
-                profile.image.save(file_name, data, save=True)
+            data = ContentFile(base64.b64decode(imgstr))
+            dt_now = datetime.datetime.now()
+            file_name = dt_now.strftime('%Y-%m-%d-%H-%M-%S') + "." + ext
+            profile.image.save(file_name, data, save=True)
         profile.save()
         return JsonResponse({})
 
