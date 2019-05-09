@@ -23,7 +23,6 @@ def tone_create_view(request):
     user_id = request.user.id
     if request.method == 'POST':
         info = json.loads(request.body.decode('utf-8'))
-        print(info)
         tone = Tone(
             author=User(pk=user_id),
             info=info

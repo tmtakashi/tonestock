@@ -147,7 +147,7 @@ if (document.getElementById('edit-tone') != null) {
                 //  削除した要素以降の要素のnoを1つづつ繰り下げる
                 let newNoPedals = this.pedals.slice(idx + 1).map(function (pedal) {
                     let newNo = pedal.no - 1
-                    return { no: newNo, name: pedal.name, brand: pedal.brand, type: pedal.type }
+                    return { no: newNo, name: pedal.name, brand: pedal.brand, type: pedal.type, params: pedal.params}
                 })
                 this.pedals = this.pedals.slice(0, idx).concat(newNoPedals)
                 this.no -= 1
@@ -159,7 +159,7 @@ if (document.getElementById('edit-tone') != null) {
                 if (newIndex < oldIndex) {
                     let newNoPedals = this.pedals.slice(newIndex + 1, oldIndex + 1).map(function (pedal) {
                         let newNo = pedal.no + 1
-                        return { no: newNo, name: pedal.name, brand: pedal.brand, type: pedal.type }
+                        return { no: newNo, name: pedal.name, brand: pedal.brand, type: pedal.type, params: pedal.params }
                     })
                     this.pedals = this.pedals.slice(0, newIndex + 1)
                         .concat(newNoPedals)
@@ -167,7 +167,7 @@ if (document.getElementById('edit-tone') != null) {
                 } else if (newIndex > oldIndex) {
                     let newNoPedals = this.pedals.slice(oldIndex, newIndex).map(function (pedal) {
                         let newNo = pedal.no - 1
-                        return { no: newNo, name: pedal.name, brand: pedal.brand, type: pedal.type }
+                        return { no: newNo, name: pedal.name, brand: pedal.brand, type: pedal.type, params: pedal.params }
                     })
                     this.pedals = this.pedals.slice(0, oldIndex)
                         .concat(newNoPedals)
@@ -348,7 +348,7 @@ if (document.getElementById('add-tone') != null) {
                 //  削除した要素以降の要素のnoを1つづつ繰り下げる
                 let newNoPedals = this.pedals.slice(idx + 1).map(function (pedal) {
                     let newNo = pedal.no - 1
-                    return { no: newNo, name: pedal.name, brand: pedal.brand, type: pedal.type }
+                    return { no: newNo, name: pedal.name, brand: pedal.brand, type: pedal.type, params: pedal.params }
                 })
                 this.pedals = this.pedals.slice(0, idx).concat(newNoPedals)
                 this.no -= 1
@@ -360,7 +360,7 @@ if (document.getElementById('add-tone') != null) {
                 if (newIndex < oldIndex) {
                     let newNoPedals = this.pedals.slice(newIndex + 1, oldIndex + 1).map(function (pedal) {
                         let newNo = pedal.no + 1
-                        return { no: newNo, name: pedal.name, brand: pedal.brand, type: pedal.type }
+                        return { no: newNo, name: pedal.name, brand: pedal.brand, type: pedal.type, params: pedal.params }
                     })
                     this.pedals = this.pedals.slice(0, newIndex + 1)
                         .concat(newNoPedals)
@@ -368,7 +368,7 @@ if (document.getElementById('add-tone') != null) {
                 } else if (newIndex > oldIndex) {
                     let newNoPedals = this.pedals.slice(oldIndex, newIndex).map(function (pedal) {
                         let newNo = pedal.no - 1
-                        return { no: newNo, name: pedal.name, brand: pedal.brand, type: pedal.type }
+                        return { no: newNo, name: pedal.name, brand: pedal.brand, type: pedal.type, params: pedal.params }
                     })
                     this.pedals = this.pedals.slice(0, oldIndex)
                         .concat(newNoPedals)
