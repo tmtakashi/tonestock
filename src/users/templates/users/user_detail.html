@@ -19,13 +19,23 @@
     <div class="row">
         <!-- left side -->
         <div class="col-sm-4">
-            <div id="profile-image" style="width: 200px;">
-                <img v-show="userImgUrlTmp" :src="userImgUrlTmp" style="width: 100%;">
-                <label v-if="edit" for="image-input" id="image-input-label">
-                    <i class="fas fa-camera" id="camera-icon"></i>
-                    <input type="file" accept="image/*" id="image-input" v-on:change="onFileChange" style="display:none;">
-                </label>
-            </div>
+            {% if user_profile.image_url %}
+                <div id="profile-image" style="width: 200px;">
+                    <img v-show="userImgUrlTmp" :src="userImgUrlTmp" style="width: 100%;">
+                    <label v-if="edit" for="image-input" id="image-input-label">
+                        <i class="fas fa-camera" id="camera-icon"></i>
+                        <input type="file" accept="image/*" id="image-input" v-on:change="onFileChange" style="display:none;">
+                    </label>
+                </div>
+            {% else %}
+                <div id="profile-image" style="width: 200px;">
+                    <img v-show="userImgUrlTmp" :src="userImgUrlTmp" style="width: 100%;">
+                    <label v-if="edit" for="image-input" id="image-input-label">
+                        <i class="fas fa-camera" id="camera-icon"></i>
+                        <input type="file" accept="image/*" id="image-input" v-on:change="onFileChange" style="display:none;">
+                    </label>
+                </div>
+            {% endif %}
             {% verbatim %}
             <div class="form-group mt-3 col-sm-6">
                 <input v-model="usernameTmp" v-if="edit" class="form-control"></input>
