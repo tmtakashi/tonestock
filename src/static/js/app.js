@@ -759,7 +759,13 @@ if (document.getElementById('userprofile') != null) {
             var profile_info = JSON.parse(document.getElementById('userprofile').getAttribute('data') || '{}')
             this.info = profile_info
             this.usernameTmp = this.info.username
-            this.userImgUrlTmp = this.info.image_url
+
+            const profile_icon_url = "/static/images/profile.svg"
+            if (this.info.image_url !== null) {
+                this.userImgUrlTmp = this.info.image_url
+            } else {
+                this.userImgUrlTmp = profile_icon_url
+            }
         },
         methods: {
             toggleEditMode: function () {
@@ -784,7 +790,11 @@ if (document.getElementById('userprofile') != null) {
             cancel: function () {
                 this.edit = !this.edit
                 this.usernameTmp = this.info.username
-                this.userImgUrlTmp = this.info.image_url
+                if (this.info.image_url !== null) {
+                    this.userImgUrlTmp = this.info.image_url
+                } else {
+                    this.userImgUrlTmp = profile_icon_url
+                }
             },
             onFileChange(e) {
                 let files = e.target.files || e.dataTransfer.files;
