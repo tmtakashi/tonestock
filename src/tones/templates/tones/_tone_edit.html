@@ -298,7 +298,13 @@
             </div>
         </div>
     </div>
-</div>  
+</div>
+<div class="mt-4">
+    <label class="btn btn-secondary" for="audio-file" id="audio-file-button">
+        音源ファイルを追加
+        <input @change="selectFile" type="file" id="audio-file">  
+    </label>
+</div>
 <div class="mt-5">
     <button type="button" class="btn btn-primary" @click="submit">保存</button>  
 </div>

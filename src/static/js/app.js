@@ -287,7 +287,9 @@ if (document.getElementById('add-tone') != null) {
             ampTreble: 0,
             ampPresence: 0,
             ampDrive: 0,
-            ampMaster: 0
+            ampMaster: 0,
+            // ---- AUDIO -----
+            audioFile: null,
         },
         methods: {
             // ---- TONE NAME ----
@@ -404,6 +406,13 @@ if (document.getElementById('add-tone') != null) {
                 this.ampBrand = this.editAmpBrand
                 this.ampType = this.editAmpType
             },
+            // ====== AUDIO FILE =======
+            selectFile: function (e) {
+                e.preventDefault();
+                let files = e.target.files;
+                this.audioFile = files[0];
+                console.log(this.audioFile)
+            },
             submit: function () {
                 var csrfToken = $("[name=csrfmiddlewaretoken]").val();
                 axios.post(
@@ -427,6 +436,7 @@ if (document.getElementById('add-tone') != null) {
                             drive: this.ampDrive,
                             master: this.ampMaster
                         },
+                        audio: this.audioFile
                     }, {
                         headers: {"X-CSRFToken": csrfToken}
                     }

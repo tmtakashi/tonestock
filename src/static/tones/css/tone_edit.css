@@ -30,3 +30,11 @@ input[type="text"] {
 .delete-param {
   cursor: pointer;
 }
+
+#audio-file-button {
+  cursor: pointer;
+}
+
+#audio-file-button input {
+  display: none;
+}

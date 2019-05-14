@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import FileExtensionValidator
 from django.conf import settings
 from django.contrib.postgres.fields import ArrayField
 from django.contrib.postgres.fields import JSONField
@@ -13,6 +14,8 @@ class Tone(models.Model):
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL, related_name='tones', on_delete=models.CASCADE)
     info = JSONField(null=True)
+    audio = models.FileField(upload_to='audio/%Y/%m/%d/',
+                             validators=[FileExtensionValidator(['wav', 'mp3', 'aac', 'mp4'])], null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
